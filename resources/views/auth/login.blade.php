@@ -25,7 +25,9 @@
 
     <hr>
     <div class="text-center">
-        <a class="small" href="/">Forgot Password?</a> |
+        @if (Route::has('password.request'))
+            <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
+        @endif
         <a class="small" href="/register">Create an account</a>
     </div>
 @endsection
