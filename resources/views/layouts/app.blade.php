@@ -68,11 +68,7 @@
 
                                @yield('content')
 
-                                <hr>
-                                <div class="text-center">
-                                    <a class="small" href="/">Forgot Password?</a> |
-                                    <a class="small" href="/">Create an account</a>
-                                </div>
+
                             </div>
                         </div>
                     </div>

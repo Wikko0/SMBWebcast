@@ -13,7 +13,7 @@
             @enderror
         </div>
         <div class="form-group">
-            <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror"" id="exampleInputPassword" placeholder="Password" required>
+            <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="exampleInputPassword" placeholder="Password" required>
             @error('password')
             <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
@@ -23,4 +23,9 @@
         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
     </form>
 
+    <hr>
+    <div class="text-center">
+        <a class="small" href="/">Forgot Password?</a> |
+        <a class="small" href="/register">Create an account</a>
+    </div>
 @endsection
