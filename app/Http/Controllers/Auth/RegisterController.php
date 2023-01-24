@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,6 +37,21 @@ class RegisterController extends Controller
      *
      * @return void
      */
+    protected function redirectTo()
+    {
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            return '/admin';
+        }
+        if ($user->hasRole('manager')) {
+            return '/manager';
+        }
+        if ($user->hasRole('user')) {
+            return '/user';
+        }
+    }
+
     public function __construct()
     {
         $this->middleware('guest');
