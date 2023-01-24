@@ -24,8 +24,6 @@ Auth::routes(['verify' => false]);
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
 /*
 |--------------------------------------------------------------------------
 | User Role
@@ -43,6 +41,9 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::post('/admin/profile/update', [AdminController::class, 'do_profile'])->name('admin.profile.update');
+    Route::post('/admin/profile/changepassword', [AdminController::class, 'do_changepassword'])->name('admin.changepassword');
 });
 
 /*

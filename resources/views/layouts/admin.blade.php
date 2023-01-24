@@ -17,7 +17,7 @@
     <link href="{{asset('plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
-    <title>User Panel</title>
+    <title>Admin Panel | {{env('APP_NAME')}}</title>
 
 </head>
 
@@ -48,8 +48,8 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">[Admin]</span><!-- za pravene -->
-                            <img class="img-profile rounded-circle" src=" "> <!-- za pravene -->
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                            <img class="img-profile rounded-circle" src="{{asset('img/user.jpg')}}"> <!-- za pravene -->
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -62,10 +62,15 @@
                                 Change Password
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/login/logout">
-                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Logout
-                            </a>
+                            <form id="form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <a class="dropdown-item" href="javascript:;" onclick="document.getElementById('form').submit();">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+
+                            </form>
+
                         </div>
                     </li>
 
@@ -77,7 +82,7 @@
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">dfgdfg</h1><!-- za pravene -->
+                    <h1 class="h3 mb-0 text-gray-800">{{$title}}</h1>
                 </div>
                 @yield('content')
             </div>
@@ -87,7 +92,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Developed by: <a href="http://www.spagreen.net">SpaGreen Creative</a></span>
+                    <span><a href="https://support.smbbizapps.com/smbwebcast/live/getting-started">SBMwebcast | Support</a></span>
                 </div>
             </div>
         </footer>
