@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Manager\ManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,4 +22,32 @@ use App\Http\Controllers\User\UserController;
 Auth::routes(['verify' => false]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/user', [UserController::class, 'dashboard'])->name('dashboard');
+
+
+/*
+|--------------------------------------------------------------------------
+| User Role
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/user', [UserController::class, 'dashboard'])->name('user.dashboard');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Role
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Manager Role
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:manager'])->group(function () {
+    Route::get('/manager', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
+});
