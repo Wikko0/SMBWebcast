@@ -70,6 +70,7 @@
         </div>
         <div class="card-body">
             <form method="post" action="/admin/profile/changepassword">
+                @csrf
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -26,11 +27,11 @@ class AdminController extends Controller
 
     public function do_profile(Request $request)
     {
-//        $this->validate($request, [
-//            'name' => 'unique:users,name|max:50|min:3',
-//            'email' => 'email|unique:users,email'
-//
-//        ]);
+        $this->validate($request, [
+            'name' => 'unique:users,name|max:50|min:3',
+            'email' => 'email|unique:users,email'
+
+        ]);
 
         $profile = Auth::user();
 
@@ -60,7 +61,19 @@ class AdminController extends Controller
     public function do_changepassword(Request $request)
     {
 
+        $request->validate([
+            'password' => ['required', new MatchOldPassword],
+            'new_password' => ['required', 'string', 'min:8'],
+            'retype_new_password' => ['same:new_password'],
+        ]);
 
-        return view('admin.profile');
+
+        $user = auth()->user();
+
+
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+
+        return redirect()->back()->withSuccess('You have changed password successfully!');
     }
 }
