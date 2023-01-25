@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -25,17 +26,32 @@ class AdminController extends Controller
 
     public function do_profile(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'unique:users,name|max:50|min:3',
-            'email' => 'email|unique:users,email'
+//        $this->validate($request, [
+//            'name' => 'unique:users,name|max:50|min:3',
+//            'email' => 'email|unique:users,email'
+//
+//        ]);
 
-        ]);
+        $profile = Auth::user();
 
+        if ($request->photo)
+        {
+            $photoPath = $request->photo->storeAs('uploads', $profile->id.'.png', "public");
+            $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
+            $photo->save();
 
-        Auth::user()->update([
-           'name' => $request->name,
-           'email' => $request->email
-        ]);
+            Auth::user()->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'image' => $photoPath,
+            ]);
+        }else{
+            Auth::user()->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+        }
+
 
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');

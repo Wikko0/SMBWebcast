@@ -28,8 +28,12 @@
          <!-- panel  -->
             <div class="row">
                 <div class="col-md-12">
+                    @if($profile->image)
+                    <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset('storage/'.$profile->image)}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
+                        @else
                     <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset('img/user.jpg')}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
-                        <h4 class="m-b-5"><b>{{$profile->name}}</b></h4>
+                    @endif
+                                <h4 class="m-b-5"><b>{{$profile->name}}</b></h4>
                     </div>
                     <br>
                     <div class="form-group">
