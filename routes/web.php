@@ -44,6 +44,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/profile/update', [AdminController::class, 'do_profile'])->name('admin.profile.update');
     Route::post('/admin/profile/changepassword', [AdminController::class, 'do_changepassword'])->name('admin.changepassword');
+
+
+    Route::get('/admin/manage', [AdminController::class, 'manage_user'])->name('admin.manage_user');
+    Route::get('/admin/manage/add', [AdminController::class, 'user_add'])->name('admin.manage_user_add');
+    Route::post('/admin/add', [AdminController::class, 'do_user_add'])->name('admin.do_user_add');
 });
 
 /*

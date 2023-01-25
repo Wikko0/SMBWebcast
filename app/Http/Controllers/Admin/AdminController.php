@@ -76,4 +76,62 @@ class AdminController extends Controller
 
         return redirect()->back()->withSuccess('You have changed password successfully!');
     }
+
+    public function manage_user(Request $request)
+    {
+        $title = 'Manage Users';
+        $users = User::all();
+        $search = $request->get('name');
+        if ($search)
+        {
+            $users = User::where('name', 'like', '%'.$search.'%')->paginate(5);
+        }
+
+        return view('admin.manage_user',['title' => $title, 'users' => $users]);
+    }
+
+    public function user_add()
+    {
+        $title = 'Add Users';
+        return view('admin.user_add',['title' => $title]);
+    }
+
+    public function do_user_add(Request $request)
+    {
+
+        $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:8'],
+            'role' => ['required'],
+        ]);
+
+        if ($request->role == 'user')
+        {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ])->assignRole('user');
+        }
+
+        if ($request->role == 'manager')
+        {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ])->assignRole('manager');
+        }
+
+        if ($request->role == 'admin')
+        {
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ])->assignRole('admin');
+        }
+        return redirect()->back()->withSuccess('You have added this user successfully!');
+    }
 }

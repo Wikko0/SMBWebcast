@@ -8,8 +8,8 @@
     </a>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-    <li class="nav-item "><a class="nav-link" href="/admin/dashboard"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
-    <li class="nav-item "><a class="nav-link" href="/admin/manage_user"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
+    <li class="nav-item {{ (Request::is('admin')) ? 'active' : '' }}"><a class="nav-link" href="/admin"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
+    <li class="nav-item {{ (Request::is('admin/manage')) ? 'active' : '' }}"><a class="nav-link" href="/admin/manage"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
     <li class="nav-item">
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
