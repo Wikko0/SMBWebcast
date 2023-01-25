@@ -190,9 +190,13 @@ class AdminController extends Controller
 
     public function user_delete($id)
     {
-
         User::where('id', $id)->delete();
 
         return redirect()->back()->withSuccess('You have deleted this user successfully!');
+    }
+
+    public function settings()
+    {
+        return view('admin.settings');
     }
 }
