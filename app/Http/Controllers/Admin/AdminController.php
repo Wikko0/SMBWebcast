@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
@@ -133,5 +134,65 @@ class AdminController extends Controller
             ])->assignRole('admin');
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');
+    }
+
+    public function user_edit($id)
+    {
+        $title = 'Edit Users';
+        $user = User::findOrFail($id);
+        return view('admin.user_edit',['title' => $title, 'user' => $user]);
+    }
+
+    public function do_user_edit(Request $request)
+    {
+
+        $request->validate([
+            'name' => ['required', 'min:3'],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
+            'password' => ['required', 'min:8'],
+            'role' => ['required'],
+        ]);
+
+        if ($request->role == 'user')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('user');
+        }
+
+        if ($request->role == 'manager')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('manager');
+        }
+
+        if ($request->role == 'admin')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('admin');
+        }
+        return redirect()->back()->withSuccess('You have edited this user successfully!');
+    }
+
+    public function user_delete($id)
+    {
+
+        User::where('id', $id)->delete();
+
+        return redirect()->back()->withSuccess('You have deleted this user successfully!');
     }
 }

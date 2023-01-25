@@ -49,6 +49,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/manage', [AdminController::class, 'manage_user'])->name('admin.manage_user');
     Route::get('/admin/manage/add', [AdminController::class, 'user_add'])->name('admin.manage_user_add');
     Route::post('/admin/add', [AdminController::class, 'do_user_add'])->name('admin.do_user_add');
+    Route::get('/admin/manage/edit/{id}', [AdminController::class, 'user_edit'])->name('admin.manage_user_edit');
+    Route::post('/admin/edit', [AdminController::class, 'do_user_edit'])->name('admin.do_user_edit');
+    Route::get('/admin/manage/delete/{id}', [AdminController::class, 'user_delete'])->name('admin.manage_user_delete');
 });
 
 /*

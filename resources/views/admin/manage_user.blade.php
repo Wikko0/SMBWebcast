@@ -47,8 +47,8 @@
                                 <div class="dropdown no-arrow mb-4">
                                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#mymodal" data-id="admin/manage/edit{{$user->id}}" id="menu" title="<?php echo trans('edit'); ?>">Edit</a>
-                                        <a class="dropdown-item" href="#" title="delete" onclick="delete_row(<?php echo " 'user' ".','.$user->id;?>)" class="delete">Delete</a>
+                                        <a class="dropdown-item" href="/admin/manage/edit/{{$user->id}}">Edit</a>
+                                        <a class="dropdown-item" href="/admin/manage/delete/{{$user->id}}">Delete</a>
                                     </div>
                                 </div>
                             </td>
