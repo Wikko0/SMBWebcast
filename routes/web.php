@@ -54,6 +54,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/manage/delete/{id}', [AdminController::class, 'user_delete'])->name('admin.manage_user_delete');
 
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
+    Route::post('/admin/settings', [AdminController::class, 'do_settings'])->name('admin.do_settings');
 });
 
 /*

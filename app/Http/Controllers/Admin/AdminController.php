@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Settings;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
@@ -197,6 +198,29 @@ class AdminController extends Controller
 
     public function settings()
     {
-        return view('admin.settings');
+        $title = 'System Setting';
+
+        return view('admin.settings',['title' => $title]);
+    }
+
+    public function do_settings(Request $request)
+    {
+        $request->validate([
+            'app_name' => ['required', 'max:40'],
+            'jitsi_url' => ['required', 'url'],
+            'meeting_prefix' => ['required'],
+        ]);
+
+        Settings::where('id', $request->id)
+        ->update([
+        'app_name' => $request->app_name,
+        'jitsi_url' => $request->jitsi_url,
+        'meeting_id' => $request->meeting_prefix,
+        'address' => $request->address,
+        'phone' => $request->phone,
+        'policy' => $request->policy_text,
+        ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
 }
