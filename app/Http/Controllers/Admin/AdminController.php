@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\MailSettings;
 use App\Models\Settings;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
@@ -220,6 +221,40 @@ class AdminController extends Controller
         'phone' => $request->phone,
         'policy' => $request->policy_text,
         ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function emailSettings()
+    {
+        $title = 'Email Setting';
+        $mailSettings = MailSettings::first();
+        return view('admin.email-settings',['title' => $title, 'mailSettings' => $mailSettings]);
+    }
+
+    public function do_emailSettings(Request $request)
+    {
+        $request->validate([
+            'transport' => 'required',
+            'host' => 'required',
+            'port' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'encryption' => 'required',
+            'from' => 'required',
+
+        ]);
+
+        MailSettings::where('id', $request->id)
+            ->update([
+                'mail_transport' => $request->transport,
+                'mail_host' => $request->host,
+                'mail_port' => $request->port,
+                'mail_username' => $request->username,
+                'mail_password' => $request->password,
+                'mail_encryption' => $request->encryption,
+                'mail_from' => $request->from,
+            ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }

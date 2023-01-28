@@ -55,6 +55,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/settings', [AdminController::class, 'settings'])->name('admin.settings');
     Route::post('/admin/settings', [AdminController::class, 'do_settings'])->name('admin.do_settings');
+    Route::get('/admin/email-settings', [AdminController::class, 'emailSettings'])->name('admin.email.settings');
+    Route::post('/admin/email-settings', [AdminController::class, 'do_emailSettings'])->name('admin.email.do_settings');
 });
 
 /*
