@@ -18,7 +18,6 @@ use App\Http\Controllers\Manager\ManagerController;
 */
 
 
-
 Auth::routes(['verify' => false]);
 
 
@@ -57,6 +56,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/settings', [AdminController::class, 'do_settings'])->name('admin.do_settings');
     Route::get('/admin/email-settings', [AdminController::class, 'emailSettings'])->name('admin.email.settings');
     Route::post('/admin/email-settings', [AdminController::class, 'do_emailSettings'])->name('admin.email.do_settings');
+    Route::get('/admin/logo-settings', [AdminController::class, 'logoSettings'])->name('admin.logo.settings');
+    Route::post('/admin/logo-settings', [AdminController::class, 'do_logoSettings'])->name('admin.logo.do_settings');
 });
 
 /*

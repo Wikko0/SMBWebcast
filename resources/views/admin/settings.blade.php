@@ -31,8 +31,8 @@
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">App Name</label>
                         <div class="col-sm-9">
-                            <input type="hidden"  value="{{$mailSettings->id}}" name="id"/>
-                            <input type="text"  value="{{$mailSettings->}}" name="app_name" class="form-control" required  />
+                            <input type="hidden"  value="{{$settings['settings']->id}}" name="id"/>
+                            <input type="text"  value="{{$settings['settings']->app_name}}" name="app_name" class="form-control" required  />
                         </div>
                     </div>
 

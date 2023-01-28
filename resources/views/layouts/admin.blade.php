@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="SMBWebcast">
     <meta name="copyright" content="Copyright (c) 2023 Wikko0 for SMBWebcast">
-    <link rel="shortcut icon" href="{{asset('favicon.png')}}" />
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}" />
     <!-- CSS-->
 
     <!-- Custom fonts for this template-->
@@ -17,7 +17,7 @@
     <link href="{{asset('plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
-    <title>Admin Panel | {{env('APP_NAME')}}</title>
+    <title>Admin Panel | {{$settings['settings']->app_name}}</title>
 
 </head>
 

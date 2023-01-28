@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Settings;
 use App\Models\User;
@@ -257,5 +258,74 @@ class AdminController extends Controller
             ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function logoSettings()
+    {
+        $title = 'Logo & Image Setting';
+        $images = LogoSettings::first();
+        return view('admin.logo-settings',['title' => $title, 'images' => $images]);
+    }
+
+    public function do_logoSettings(Request $request)
+    {
+        $this->validate($request, [
+            'logo' => 'image',
+            'image' => 'image',
+            'favicon' => 'image',
+
+        ]);
+
+            $logoCheck = LogoSettings::first();
+
+            if ($request->logo){
+                $logoPath = $request->logo->storeAs('uploads', 'logo.png', "public");
+                $logo = Image::make(public_path("storage/{$logoPath}"))->resize(80, 80);
+                $logo->save();
+            }else {
+                if (!empty($logoCheck->logo)){
+                    $logoPath = $logoCheck->logo;
+                }
+            }
+
+            if ($request->image){
+                $imagePath = $request->image->storeAs('uploads', 'login-bg.jpg', "public");
+                $image = Image::make(public_path("storage/{$imagePath}"))->resize(640, 440);
+                $image->save();
+
+            }else {
+                if (!empty($logoCheck->image)){
+                    $imagePath = $logoCheck->image;
+                }
+            }
+
+            if ($request->favicon)
+            {
+                $favPath = $request->favicon->storeAs('uploads', 'favicon.png', "public");
+                $fav = Image::make(public_path("storage/{$favPath}"))->resize(16, 16);
+                $fav->save();
+            }else {
+                if (!empty($logoCheck->favicon)){
+                    $favPath = $logoCheck->favicon;
+                }
+            }
+
+
+            if ($logoCheck){
+                LogoSettings::where('key', 1)->update([
+                    'logo' =>  $logoPath??'',
+                    'image' =>  $imagePath??'',
+                    'favicon' =>  $favPath??'',
+                ]);
+                return redirect()->back()->withSuccess('You have changed this images successfully!');
+            }else{
+                LogoSettings::insert([
+                    'logo' =>  $logoPath??'',
+                    'image' =>  $imagePath??'',
+                    'favicon' =>  $favPath??'',
+                ]);
+                return redirect()->back()->withSuccess('You have added this images successfully!');
+            }
+
     }
 }

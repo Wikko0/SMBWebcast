@@ -27,16 +27,17 @@ class MailProvider extends ServiceProvider
     public function boot()
     {
         $mailSettings = MailSettings::first();
-        if ($mailSettings){
+        if ($mailSettings) {
             $data = [
-                'driver'            => $mailSettings->mail_transport,
-                'host'              => $mailSettings->mail_host,
-                'port'              => $mailSettings->mail_port,
-                'encryption'        => $mailSettings->mail_encryption,
-                'username'          => $mailSettings->mail_username,
-                'password'          => $mailSettings->mail_password,
-                'address'           => $mailSettings->mail_from,
-                'name'               => 'SMBWebcast',
+                'driver' => $mailSettings->mail_transport,
+                'host' => $mailSettings->mail_host,
+                'port' => $mailSettings->mail_port,
+                'encryption' => $mailSettings->mail_encryption,
+                'username' => $mailSettings->mail_username,
+                'password' => $mailSettings->mail_password,
+                'from' => [
+                    'address' => $mailSettings->mail_from,
+                    'name' => 'SMBWebcast']
             ];
             Config::set('mail', $data);
         }
