@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('key');
             $table->string('app_name');
+            $table->string('jitsi_url');
+            $table->string('policy_url');
+            $table->string('meeting_id');;
+            $table->string('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->text('policy')->nullable();
             $table->timestamps();
         });
     }
