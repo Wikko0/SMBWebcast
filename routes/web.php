@@ -19,7 +19,7 @@ use App\Http\Controllers\Manager\ManagerController;
 
 
 Auth::routes(['verify' => false]);
-
+Route::get('/room/{id}', [AdminController::class, 'room'])->name('room');
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);

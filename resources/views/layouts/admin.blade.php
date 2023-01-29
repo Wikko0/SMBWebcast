@@ -7,7 +7,11 @@
     <meta name="description" content="">
     <meta name="author" content="SMBWebcast">
     <meta name="copyright" content="Copyright (c) 2023 Wikko0 for SMBWebcast">
-    <link rel="shortcut icon" href="{{asset('favicon.ico')}}" />
+    @if(!empty($logo['logo']->favicon))
+        <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @else
+        <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
+    @endif
     <!-- CSS-->
 
     <!-- Custom fonts for this template-->

@@ -313,7 +313,7 @@ class AdminController extends Controller
 
 
             if ($logoCheck){
-                LogoSettings::where('key', 1)->update([
+                LogoSettings::where('key', 'logo')->update([
                     'logo' =>  $logoPath??'',
                     'image' =>  $imagePath??'',
                     'favicon' =>  $favPath??'',
@@ -397,5 +397,12 @@ class AdminController extends Controller
         Meeting::where('id', $id)->delete();
 
         return redirect()->back()->withSuccess('You have deleted this meeting successfully!');
+    }
+
+    public function room($id)
+    {
+
+
+        return view('room',['']);
     }
 }

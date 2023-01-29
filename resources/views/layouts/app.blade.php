@@ -9,8 +9,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon  -->
-    <link rel="shortcut icon" href="{{asset('favicon.ico')}}" />
-
+    @if(!empty($logo['logo']->favicon))
+    <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @else
+    <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
+    @endif
     <!-- open-graph -->
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary">
@@ -36,7 +39,12 @@
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <style type="text/css">
         .bg-login-image{
-            background: url('{{asset('img/login-bg.jpg')}}');
+            background:
+            @if(!empty($logo['logo']->image))
+            url('{{asset('storage/'.$logo['logo']->image)}}');
+            @else
+            url('{{asset('img/login-bg.jpg')}}');
+            @endif
             background-size: cover !important;
             background-position: center !important;
         }
@@ -62,7 +70,12 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <a href="/">
-                                        <img src="{{asset('img/logo.png')}}"></a><br>
+                                        @if(!empty($logo['logo']->logo))
+                                            <img src="{{asset('storage/'.$logo['logo']->logo)}}"></a><br>
+                                        @else
+                                            <img src="{{asset('img/logo.png')}}"></a><br>
+                                        @endif
+
                                     <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</h1></a>
                                 </div>
 

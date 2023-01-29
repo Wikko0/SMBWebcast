@@ -26,7 +26,7 @@ class LogoProvider extends ServiceProvider
     public function boot()
     {
         $logo = cache()->remember(
-            key:'settings',
+            key:'logo',
             ttl:3600,
             callback: fn() => LogoSettings::all()->keyBy('key')
         );
