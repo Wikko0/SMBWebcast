@@ -60,11 +60,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/logo-settings', [AdminController::class, 'do_logoSettings'])->name('admin.logo.do_settings');
 
     Route::get('/admin/meeting', [AdminController::class, 'meeting'])->name('admin.meeting');
-    Route::get('/admin/meeting/add', [AdminController::class, 'user_add'])->name('admin.meeting_add');
-    Route::post('/admin/meeting/add', [AdminController::class, 'do_user_add'])->name('admin.do_meeting_add');
-    Route::get('/admin/meeting/edit/{id}', [AdminController::class, 'user_edit'])->name('admin.meeting_edit');
-    Route::post('/admin/meeting/edit', [AdminController::class, 'do_user_edit'])->name('admin.do_meeting_edit');
-    Route::get('/admin/meeting/delete/{id}', [AdminController::class, 'user_delete'])->name('admin.meeting_delete');
+    Route::get('/admin/meeting/add', [AdminController::class, 'meeting_add'])->name('admin.meeting_add');
+    Route::post('/admin/meeting/add', [AdminController::class, 'do_meeting_add'])->name('admin.do_meeting_add');
+    Route::get('/admin/meeting/edit/{id}', [AdminController::class, 'meeting_edit'])->name('admin.meeting_edit');
+    Route::post('/admin/meeting/edit', [AdminController::class, 'do_meeting_edit'])->name('admin.do_meeting_edit');
+    Route::get('/admin/meeting/delete/{id}', [AdminController::class, 'meeting_delete'])->name('admin.meeting_delete');
 });
 
 /*

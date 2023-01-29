@@ -341,4 +341,89 @@ class AdminController extends Controller
         }
         return view('admin.meeting',['title' => $title, 'meetings' => $meetings]);
     }
+
+    public function meeting_add()
+    {
+        $title = 'Add Meeting';
+        return view('admin.meeting_add',['title' => $title]);
+    }
+
+    public function do_meeting_add(Request $request)
+    {
+
+        $request->validate([
+            'title' => ['required', 'min:3'],
+            'meeting_id' => ['required', 'unique:meetings,meeting_id', 'regex:/^\S*$/u']
+        ]);
+
+        $user = Auth::user()->name;
+        $settings = Settings::first();
+
+            Meeting::create([
+                'title' => $request->title,
+                'meeting_id' => $settings->meeting_id.$request->meeting_id,
+                'created_by' => $user,
+            ]);
+
+        return redirect()->back()->withSuccess('You have added this meeting successfully!');
+    }
+
+    public function meeting_edit($id)
+    {
+        $title = 'Edit Meeting';
+        $user = User::findOrFail($id);
+        return view('admin.meeting_edit',['title' => $title, 'user' => $user]);
+    }
+
+    public function do_meeting_edit(Request $request)
+    {
+
+        $request->validate([
+            'title' => ['required', 'min:3'],
+            'id' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
+            'password' => ['required', 'min:8'],
+            'role' => ['required'],
+        ]);
+
+        if ($request->role == 'user')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('user');
+        }
+
+        if ($request->role == 'manager')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('manager');
+        }
+
+        if ($request->role == 'admin')
+        {
+            $user = User::find($request->id);
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+            $user->assignRole('admin');
+        }
+        return redirect()->back()->withSuccess('You have edited this user successfully!');
+    }
+
+    public function meeting_delete($id)
+    {
+        User::where('id', $id)->delete();
+
+        return redirect()->back()->withSuccess('You have deleted this user successfully!');
+    }
 }
