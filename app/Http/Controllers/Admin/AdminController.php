@@ -371,8 +371,8 @@ class AdminController extends Controller
     public function meeting_edit($id)
     {
         $title = 'Edit Meeting';
-        $user = User::findOrFail($id);
-        return view('admin.meeting_edit',['title' => $title, 'user' => $user]);
+        $meeting = Meeting::findOrFail($id);
+        return view('admin.meeting_edit',['title' => $title, 'meeting' => $meeting]);
     }
 
     public function do_meeting_edit(Request $request)
@@ -380,50 +380,22 @@ class AdminController extends Controller
 
         $request->validate([
             'title' => ['required', 'min:3'],
-            'id' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-            'password' => ['required', 'min:8'],
-            'role' => ['required'],
+            'meeting_id' => ['required','regex:/^\S*$/u', Rule::unique('meetings')->ignore($request->id)],
         ]);
 
-        if ($request->role == 'user')
-        {
-            $user = User::find($request->id);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
+        Meeting::where('id',$request->id)
+            ->update([
+               'title' => $request->title,
+               'meeting_id' => $request->meeting_id,
             ]);
-            $user->assignRole('user');
-        }
 
-        if ($request->role == 'manager')
-        {
-            $user = User::find($request->id);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
-            $user->assignRole('manager');
-        }
-
-        if ($request->role == 'admin')
-        {
-            $user = User::find($request->id);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
-            $user->assignRole('admin');
-        }
-        return redirect()->back()->withSuccess('You have edited this user successfully!');
+        return redirect()->back()->withSuccess('You have edited this meeting successfully!');
     }
 
     public function meeting_delete($id)
     {
-        User::where('id', $id)->delete();
+        Meeting::where('id', $id)->delete();
 
-        return redirect()->back()->withSuccess('You have deleted this user successfully!');
+        return redirect()->back()->withSuccess('You have deleted this meeting successfully!');
     }
 }
