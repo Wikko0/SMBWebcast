@@ -130,6 +130,7 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
             'Laravel\\SerializableClosure\\' => 28,
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
+            'Ladumor\\OneSignal\\' => 18,
         ),
         'I' => 
         array (
@@ -444,6 +445,10 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
         array (
             0 => __DIR__ . '/..' . '/laravel/sail/src',
         ),
+        'Ladumor\\OneSignal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ladumor/one-signal/src',
+        ),
         'Intervention\\Image\\' => 
         array (
             0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
@@ -584,6 +589,7 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Models\\Common' => __DIR__ . '/../..' . '/app/Models/Common.php',
         'App\\Models\\LogoSettings' => __DIR__ . '/../..' . '/app/Models/LogoSettings.php',
         'App\\Models\\MailSettings' => __DIR__ . '/../..' . '/app/Models/MailSettings.php',
         'App\\Models\\Meeting' => __DIR__ . '/../..' . '/app/Models/Meeting.php',
@@ -2867,6 +2873,11 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
         'Intervention\\Image\\Point' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Point.php',
         'Intervention\\Image\\Response' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Response.php',
         'Intervention\\Image\\Size' => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image/Size.php',
+        'Ladumor\\OneSignal\\OneSignal' => __DIR__ . '/..' . '/ladumor/one-signal/src/OneSignal.php',
+        'Ladumor\\OneSignal\\OneSignalClient' => __DIR__ . '/..' . '/ladumor/one-signal/src/OneSignalClient.php',
+        'Ladumor\\OneSignal\\OneSignalManager' => __DIR__ . '/..' . '/ladumor/one-signal/src/OneSignalManager.php',
+        'Ladumor\\OneSignal\\OneSignalServiceProvider' => __DIR__ . '/..' . '/ladumor/one-signal/src/OneSignalServiceProvider.php',
+        'Ladumor\\OneSignal\\commands\\PublishUserDevice' => __DIR__ . '/..' . '/ladumor/one-signal/src/commands/PublishUserDevice.php',
         'Laravel\\Sail\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/InstallCommand.php',
         'Laravel\\Sail\\Console\\PublishCommand' => __DIR__ . '/..' . '/laravel/sail/src/Console/PublishCommand.php',
         'Laravel\\Sail\\SailServiceProvider' => __DIR__ . '/..' . '/laravel/sail/src/SailServiceProvider.php',

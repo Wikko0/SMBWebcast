@@ -134,7 +134,16 @@
 
 <!--sweet alert2 JS -->
 <script src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
-
+<!-- OneSignal-->
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+        OneSignal.init({
+            appId: "f13077fb-f4c9-4af9-9766-584d939466b7",
+        });
+    });
+</script>
 
 </body>
 </html>
