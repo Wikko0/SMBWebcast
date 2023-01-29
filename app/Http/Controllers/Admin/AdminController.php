@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Common;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Meeting;
 use App\Models\Settings;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -16,11 +18,33 @@ use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
+
     public function dashboard()
     {
         $title = 'Dashboard';
 
-        return view('admin.dashboard', ['title' => $title]);
+        $today = Carbon::today();
+        $hostToday = Meeting::whereDate('created_at', $today)->count();
+        $joinedToday = Meeting::whereDate('created_at', $today)->sum('joined');
+        $userRegister = User::count();
+        $userRegisterToday = User::whereDate('created_at', $today)->count();
+        $commonModel = new Common();
+        $getDay = $commonModel->get_days_of_this_month();
+        $joined = $commonModel->joined_meeting_this_month_chart_data();
+        $hosted = $commonModel->hosted_meeting_this_month_chart_data();
+        $yearlyJoined = $commonModel->yearly_join_meeting_chart_data();
+        $yearlyHosted = $commonModel->yearly_host_meeting_chart_data();
+        return view('admin.dashboard', [
+            'yearlyHosted' => $yearlyHosted,
+            'yearlyJoined' => $yearlyJoined,
+            'hosted' => $hosted,
+            'joined' => $joined,
+            'getDay' => $getDay,
+            'title' => $title,
+            'hostToday' => $hostToday,
+            'joinedToday' => $joinedToday,
+            'userRegister' => $userRegister,
+            'userRegisterToday' => $userRegisterToday]);
     }
 
     public function profile()
@@ -402,7 +426,12 @@ class AdminController extends Controller
     public function room($id)
     {
 
+    $meeting = Meeting::first();
+    $user = Auth::user();
 
-        return view('room',['']);
+    Meeting::where('meeting_id', $id)
+        ->update(['joined' => Meeting::raw('joined+1')]);
+
+        return view('room',['meeting' => $meeting, 'user' => $user]);
     }
 }
