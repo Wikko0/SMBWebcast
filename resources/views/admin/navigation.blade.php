@@ -45,8 +45,7 @@
             </div>
         </div>
     </li>
-    <li class="nav-item"><a class="nav-link" href="/admin/backup_restore"><i class="fas fa-fw fa-database"></i><span>Backup</span></a></li>
-    <!-- Divider -->
+     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
