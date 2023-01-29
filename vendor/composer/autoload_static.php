@@ -586,6 +586,7 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Models\\LogoSettings' => __DIR__ . '/../..' . '/app/Models/LogoSettings.php',
         'App\\Models\\MailSettings' => __DIR__ . '/../..' . '/app/Models/MailSettings.php',
+        'App\\Models\\Meeting' => __DIR__ . '/../..' . '/app/Models/Meeting.php',
         'App\\Models\\Settings' => __DIR__ . '/../..' . '/app/Models/Settings.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',

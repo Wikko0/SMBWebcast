@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
+use App\Models\Meeting;
 use App\Models\Settings;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
@@ -327,5 +328,17 @@ class AdminController extends Controller
                 return redirect()->back()->withSuccess('You have added this images successfully!');
             }
 
+    }
+
+    public function meeting(Request $request)
+    {
+        $title = 'Meetings';
+        $meetings = Meeting::all();
+        $search = $request->get('meeting_code');
+        if ($search)
+        {
+            $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
+        }
+        return view('admin.meeting',['title' => $title, 'meetings' => $meetings]);
     }
 }
