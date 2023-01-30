@@ -38,10 +38,10 @@
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseNotificationSetting" aria-expanded="true" aria-controls="collapseNotificationSetting">
             <i class="fas fa-fw fa-bell" aria-hidden="true"></i><span>Notification</span>
         </a>
-        <div id="collapseNotificationSetting" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseNotificationSetting" class="collapse {{ (Request::is('admin/send-notification')) || (Request::is('admin/notification'))  ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/send_notification">Send Notification </a>
-                <a class="collapse-item" href="/admin/push_notification_setting>">Setting </a>
+                <a class="collapse-item {{ (Request::is('admin/send-notification')) ? 'active' : '' }}" href="/admin/send-notification">Send Notification </a>
+                <a class="collapse-item {{ (Request::is('admin/notification')) ? 'active' : '' }}" href="/admin/notification">Setting </a>
             </div>
         </div>
     </li>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\OnePushController;
 use App\Http\Controllers\Manager\ManagerController;
 
 /*
@@ -20,6 +21,7 @@ use App\Http\Controllers\Manager\ManagerController;
 
 Auth::routes(['verify' => false]);
 Route::get('/room/{id}', [AdminController::class, 'room'])->name('room');
+Route::get('/push', [OnePushController::class, 'push'])->name('push');
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
@@ -65,6 +67,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/meeting/edit/{id}', [AdminController::class, 'meeting_edit'])->name('admin.meeting_edit');
     Route::post('/admin/meeting/edit', [AdminController::class, 'do_meeting_edit'])->name('admin.do_meeting_edit');
     Route::get('/admin/meeting/delete/{id}', [AdminController::class, 'meeting_delete'])->name('admin.meeting_delete');
+
+    Route::get('/admin/notification', [AdminController::class, 'notificationSettings'])->name('admin.notification');
+    Route::post('/admin/notification', [AdminController::class, 'do_notificationSettings'])->name('admin.do_notification');
 });
 
 /*

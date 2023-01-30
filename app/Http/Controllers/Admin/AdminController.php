@@ -7,6 +7,7 @@ use App\Models\Common;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Meeting;
+use App\Models\NotificationSettings;
 use App\Models\Settings;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
@@ -433,5 +434,31 @@ class AdminController extends Controller
         ->update(['joined' => Meeting::raw('joined+1')]);
 
         return view('room',['meeting' => $meeting, 'user' => $user]);
+    }
+
+    public function notificationSettings()
+    {
+        $title = 'Notification Setting';
+        $notificationSettings = NotificationSettings::first();
+        return view('admin.notification-settings',['title' => $title, 'notificationSettings' => $notificationSettings]);
+    }
+
+    public function do_notificationSettings(Request $request)
+    {
+        $request->validate([
+            'app_id' => 'required',
+            'authorize' => 'required',
+            'auth_key' => 'required',
+
+        ]);
+
+        NotificationSettings::where('id', $request->id)
+            ->update([
+                'app_id' => $request->app_id,
+                'authorize' => $request->authorize,
+                'auth_key' => $request->auth_key,
+            ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
 }

@@ -196,6 +196,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\MailProvider::class,
         App\Providers\LogoProvider::class,
+        App\Providers\NotificationProvider::class,
         Ladumor\OneSignal\OneSignalServiceProvider::class,
     ],
 
