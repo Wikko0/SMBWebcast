@@ -23,34 +23,24 @@
                     @endforeach
                 </div>
             @endif
-        <form method="post" action="/admin/notification">
+        <form method="post" action="/admin/send-notification">
             @csrf
          <!-- panel  -->
                 <!-- panel  -->
                 <div class="col-md-12">
                     <div class="form-group row">
-                        <label class="col-sm-3 control-label">APP ID</label>
+                        <label class="col-sm-3 control-label">Content</label>
                         <div class="col-sm-9">
-                            <input type="hidden" name="id" value="{{$notificationSettings->id}}">
-                            <input type="text" value="{{$notificationSettings->app_id}}" name="app_id" class="form-control" required  />
+                            <input type="text" name="title" class="form-control" required  />
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 control-label">Authorize</label>
+                        <label class="col-sm-3 control-label">Url</label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{$notificationSettings->authorize}}" name="authorize" class="form-control" required  />
+                            <input type="url" name="url" class="form-control" required  />
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label class="col-sm-3 control-label">Auth Key</label>
-                        <div class="col-sm-9">
-                            <input type="text"  value="{{$notificationSettings->auth_key}}" name="auth_key" class="form-control" required  />
-                        </div>
-                    </div>
-
-
 
                     <button type="submit" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50"><i class="fa fa-check"></i></span>

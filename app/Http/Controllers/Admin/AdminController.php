@@ -7,6 +7,7 @@ use App\Models\Common;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Meeting;
+use App\Models\NotificationSend;
 use App\Models\NotificationSettings;
 use App\Models\Settings;
 use App\Models\User;
@@ -460,5 +461,50 @@ class AdminController extends Controller
             ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function notificationSend()
+    {
+        $title = 'Notification Send';
+
+        return view('admin.notification-send',['title' => $title]);
+    }
+
+    public function do_notificationSend(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required|url',
+        ]);
+
+
+        NotificationSend::create([
+                'content' => $request->title,
+                'url' => $request->url,
+            ]);
+
+
+        $settings = NotificationSettings::first();
+        $data = NotificationSend::latest()
+            ->first();;
+
+        $client = new \GuzzleHttp\Client();
+        $body ='{"app_id":"'.$settings->app_id.'",
+            "included_segments":["All"],
+            "url":"'.$data->url.'",
+            "contents":{"en":"'.$data->content.'"},
+            "name":"INTERNAL_CAMPAIGN_NAME"}';
+        $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
+            'body' => $body,
+            'headers' => [
+                'Authorization' => 'Basic '.$settings->authorize,
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        echo $response->getBody();
+
+        return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
     }
 }

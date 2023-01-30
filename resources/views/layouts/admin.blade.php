@@ -140,7 +140,7 @@
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
         OneSignal.init({
-            appId: "f13077fb-f4c9-4af9-9766-584d939466b7",
+            appId: "{{$onesignal->app_id}}",
         });
     });
 </script>

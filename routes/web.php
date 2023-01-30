@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\OnePushController;
 use App\Http\Controllers\Manager\ManagerController;
 
 /*
@@ -21,7 +20,6 @@ use App\Http\Controllers\Manager\ManagerController;
 
 Auth::routes(['verify' => false]);
 Route::get('/room/{id}', [AdminController::class, 'room'])->name('room');
-Route::get('/push', [OnePushController::class, 'push'])->name('push');
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
@@ -70,6 +68,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/notification', [AdminController::class, 'notificationSettings'])->name('admin.notification');
     Route::post('/admin/notification', [AdminController::class, 'do_notificationSettings'])->name('admin.do_notification');
+    Route::get('/admin/send-notification', [AdminController::class, 'notificationSend'])->name('admin.notificationSend');
+    Route::post('/admin/send-notification', [AdminController::class, 'do_notificationSend'])->name('admin.do_notificationSend');
 });
 
 /*

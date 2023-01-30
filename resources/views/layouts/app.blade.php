@@ -103,13 +103,12 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
-<!-- OneSignal-->
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
         OneSignal.init({
-            appId: "f13077fb-f4c9-4af9-9766-584d939466b7",
+            appId: "{{$onesignal->app_id}}",
         });
     });
 </script>
