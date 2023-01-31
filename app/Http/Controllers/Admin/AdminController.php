@@ -60,8 +60,8 @@ class AdminController extends Controller
     public function do_profile(Request $request)
     {
         $this->validate($request, [
-            'name' => 'unique:users,name|max:50|min:3',
-            'email' => 'email|unique:users,email'
+            'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
 
         ]);
 
@@ -141,7 +141,7 @@ class AdminController extends Controller
 
         if ($request->role == 'user')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -150,12 +150,13 @@ class AdminController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
 
         if ($request->role == 'manager')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -164,12 +165,13 @@ class AdminController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
 
         if ($request->role == 'admin')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -178,6 +180,7 @@ class AdminController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');

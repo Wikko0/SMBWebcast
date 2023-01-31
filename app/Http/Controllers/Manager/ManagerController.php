@@ -55,14 +55,16 @@ class ManagerController extends Controller
     {
         $title = 'Manage Profile';
         $profile = Auth::user();
-        return view('admin.profile', ['title' => $title, 'profile' => $profile]);
+        $team = Auth::user()->team;
+        return view('manager.profile', ['title' => $title, 'profile' => $profile, 'team' => $team]);
     }
 
     public function do_profile(Request $request)
     {
         $this->validate($request, [
-            'name' => 'unique:users,name|max:50|min:3',
-            'email' => 'email|unique:users,email'
+            'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
+            'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
+            'team' => 'required'
 
         ]);
 
@@ -79,13 +81,23 @@ class ManagerController extends Controller
                 'email' => $request->email,
                 'image' => $photoPath,
             ]);
+
+            $profile->team->update([
+                'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => $request->name,
+            ]);
         }else{
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
+            $profile->team->update([
+                'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => $request->name,
+            ]);
         }
-
 
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
@@ -113,20 +125,27 @@ class ManagerController extends Controller
     public function manage_user(Request $request)
     {
         $title = 'Manage Users';
-        $users = User::all();
+        $loggedInUserName = Auth::user()->name;
+        $users = User::whereHas('team', function ($query) use ($loggedInUserName) {
+            $query->where('created_by', $loggedInUserName);
+        })->get();
         $search = $request->get('name');
         if ($search)
         {
-            $users = User::where('name', 'like', '%'.$search.'%')->paginate(5);
+            $users = User::where('name', 'like', '%'.$search.'%')
+                ->whereHas('team', function ($query) use ($loggedInUserName) {
+                    $query->where('created_by', $loggedInUserName);
+                })
+                ->paginate(5);
         }
 
-        return view('admin.manage_user',['title' => $title, 'users' => $users]);
+        return view('manager.manage_user',['title' => $title, 'users' => $users]);
     }
 
     public function user_add()
     {
         $title = 'Add Users';
-        return view('admin.user_add',['title' => $title]);
+        return view('manager.user_add',['title' => $title]);
     }
 
     public function do_user_add(Request $request)
@@ -142,7 +161,7 @@ class ManagerController extends Controller
 
         if ($request->role == 'user')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -151,12 +170,13 @@ class ManagerController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
 
         if ($request->role == 'manager')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -165,12 +185,13 @@ class ManagerController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
 
         if ($request->role == 'admin')
         {
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -179,6 +200,7 @@ class ManagerController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'user_id' => $user->id,
             ]);
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');

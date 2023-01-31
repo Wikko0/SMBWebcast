@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.manager')
 @section('content')
     <form action="/admin/meeting/add" method="POST">
         @csrf

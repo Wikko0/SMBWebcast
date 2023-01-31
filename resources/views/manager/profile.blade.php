@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.manager')
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -23,7 +23,7 @@
                     @endforeach
                 </div>
             @endif
-        <form method="post" action="/admin/profile/update" enctype="multipart/form-data">
+        <form method="post" action="/manager/profile/update" enctype="multipart/form-data">
             @csrf
          <!-- panel  -->
             <div class="row">
@@ -45,6 +45,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-6">
+                            <input type="hidden"  value="{{$profile->id}}" name="id"/>
                             <input type="text"  value="{{$profile->name}}" name="name" class="form-control" required placeholder="Enter Name" />
                         </div>
                     </div>
@@ -53,6 +54,12 @@
                         <div class="col-sm-6">
                             <input type="email"  value="{{$profile->email}}" name="email" class="form-control" required placeholder="Enter email" />
                         </div>
+                    </div>
+                    <div class="form-group">
+                    <label class="col-sm-3 control-label">Team name</label>
+                    <div class="col-sm-6">
+                        <input type="text" value="{{$team->name}}" name="team" class="form-control" required placeholder="Enter team"/>
+                    </div>
                     </div>
                     <div class="col-sm-offset-3 col-sm-9 m-t-15">
                         <button type="submit" class="btn btn-primary"><span class="btn-label"><i class="fa fa-refresh"></i></span>Update </button>
@@ -69,7 +76,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
         </div>
         <div class="card-body">
-            <form method="post" action="/admin/profile/changepassword">
+            <form method="post" action="/manager/profile/changepassword">
                 @csrf
             <div class="row">
                 <div class="col-md-12">
@@ -102,16 +109,6 @@
     </div>
 
 
-    <script type="text/javascript" src="{{asset('assets/plugins/parsleyjs/dist/parsley.min.js')}}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('form').parsley();
-        });
-    </script>
-
-    <!-- file select-->
-    <script src="{{asset('assets/plugins/bootstrap-filestyle/src/bootstrap-filestyle.min.js')}}" type="text/javascript"></script>
-    <!-- file select-->
 
     <!--instant image dispaly-->
     <script type="text/javascript">

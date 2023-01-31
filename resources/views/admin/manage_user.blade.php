@@ -53,7 +53,7 @@
                             <th>Option</th>
                             <th>Full Name</th>
                             <th>Email</th>
-                            <th>Personal Meeting ID</th>
+                            <th>Team</th>
                             <th>Role</th>
                         </tr>
                         </thead>
@@ -72,7 +72,9 @@
                             </td>
                             <td><strong>{{$user->name}}</strong></td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->name}}</td>
+
+                            <td>{{$user->team->name}}</td>
+
                             <td>{{$user->name}}</td>
                         </tr>
                         @endforeach

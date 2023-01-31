@@ -45,6 +45,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-6">
+                            <input type="hidden"  value="{{$profile->id}}" name="id"/>
                             <input type="text"  value="{{$profile->name}}" name="name" class="form-control" required placeholder="Enter Name" />
                         </div>
                     </div>
