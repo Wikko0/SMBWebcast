@@ -75,7 +75,9 @@
 
                             <td>{{$user->team->name}}</td>
 
-                            <td>{{$user->name}}</td>
+                            @foreach($user->roles as $role)
+                                <td>{{ucfirst($role->name)}}</td>
+                            @endforeach
                         </tr>
                         @endforeach
                         </tbody>

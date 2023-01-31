@@ -155,54 +155,21 @@ class ManagerController extends Controller
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
-            'team' => ['required'],
-            'role' => ['required'],
         ]);
 
-        if ($request->role == 'user')
-        {
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('user');
             Team::create([
-                'name' => $request->team,
+                'name' => Auth::user()->team->name,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
-        }
 
-        if ($request->role == 'manager')
-        {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ])->assignRole('manager');
-            Team::create([
-                'name' => $request->team,
-                'user' => $request->name,
-                'created_by' => Auth::user()->name,
-                'user_id' => $user->id,
-            ]);
-        }
-
-        if ($request->role == 'admin')
-        {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ])->assignRole('admin');
-            Team::create([
-                'name' => $request->team,
-                'user' => $request->name,
-                'created_by' => Auth::user()->name,
-                'user_id' => $user->id,
-            ]);
-        }
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }
 
@@ -211,7 +178,7 @@ class ManagerController extends Controller
         $title = 'Edit Users';
         $user = User::findOrFail($id);
         $team = Team::where('user', $user->name)->first();
-        return view('admin.user_edit',['title' => $title, 'user' => $user, 'team' => $team]);
+        return view('manager.user_edit',['title' => $title, 'user' => $user, 'team' => $team]);
     }
 
     public function do_user_edit(Request $request)
@@ -221,12 +188,9 @@ class ManagerController extends Controller
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
-            'team' => ['required'],
-            'role' => ['required'],
         ]);
 
-        if ($request->role == 'user')
-        {
+
             $user = User::find($request->id);
             $user->update([
                 'name' => $request->name,
@@ -235,49 +199,17 @@ class ManagerController extends Controller
             ]);
             $user->assignRole('user');
 
-            Team::where('user', $user->name)->update([
-                    'name' => $request->team
-                ]
-            );
 
-        }
-
-        if ($request->role == 'manager')
-        {
-            $user = User::find($request->id);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
-            $user->assignRole('manager');
-
-            Team::where('user', $user->name)->update([
-                    'name' => $request->team
-                ]
-            );
-        }
-
-        if ($request->role == 'admin')
-        {
-            $user = User::find($request->id);
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
-            $user->assignRole('admin');
-
-            Team::where('user', $user->name)->update([
-                    'name' => $request->team
-                ]
-            );
-        }
         return redirect()->back()->withSuccess('You have edited this user successfully!');
     }
 
     public function user_delete($id)
     {
+        $teams = Team::where('user_id', $id)->get();
+        foreach ($teams as $team) {
+            $team->delete();
+        }
+
         User::where('id', $id)->delete();
 
         return redirect()->back()->withSuccess('You have deleted this user successfully!');

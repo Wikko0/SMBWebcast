@@ -1,6 +1,6 @@
 @extends('layouts.manager')
 @section('content')
-    <form action="/admin/add" method="POST">
+    <form action="/manager/add" method="POST">
         @csrf
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -44,20 +44,6 @@
                             <input type="password" name="password" class="form-control" placeholder="Enter login password" />
                         </div>
 
-
-                        <div class="form-group">
-                            <label class="control-label">User Role</label>
-                            <select class="form-control" name="role" required>
-                                <option value="manager">Manager</option>
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label">Team</label>
-                            <input type="text" name="team" class="form-control" placeholder="Enter team name" />
-                        </div>
                     </div>
                     <!-- modal footer -->
                     <div class="modal-footer">

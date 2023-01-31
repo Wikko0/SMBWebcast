@@ -27,7 +27,7 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="{{ route('admin.manage_user_add') }}" class="btn btn-primary btn-sm btn-icon-split">
+                            <a href="{{ route('manager.manage_user_add') }}" class="btn btn-primary btn-sm btn-icon-split">
                                 <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
                                 <span class="text">Add</span>
                             </a>
@@ -53,7 +53,7 @@
                             <th>Option</th>
                             <th>Full Name</th>
                             <th>Email</th>
-                            <th>Personal Meeting ID</th>
+                            <th>Team name</th>
                             <th>Role</th>
                         </tr>
                         </thead>
@@ -65,15 +65,17 @@
                                 <div class="dropdown no-arrow mb-4">
                                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/admin/manage/edit/{{$user->id}}">Edit</a>
-                                        <a class="dropdown-item" href="/admin/manage/delete/{{$user->id}}">Delete</a>
+                                        <a class="dropdown-item" href="/manager/manage/edit/{{$user->id}}">Edit</a>
+                                        <a class="dropdown-item" href="/manager/manage/delete/{{$user->id}}">Delete</a>
                                     </div>
                                 </div>
                             </td>
                             <td><strong>{{$user->name}}</strong></td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->name}}</td>
-                            <td>{{$user->name}}</td>
+                            <td>{{$user->team->name}}</td>
+                            @foreach($user->roles as $role)
+                                <td>{{ucfirst($role->name)}}</td>
+                            @endforeach
                         </tr>
                         @endforeach
                         </tbody>

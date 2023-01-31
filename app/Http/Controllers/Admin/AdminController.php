@@ -112,11 +112,11 @@ class AdminController extends Controller
     public function manage_user(Request $request)
     {
         $title = 'Manage Users';
-        $users = User::all();
+        $users = User::with('roles')->get();
         $search = $request->get('name');
         if ($search)
         {
-            $users = User::where('name', 'like', '%'.$search.'%')->paginate(5);
+            $users = User::where('name', 'like', '%'.$search.'%')->with('roles')->paginate(5);
         }
 
         return view('admin.manage_user',['title' => $title, 'users' => $users]);
@@ -258,6 +258,11 @@ class AdminController extends Controller
 
     public function user_delete($id)
     {
+        $teams = Team::where('user_id', $id)->get();
+        foreach ($teams as $team) {
+            $team->delete();
+        }
+
         User::where('id', $id)->delete();
 
         return redirect()->back()->withSuccess('You have deleted this user successfully!');
