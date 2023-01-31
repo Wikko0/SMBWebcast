@@ -15,9 +15,12 @@ return new class extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('user');
             $table->string('created_by');
+
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

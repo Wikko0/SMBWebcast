@@ -14,14 +14,13 @@
     <hr class="sidebar-divider my-0">
     <li class="nav-item {{ (Request::is('admin')) ? 'active' : '' }}"><a class="nav-link" href="/admin"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
     <li class="nav-item {{ (Request::is('admin/manage')) ? 'active' : '' }}"><a class="nav-link" href="/admin/manage"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
-    <li class="nav-item">
+    <li class="nav-item {{ (Request::is('admin/meeting'))  ? 'active' : '' }}" >
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>
-        <div id="collapseMeeting" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMeeting" class="collapse {{ (Request::is('admin/meeting')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/admin/meeting">All Meeting</a>
-                <a class="collapse-item" href="/admin/meeting_history">Meeting History</a>
+                <a class="collapse-item {{ (Request::is('admin/meeting')) ? 'active' : '' }}" href="/admin/meeting">All Meeting</a>
             </div>
         </div>
     </li>
