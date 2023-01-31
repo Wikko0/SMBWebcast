@@ -42,7 +42,7 @@
 
                         <div class="form-group">
                             <label class="control-label">Login Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Enter login password" />
+                            <input type="password" name="password" value="{{$user->password}}" class="form-control" placeholder="Enter login password" />
                         </div>
 
 
@@ -54,6 +54,11 @@
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Team</label>
+                            <input type="text" name="team" class="form-control" value="{{$team->name}}" />
+                        </div>
                     </div>
                     <!-- modal footer -->
                     <div class="modal-footer">
@@ -62,6 +67,8 @@
                             <span class="text">Edit</span>
                         </button>
                     </div>
+
+
                 </div>
             </div>
         </div>

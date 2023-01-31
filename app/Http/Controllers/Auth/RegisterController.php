@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Team;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -69,6 +70,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'team' => ['required', 'string'],
         ]);
     }
 
@@ -80,6 +82,12 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        Team::create([
+            'name' => $data['team'],
+            'user' => $data['name'],
+            'created_by' => $data['name']
+        ]);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

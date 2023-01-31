@@ -53,6 +53,11 @@
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Team</label>
+                            <input type="text" name="team" class="form-control" placeholder="Enter team name" />
+                        </div>
                     </div>
                     <!-- modal footer -->
                     <div class="modal-footer">

@@ -596,6 +596,7 @@ class ComposerStaticInit6e76fd254de4a3d33339f2c7cad402c4
         'App\\Models\\NotificationSend' => __DIR__ . '/../..' . '/app/Models/NotificationSend.php',
         'App\\Models\\NotificationSettings' => __DIR__ . '/../..' . '/app/Models/NotificationSettings.php',
         'App\\Models\\Settings' => __DIR__ . '/../..' . '/app/Models/Settings.php',
+        'App\\Models\\Team' => __DIR__ . '/../..' . '/app/Models/Team.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

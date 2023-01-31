@@ -2,9 +2,13 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
         <div class="sidebar-brand-icon">
+            @if(!empty($logo['logo']->logo))
+                <img src="{{asset('storage/'.$logo['logo']->logo)}}">
+            @else
             <img src="{{asset('img/logo.png')}}">
+            @endif
         </div>
-        <div class="sidebar-brand-text mx-3">MeetAir <sup>Za sq prazno w navigation</sup></div>
+        <div class="sidebar-brand-text mx-3">Admin Panel</div>
     </a>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">

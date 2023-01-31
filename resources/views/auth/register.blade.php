@@ -28,8 +28,18 @@
         </span>
             @enderror
         </div>
+
         <div class="form-group">
             <input type="password" name="password_confirmation" class="form-control form-control-user" id="exampleInputPassword" placeholder="Confirm Password" required autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="form-control form-control-user @error('team') is-invalid @enderror" name="team" id="exampleInputTeam" placeholder="Team name" required>
+            @error('team')
+            <span class="invalid-feedback" role="alert">
+           <strong>{{ $message }}</strong>
+        </span>
+            @enderror
         </div>
         <button type="submit" class="btn btn-primary btn-user btn-block">Register</button>
     </form>

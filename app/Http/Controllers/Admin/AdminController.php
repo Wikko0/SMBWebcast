@@ -10,6 +10,7 @@ use App\Models\Meeting;
 use App\Models\NotificationSend;
 use App\Models\NotificationSettings;
 use App\Models\Settings;
+use App\Models\Team;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
@@ -134,6 +135,7 @@ class AdminController extends Controller
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
+            'team' => ['required'],
             'role' => ['required'],
         ]);
 
@@ -144,6 +146,11 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('user');
+            Team::create([
+                'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => Auth::user()->name,
+            ]);
         }
 
         if ($request->role == 'manager')
@@ -153,6 +160,11 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('manager');
+            Team::create([
+                'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => Auth::user()->name,
+            ]);
         }
 
         if ($request->role == 'admin')
@@ -162,6 +174,11 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('admin');
+            Team::create([
+                'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => Auth::user()->name,
+            ]);
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }
@@ -170,7 +187,8 @@ class AdminController extends Controller
     {
         $title = 'Edit Users';
         $user = User::findOrFail($id);
-        return view('admin.user_edit',['title' => $title, 'user' => $user]);
+        $team = Team::where('user', $user->name)->first();
+        return view('admin.user_edit',['title' => $title, 'user' => $user, 'team' => $team]);
     }
 
     public function do_user_edit(Request $request)
@@ -180,6 +198,7 @@ class AdminController extends Controller
             'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
+            'team' => ['required'],
             'role' => ['required'],
         ]);
 
@@ -192,6 +211,12 @@ class AdminController extends Controller
                 'password' => bcrypt($request->password),
             ]);
             $user->assignRole('user');
+
+            Team::where('user', $user->name)->update([
+                'name' => $request->team
+                ]
+            );
+
         }
 
         if ($request->role == 'manager')
@@ -203,6 +228,11 @@ class AdminController extends Controller
                 'password' => bcrypt($request->password),
             ]);
             $user->assignRole('manager');
+
+            Team::where('user', $user->name)->update([
+                    'name' => $request->team
+                ]
+            );
         }
 
         if ($request->role == 'admin')
@@ -214,6 +244,11 @@ class AdminController extends Controller
                 'password' => bcrypt($request->password),
             ]);
             $user->assignRole('admin');
+
+            Team::where('user', $user->name)->update([
+                    'name' => $request->team
+                ]
+            );
         }
         return redirect()->back()->withSuccess('You have edited this user successfully!');
     }
