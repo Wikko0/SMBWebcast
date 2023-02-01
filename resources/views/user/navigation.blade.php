@@ -12,16 +12,15 @@
     </a>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-    <li class="nav-item {{ (Request::is('manager')) ? 'active' : '' }}"><a class="nav-link" href="/manager"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
-    <li class="nav-item {{ (Request::is('manager/manage')) ? 'active' : '' }}"><a class="nav-link" href="/manager/manage"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
-    <li class="nav-item {{ (Request::is('manager/meeting'))  ? 'active' : '' }}" >
+    <li class="nav-item {{ (Request::is('user')) ? 'active' : '' }}"><a class="nav-link" href="/user"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
+    <li class="nav-item {{ (Request::is('user/meeting'))  ? 'active' : '' }}" >
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>
-        <div id="collapseMeeting" class="collapse {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMeeting" class="collapse {{ (Request::is('user/meeting')) || (Request::is('user/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{ (Request::is('manager/meeting')) ? 'active' : '' }}" href="/manager/meeting">All Meeting</a>
-                <a class="collapse-item {{ (Request::is('manager/join')) ? 'active' : '' }}" href="/manager/join">Join Meeting</a>
+                <a class="collapse-item {{ (Request::is('user/meeting')) ? 'active' : '' }}" href="/user/meeting">All Meeting</a>
+                <a class="collapse-item {{ (Request::is('user/join')) ? 'active' : '' }}" href="/user/join">Join Meeting</a>
             </div>
         </div>
     </li>

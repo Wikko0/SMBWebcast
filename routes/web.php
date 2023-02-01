@@ -26,21 +26,22 @@ use App\Http\Controllers\JoinController;
 Auth::routes(['verify' => false]);
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
-
+Route::post('/join', [JoinController::class, 'join'])->name('join');
+Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
 /*
 |--------------------------------------------------------------------------
 | User Role
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user', [ManagerController::class, 'dashboard'])->name('user.dashboard');
-    Route::get('/user/profile', [ManagerController::class, 'profile'])->name('user.profile');
-    Route::post('/user/profile/update', [ManagerController::class, 'do_profile'])->name('user.profile.update');
-    Route::post('/user/profile/changepassword', [ManagerController::class, 'do_changepassword'])->name('user.changepassword');
+    Route::get('/user', [UserController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::post('/user/profile/update', [UserController::class, 'do_profile'])->name('user.profile.update');
+    Route::post('/user/profile/changepassword', [UserController::class, 'do_changepassword'])->name('user.changepassword');
 
-    Route::get('/user/meeting', [ManagerController::class, 'meeting'])->name('user.meeting');
-    Route::get('/user/join', [ManagerController::class, 'room'])->name('user.room');
-    Route::post('/user/join', [ManagerController::class, 'join'])->name('user.join');
+    Route::get('/user/meeting', [UserController::class, 'meeting'])->name('user.meeting');
+    Route::get('/user/join', [UserController::class, 'room'])->name('user.room');
+    Route::post('/user/join', [UserController::class, 'join'])->name('user.join');
 });
 /*
 |--------------------------------------------------------------------------

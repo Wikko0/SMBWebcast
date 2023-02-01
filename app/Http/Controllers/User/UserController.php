@@ -31,7 +31,7 @@ class UserController extends Controller
         $hosted = $commonModel->hosted_meeting_this_month_chart_data_team();
         $yearlyJoined = $commonModel->yearly_join_meeting_chart_data_team();
         $yearlyHosted = $commonModel->yearly_host_meeting_chart_data_team();
-        return view('manager.dashboard', [
+        return view('user.dashboard', [
             'yearlyHosted' => $yearlyHosted,
             'yearlyJoined' => $yearlyJoined,
             'hosted' => $hosted,
@@ -48,8 +48,7 @@ class UserController extends Controller
     {
         $title = 'Manage Profile';
         $profile = Auth::user();
-        $team = Auth::user()->team;
-        return view('manager.profile', ['title' => $title, 'profile' => $profile, 'team' => $team]);
+        return view('user.profile', ['title' => $title, 'profile' => $profile]);
     }
 
     public function do_profile(Request $request)
@@ -57,7 +56,6 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-            'team' => 'required'
 
         ]);
 
@@ -75,20 +73,10 @@ class UserController extends Controller
                 'image' => $photoPath,
             ]);
 
-            $profile->team->update([
-                'name' => $request->team,
-                'user' => $request->name,
-                'created_by' => $request->name,
-            ]);
         }else{
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
-            ]);
-            $profile->team->update([
-                'name' => $request->team,
-                'user' => $request->name,
-                'created_by' => $request->name,
             ]);
         }
 
@@ -124,7 +112,7 @@ class UserController extends Controller
         {
             $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
         }
-        return view('manager.meeting',['title' => $title, 'meetings' => $meetings]);
+        return view('user.meeting',['title' => $title, 'meetings' => $meetings]);
     }
 
     public function room()
@@ -132,7 +120,7 @@ class UserController extends Controller
         $title = 'Meetings';
         $meetings = Meeting::where('created_by', Auth::user()->name)->get();
 
-        return view('manager.join',['title' => $title, 'meetings' => $meetings]);
+        return view('user.join',['title' => $title, 'meetings' => $meetings]);
     }
 
     public function join(Request $request){

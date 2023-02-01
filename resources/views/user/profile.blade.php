@@ -23,7 +23,7 @@
                     @endforeach
                 </div>
             @endif
-        <form method="post" action="/manager/profile/update" enctype="multipart/form-data">
+        <form method="post" action="/user/profile/update" enctype="multipart/form-data">
             @csrf
          <!-- panel  -->
             <div class="row">
@@ -54,12 +54,6 @@
                         <div class="col-sm-6">
                             <input type="email"  value="{{$profile->email}}" name="email" class="form-control" required placeholder="Enter email" />
                         </div>
-                    </div>
-                    <div class="form-group">
-                    <label class="col-sm-3 control-label">Team name</label>
-                    <div class="col-sm-6">
-                        <input type="text" value="{{$team->name}}" name="team" class="form-control" required placeholder="Enter team"/>
-                    </div>
                     </div>
                     <div class="col-sm-offset-3 col-sm-9 m-t-15">
                         <button type="submit" class="btn btn-primary"><span class="btn-label"><i class="fa fa-refresh"></i></span>Update </button>
