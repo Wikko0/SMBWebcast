@@ -39,7 +39,10 @@
                             <label class="control-label">Meeting ID</label>
                             <input type="text" name="meeting_id" class="form-control" value="{{$meeting->meeting_id}}" />
                         </div>
-
+                        <div class="form-group">
+                            <label class="control-label">Meeting Password</label>
+                            <input type="password" name="password" class="form-control" value="{{$meeting->password??null}}" />
+                        </div>
 
                     </div>
                     <!-- modal footer -->

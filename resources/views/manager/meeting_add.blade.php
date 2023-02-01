@@ -38,7 +38,10 @@
                             <label class="control-label">Meeting ID</label>
                             <input type="text" name="meeting_id" class="form-control" placeholder="Enter meeting ID" />
                         </div>
-
+                        <div class="form-group">
+                            <label class="control-label">Meeting Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter password (optional)" />
+                        </div>
                     </div>
                     <!-- modal footer -->
                     <div class="modal-footer">

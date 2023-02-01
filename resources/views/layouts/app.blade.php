@@ -48,6 +48,30 @@
             background-size: cover !important;
             background-position: center !important;
         }
+        .nav{
+            display: flex;
+            background-color: #eaecf4;
+            border-radius: 0.25rem;
+        }
+        .nav-item{
+            width: 50%;
+        }
+        .nav-pills .nav-link {
+            text-align: center;
+            border-radius: .25rem;
+        }
+        .nav-pills .nav-link.link-left {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0rem;
+            border-bottom-right-radius: 0rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .nav-pills .nav-link.link-right {
+            border-top-left-radius: 0rem;
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0rem;
+        }
     </style>
 
 </head>
@@ -78,6 +102,24 @@
 
                                     <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</h1></a>
                                 </div>
+                                @if(session('success'))
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                        </button>
+                                        <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                        <ul>{{session('success')}}</ul>
+                                    </div>
+                                @endif
+                                @if ($errors->any())
+                                    <div class="alert alert-warning alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                        </button>
+                                        <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+                                        @foreach ($errors->all() as $error)
+                                            <ul>{{ $error }}</ul>
+                                        @endforeach
+                                    </div>
+                                @endif
 
                                @yield('content')
 

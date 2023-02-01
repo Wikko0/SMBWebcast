@@ -428,11 +428,21 @@ class AdminController extends Controller
         $user = Auth::user()->name;
         $settings = Settings::first();
 
+        if ($request->password)
+        {
+            Meeting::create([
+                'title' => $request->title,
+                'meeting_id' => $settings->meeting_id.$request->meeting_id,
+                'created_by' => $user,
+                'password' => $request->password,
+            ]);
+        }else{
             Meeting::create([
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
             ]);
+        }
 
         return redirect()->back()->withSuccess('You have added this meeting successfully!');
     }
@@ -452,11 +462,20 @@ class AdminController extends Controller
             'meeting_id' => ['required','regex:/^\S*$/u', Rule::unique('meetings')->ignore($request->id)],
         ]);
 
-        Meeting::where('id',$request->id)
-            ->update([
-               'title' => $request->title,
-               'meeting_id' => $request->meeting_id,
-            ]);
+        if ($request->password){
+            Meeting::where('id',$request->id)
+                ->update([
+                    'title' => $request->title,
+                    'meeting_id' => $request->meeting_id,
+                    'password' => $request->password,
+                ]);
+        }else{
+            Meeting::where('id',$request->id)
+                ->update([
+                    'title' => $request->title,
+                    'meeting_id' => $request->meeting_id,
+                ]);
+        }
 
         return redirect()->back()->withSuccess('You have edited this meeting successfully!');
     }
@@ -471,13 +490,16 @@ class AdminController extends Controller
     public function room($id)
     {
 
-    $meeting = Meeting::first();
-    $user = Auth::user();
+        $meeting = Meeting::where('meeting_id', $id)->first();
+        $user = Auth::user();
 
-    Meeting::where('meeting_id', $id)
-        ->update(['joined' => Meeting::raw('joined+1')]);
-
-        return view('room',['meeting' => $meeting, 'user' => $user]);
+        if ($meeting){
+            Meeting::where('meeting_id', $id)
+                ->update(['joined' => Meeting::raw('joined+1')]);
+            return view('room',['meeting' => $meeting, 'user' => $user]);
+        }else{
+            return redirect()->back()->withErrors('No meeting with that name exists!');
+        }
     }
 
     public function notificationSettings()

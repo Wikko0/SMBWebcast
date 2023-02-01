@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\JoinController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,15 @@ use App\Http\Controllers\Manager\ManagerController;
 |
 */
 
-
+/*
+|--------------------------------------------------------------------------
+| Guests Role
+|--------------------------------------------------------------------------
+*/
 Auth::routes(['verify' => false]);
-Route::get('/room/{id}', [AdminController::class, 'room'])->name('room');
-
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
+
 /*
 |--------------------------------------------------------------------------
 | User Role
@@ -31,7 +35,8 @@ Route::post('/', [LoginController::class, 'login']);
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user', [UserController::class, 'dashboard'])->name('user.dashboard');
 });
-
+Route::post('/join', [JoinController::class, 'join'])->name('join');
+Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
 
 /*
 |--------------------------------------------------------------------------
@@ -97,5 +102,4 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager/meeting/edit/{id}', [ManagerController::class, 'meeting_edit'])->name('manager.meeting_edit');
     Route::post('/manager/meeting/edit', [ManagerController::class, 'do_meeting_edit'])->name('manager.do_meeting_edit');
     Route::get('/manager/meeting/delete/{id}', [ManagerController::class, 'meeting_delete'])->name('manager.meeting_delete');
-
    });
