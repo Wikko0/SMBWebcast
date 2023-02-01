@@ -26,15 +26,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-md-3">
-                            <a href="{{ route('manager.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
-                                <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
-                                <span class="text">Add</span>
-                            </a>
-                            <br>
-                        </div>
                         <div class="col-md-9">
-                            <form class="form-inline " method="get" action="/manager/meeting">
+                            <form class="form-inline " method="get" action="/user/meeting">
                                 <div class="form-group mx-sm-3 mb-2">
                                     <label for="title" class="sr-only">Meeting ID</label>
                                     <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting ID">&nbsp;

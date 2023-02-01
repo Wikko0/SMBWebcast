@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Common;
 use App\Models\Meeting;
+use App\Models\Team;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -72,11 +73,16 @@ class UserController extends Controller
                 'email' => $request->email,
                 'image' => $photoPath,
             ]);
-
+            $profile->team->update([
+                'user' => $request->name,
+            ]);
         }else{
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
+            ]);
+            $profile->team->update([
+                'user' => $request->name,
             ]);
         }
 
@@ -106,7 +112,8 @@ class UserController extends Controller
     public function meeting(Request $request)
     {
         $title = 'Meetings';
-        $meetings = Meeting::where('created_by', Auth::user()->name)->get();
+        $team_leader = Team::where('user', Auth::user()->name)->first();
+        $meetings = Meeting::where('created_by', $team_leader->created_by)->get();
         $search = $request->get('meeting_code');
         if ($search)
         {
