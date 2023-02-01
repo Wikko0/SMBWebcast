@@ -215,137 +215,6 @@ class ManagerController extends Controller
         return redirect()->back()->withSuccess('You have deleted this user successfully!');
     }
 
-    public function settings()
-    {
-        $title = 'System Setting';
-
-        return view('admin.settings',['title' => $title]);
-    }
-
-    public function do_settings(Request $request)
-    {
-        $request->validate([
-            'app_name' => ['required', 'max:40'],
-            'jitsi_url' => ['required', 'url'],
-            'meeting_prefix' => ['required'],
-        ]);
-
-        Settings::where('id', $request->id)
-            ->update([
-                'app_name' => $request->app_name,
-                'jitsi_url' => $request->jitsi_url,
-                'meeting_id' => $request->meeting_prefix,
-                'address' => $request->address,
-                'phone' => $request->phone,
-                'policy' => $request->policy_text,
-            ]);
-
-        return redirect()->back()->withSuccess('You have changed this settings successfully!');
-    }
-
-    public function emailSettings()
-    {
-        $title = 'Email Setting';
-        $mailSettings = MailSettings::first();
-        return view('admin.email-settings',['title' => $title, 'mailSettings' => $mailSettings]);
-    }
-
-    public function do_emailSettings(Request $request)
-    {
-        $request->validate([
-            'transport' => 'required',
-            'host' => 'required',
-            'port' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-            'encryption' => 'required',
-            'from' => 'required',
-
-        ]);
-
-        MailSettings::where('id', $request->id)
-            ->update([
-                'mail_transport' => $request->transport,
-                'mail_host' => $request->host,
-                'mail_port' => $request->port,
-                'mail_username' => $request->username,
-                'mail_password' => $request->password,
-                'mail_encryption' => $request->encryption,
-                'mail_from' => $request->from,
-            ]);
-
-        return redirect()->back()->withSuccess('You have changed this settings successfully!');
-    }
-
-    public function logoSettings()
-    {
-        $title = 'Logo & Image Setting';
-        $images = LogoSettings::first();
-        return view('admin.logo-settings',['title' => $title, 'images' => $images]);
-    }
-
-    public function do_logoSettings(Request $request)
-    {
-        $this->validate($request, [
-            'logo' => 'image',
-            'image' => 'image',
-            'favicon' => 'image',
-
-        ]);
-
-        $logoCheck = LogoSettings::first();
-
-        if ($request->logo){
-            $logoPath = $request->logo->storeAs('uploads', 'logo.png', "public");
-            $logo = Image::make(public_path("storage/{$logoPath}"))->resize(80, 80);
-            $logo->save();
-        }else {
-            if (!empty($logoCheck->logo)){
-                $logoPath = $logoCheck->logo;
-            }
-        }
-
-        if ($request->image){
-            $imagePath = $request->image->storeAs('uploads', 'login-bg.jpg', "public");
-            $image = Image::make(public_path("storage/{$imagePath}"))->resize(640, 440);
-            $image->save();
-
-        }else {
-            if (!empty($logoCheck->image)){
-                $imagePath = $logoCheck->image;
-            }
-        }
-
-        if ($request->favicon)
-        {
-            $favPath = $request->favicon->storeAs('uploads', 'favicon.png', "public");
-            $fav = Image::make(public_path("storage/{$favPath}"))->resize(16, 16);
-            $fav->save();
-        }else {
-            if (!empty($logoCheck->favicon)){
-                $favPath = $logoCheck->favicon;
-            }
-        }
-
-
-        if ($logoCheck){
-            LogoSettings::where('key', 'logo')->update([
-                'logo' =>  $logoPath??'',
-                'image' =>  $imagePath??'',
-                'favicon' =>  $favPath??'',
-            ]);
-            return redirect()->back()->withSuccess('You have changed this images successfully!');
-        }else{
-            LogoSettings::insert([
-                'logo' =>  $logoPath??'',
-                'image' =>  $imagePath??'',
-                'favicon' =>  $favPath??'',
-            ]);
-            return redirect()->back()->withSuccess('You have added this images successfully!');
-        }
-
-    }
-
     public function meeting(Request $request)
     {
         $title = 'Meetings';
@@ -355,13 +224,13 @@ class ManagerController extends Controller
         {
             $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
         }
-        return view('admin.meeting',['title' => $title, 'meetings' => $meetings]);
+        return view('manager.meeting',['title' => $title, 'meetings' => $meetings]);
     }
 
     public function meeting_add()
     {
         $title = 'Add Meeting';
-        return view('admin.meeting_add',['title' => $title]);
+        return view('manager.meeting_add',['title' => $title]);
     }
 
     public function do_meeting_add(Request $request)
@@ -388,7 +257,7 @@ class ManagerController extends Controller
     {
         $title = 'Edit Meeting';
         $meeting = Meeting::findOrFail($id);
-        return view('admin.meeting_edit',['title' => $title, 'meeting' => $meeting]);
+        return view('manager.meeting_edit',['title' => $title, 'meeting' => $meeting]);
     }
 
     public function do_meeting_edit(Request $request)
@@ -427,74 +296,4 @@ class ManagerController extends Controller
         return view('room',['meeting' => $meeting, 'user' => $user]);
     }
 
-    public function notificationSettings()
-    {
-        $title = 'Notification Setting';
-        $notificationSettings = NotificationSettings::first();
-        return view('admin.notification-settings',['title' => $title, 'notificationSettings' => $notificationSettings]);
-    }
-
-    public function do_notificationSettings(Request $request)
-    {
-        $request->validate([
-            'app_id' => 'required',
-            'authorize' => 'required',
-            'auth_key' => 'required',
-
-        ]);
-
-        NotificationSettings::where('id', $request->id)
-            ->update([
-                'app_id' => $request->app_id,
-                'authorize' => $request->authorize,
-                'auth_key' => $request->auth_key,
-            ]);
-
-        return redirect()->back()->withSuccess('You have changed this settings successfully!');
-    }
-
-    public function notificationSend()
-    {
-        $title = 'Notification Send';
-
-        return view('admin.notification-send',['title' => $title]);
-    }
-
-    public function do_notificationSend(Request $request)
-    {
-        $request->validate([
-            'title' => 'required',
-            'url' => 'required|url',
-        ]);
-
-
-        NotificationSend::create([
-            'content' => $request->title,
-            'url' => $request->url,
-        ]);
-
-
-        $settings = NotificationSettings::first();
-        $data = NotificationSend::latest()
-            ->first();;
-
-        $client = new \GuzzleHttp\Client();
-        $body ='{"app_id":"'.$settings->app_id.'",
-            "included_segments":["All"],
-            "url":"'.$data->url.'",
-            "contents":{"en":"'.$data->content.'"},
-            "name":"INTERNAL_CAMPAIGN_NAME"}';
-        $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
-            'body' => $body,
-            'headers' => [
-                'Authorization' => 'Basic '.$settings->authorize,
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-            ],
-        ]);
-
-        echo $response->getBody();
-
-        return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
-    }
 }

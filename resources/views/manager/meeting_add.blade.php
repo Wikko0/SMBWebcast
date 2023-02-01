@@ -1,6 +1,6 @@
 @extends('layouts.manager')
 @section('content')
-    <form action="/admin/meeting/add" method="POST">
+    <form action="/manager/meeting/add" method="POST">
         @csrf
     <div class="card shadow mb-4">
         <div class="card-header py-3">

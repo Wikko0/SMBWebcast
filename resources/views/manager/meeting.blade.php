@@ -27,14 +27,14 @@
                 <div class="col-sm-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <a href="{{ route('admin.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
+                            <a href="{{ route('manager.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
                                 <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
                                 <span class="text">Add</span>
                             </a>
                             <br>
                         </div>
                         <div class="col-md-9">
-                            <form class="form-inline " method="get" action="/admin/meeting">
+                            <form class="form-inline " method="get" action="/manager/meeting">
                                 <div class="form-group mx-sm-3 mb-2">
                                     <label for="title" class="sr-only">Meeting ID</label>
                                     <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting ID">&nbsp;
@@ -67,8 +67,8 @@
                                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="/room/{{$meeting->meeting_id}}" target="_blank">Join Meeting</a>
-                                        <a class="dropdown-item" href="/admin/meeting/edit/{{$meeting->id}}">Edit</a>
-                                        <a class="dropdown-item" href="/admin/meeting/delete/{{$meeting->id}}">Delete</a>
+                                        <a class="dropdown-item" href="/manager/meeting/edit/{{$meeting->id}}">Edit</a>
+                                        <a class="dropdown-item" href="/manager/meeting/delete/{{$meeting->id}}">Delete</a>
                                     </div>
                                 </div>
                             </td>
