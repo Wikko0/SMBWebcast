@@ -18,9 +18,10 @@
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>
-        <div id="collapseMeeting" class="collapse {{ (Request::is('manager/meeting')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMeeting" class="collapse {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ (Request::is('manager/meeting')) ? 'active' : '' }}" href="/manager/meeting">All Meeting</a>
+                <a class="collapse-item {{ (Request::is('manager/join')) ? 'active' : '' }}" href="/manager/join">Join Meeting</a>
             </div>
         </div>
     </li>

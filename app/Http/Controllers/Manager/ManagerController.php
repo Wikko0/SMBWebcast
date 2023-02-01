@@ -301,19 +301,29 @@ class ManagerController extends Controller
         return redirect()->back()->withSuccess('You have deleted this meeting successfully!');
     }
 
-    public function room($id)
+    public function room()
     {
+        $title = 'Meetings';
+        $meetings = Meeting::where('created_by', Auth::user()->name)->get();
 
-        $meeting = Meeting::where('meeting_id', $id)->first();
-        $user = Auth::user();
-
-        if ($meeting){
-            Meeting::where('meeting_id', $id)
-                ->update(['joined' => Meeting::raw('joined+1')]);
-            return view('room',['meeting' => $meeting, 'user' => $user]);
-        }else{
-            return redirect()->back()->withErrors('No meeting with that name exists!');
-        }
+        return view('manager.join',['title' => $title, 'meetings' => $meetings]);
     }
 
+    public function join(Request $request){
+
+        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
+        if (!empty($meeting->password))
+        {
+
+            if ($meeting->password == $request->password){
+
+                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                return redirect()->back()->withErrors('Wrong Password!');
+            }
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
+
+    }
 }

@@ -33,11 +33,15 @@ Route::post('/', [LoginController::class, 'login']);
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user', [UserController::class, 'dashboard'])->name('user.dashboard');
-});
-Route::post('/join', [JoinController::class, 'join'])->name('join');
-Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
+    Route::get('/user', [ManagerController::class, 'dashboard'])->name('user.dashboard');
+    Route::get('/user/profile', [ManagerController::class, 'profile'])->name('user.profile');
+    Route::post('/user/profile/update', [ManagerController::class, 'do_profile'])->name('user.profile.update');
+    Route::post('/user/profile/changepassword', [ManagerController::class, 'do_changepassword'])->name('user.changepassword');
 
+    Route::get('/user/meeting', [ManagerController::class, 'meeting'])->name('user.meeting');
+    Route::get('/user/join', [ManagerController::class, 'room'])->name('user.room');
+    Route::post('/user/join', [ManagerController::class, 'join'])->name('user.join');
+});
 /*
 |--------------------------------------------------------------------------
 | Admin Role
@@ -102,4 +106,6 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager/meeting/edit/{id}', [ManagerController::class, 'meeting_edit'])->name('manager.meeting_edit');
     Route::post('/manager/meeting/edit', [ManagerController::class, 'do_meeting_edit'])->name('manager.do_meeting_edit');
     Route::get('/manager/meeting/delete/{id}', [ManagerController::class, 'meeting_delete'])->name('manager.meeting_delete');
+    Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
+    Route::post('/manager/join', [ManagerController::class, 'join'])->name('manager.join');
    });

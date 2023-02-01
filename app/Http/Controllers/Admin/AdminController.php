@@ -487,20 +487,6 @@ class AdminController extends Controller
         return redirect()->back()->withSuccess('You have deleted this meeting successfully!');
     }
 
-    public function room($id)
-    {
-
-        $meeting = Meeting::where('meeting_id', $id)->first();
-        $user = Auth::user();
-
-        if ($meeting){
-            Meeting::where('meeting_id', $id)
-                ->update(['joined' => Meeting::raw('joined+1')]);
-            return view('room',['meeting' => $meeting, 'user' => $user]);
-        }else{
-            return redirect()->back()->withErrors('No meeting with that name exists!');
-        }
-    }
 
     public function notificationSettings()
     {
