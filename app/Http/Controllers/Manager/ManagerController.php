@@ -4,11 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Models\Common;
-use App\Models\LogoSettings;
-use App\Models\MailSettings;
 use App\Models\Meeting;
-use App\Models\NotificationSend;
-use App\Models\NotificationSettings;
 use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
@@ -28,16 +24,16 @@ class ManagerController extends Controller
 
 
         $today = Carbon::today();
-        $hostToday = Meeting::whereDate('created_at', $today)->count();
-        $joinedToday = Meeting::whereDate('created_at', $today)->sum('joined');
-        $userRegister = User::count();
-        $userRegisterToday = User::whereDate('created_at', $today)->count();
+        $hostToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count();
+        $joinedToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->sum('joined');
+        $userRegister = Auth::user()->team->where('created_by', Auth::user()->name)->count('user');
+        $userRegisterToday = Auth::user()->team->where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count('user');
         $commonModel = new Common();
         $getDay = $commonModel->get_days_of_this_month();
-        $joined = $commonModel->joined_meeting_this_month_chart_data();
-        $hosted = $commonModel->hosted_meeting_this_month_chart_data();
-        $yearlyJoined = $commonModel->yearly_join_meeting_chart_data();
-        $yearlyHosted = $commonModel->yearly_host_meeting_chart_data();
+        $joined = $commonModel->joined_meeting_this_month_chart_data_team();
+        $hosted = $commonModel->hosted_meeting_this_month_chart_data_team();
+        $yearlyJoined = $commonModel->yearly_join_meeting_chart_data_team();
+        $yearlyHosted = $commonModel->yearly_host_meeting_chart_data_team();
         return view('manager.dashboard', [
             'yearlyHosted' => $yearlyHosted,
             'yearlyJoined' => $yearlyJoined,
