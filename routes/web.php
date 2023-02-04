@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PlugnPaidController;
+use App\Http\Controllers\PolicyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Auth::routes(['verify' => false]);
 Route::get('/api', [PlugnPaidController::class, 'index']);
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
+Route::get('/privacy-policy', [PolicyController::class, 'index']);
 Route::post('/join', [JoinController::class, 'join'])->name('join');
 Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
 /*

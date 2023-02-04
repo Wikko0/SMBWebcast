@@ -283,7 +283,7 @@ class AdminController extends Controller
             'meeting_prefix' => ['required'],
         ]);
 
-        Settings::where('id', $request->id)
+        Settings::where('key', 'settings')
         ->update([
         'app_name' => $request->app_name,
         'jitsi_url' => $request->jitsi_url,
