@@ -14,7 +14,7 @@
     <hr class="sidebar-divider my-0">
     <li class="nav-item {{ (Request::is('manager')) ? 'active' : '' }}"><a class="nav-link" href="/manager"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
     <li class="nav-item {{ (Request::is('manager/manage')) ? 'active' : '' }}"><a class="nav-link" href="/manager/manage"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
-    <li class="nav-item {{ (Request::is('manager/meeting'))  ? 'active' : '' }}" >
+    <li class="nav-item {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) ? 'active' : '' }}" >
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>

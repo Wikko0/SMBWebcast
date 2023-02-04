@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
+use App\Http\Controllers\PlugnPaidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ use App\Http\Controllers\JoinController;
 |--------------------------------------------------------------------------
 */
 Auth::routes(['verify' => false]);
+Route::get('/api', [PlugnPaidController::class, 'index']);
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::post('/join', [JoinController::class, 'join'])->name('join');
@@ -39,7 +41,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('/user/profile/update', [UserController::class, 'do_profile'])->name('user.profile.update');
     Route::post('/user/profile/changepassword', [UserController::class, 'do_changepassword'])->name('user.changepassword');
 
-    Route::get('/user/meeting', [UserController::class, 'meeting'])->name('user.meeting');
     Route::get('/user/join', [UserController::class, 'room'])->name('user.room');
     Route::post('/user/join', [UserController::class, 'join'])->name('user.join');
 });

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -82,16 +83,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer e2c64203-f4a7-46e5-8737-1caa5f90bf43",
+        ])->get('https://api.plugnpaid.com/v1/customers/list');
+        $name = $response['customers'][0]['name'];
+        $email = $response['customers'][0]['email'];
+
+
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($name),
         ])->assignRole('manager');
 
-        $team = Team::create([
-            'name' => $data['team'],
-            'user' => $data['name'],
-            'created_by' => $data['name'],
+        Team::create([
+            'name' => 'Team Name',
+            'user' => $name,
+            'created_by' => $name,
             'user_id' => $user->id,
         ]);
 

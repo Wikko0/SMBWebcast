@@ -19,19 +19,19 @@ class UserController extends Controller
     {
         $title = 'Dashboard';
 
-
+        $team_leader = Team::where('user', Auth::user()->name)->first();
 
         $today = Carbon::today();
-        $hostToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count();
-        $joinedToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->sum('joined');
-        $userRegister = Auth::user()->team->where('created_by', Auth::user()->name)->count('user');
-        $userRegisterToday = Auth::user()->team->where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count('user');
+        $hostToday = Meeting::where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->count();
+        $joinedToday = Meeting::where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->sum('joined');
+        $userRegister = Auth::user()->team->where('created_by', $team_leader->created_by)->count('user');
+        $userRegisterToday = Auth::user()->team->where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->count('user');
         $commonModel = new Common();
         $getDay = $commonModel->get_days_of_this_month();
-        $joined = $commonModel->joined_meeting_this_month_chart_data_team();
-        $hosted = $commonModel->hosted_meeting_this_month_chart_data_team();
-        $yearlyJoined = $commonModel->yearly_join_meeting_chart_data_team();
-        $yearlyHosted = $commonModel->yearly_host_meeting_chart_data_team();
+        $joined = $commonModel->joined_meeting_this_month_chart_data_user();
+        $hosted = $commonModel->hosted_meeting_this_month_chart_data_user();
+        $yearlyJoined = $commonModel->yearly_join_meeting_chart_data_user();
+        $yearlyHosted = $commonModel->yearly_host_meeting_chart_data_user();
         return view('user.dashboard', [
             'yearlyHosted' => $yearlyHosted,
             'yearlyJoined' => $yearlyJoined,
@@ -109,23 +109,12 @@ class UserController extends Controller
         return redirect()->back()->withSuccess('You have changed password successfully!');
     }
 
-    public function meeting(Request $request)
-    {
-        $title = 'Meetings';
-        $team_leader = Team::where('user', Auth::user()->name)->first();
-        $meetings = Meeting::where('created_by', $team_leader->created_by)->get();
-        $search = $request->get('meeting_code');
-        if ($search)
-        {
-            $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
-        }
-        return view('user.meeting',['title' => $title, 'meetings' => $meetings]);
-    }
 
     public function room()
     {
         $title = 'Meetings';
-        $meetings = Meeting::where('created_by', Auth::user()->name)->get();
+        $team_leader = Team::where('user', Auth::user()->name)->first();
+        $meetings = Meeting::where('created_by', $team_leader->created_by)->get();
 
         return view('user.join',['title' => $title, 'meetings' => $meetings]);
     }

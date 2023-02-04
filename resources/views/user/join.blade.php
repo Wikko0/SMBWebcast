@@ -28,7 +28,7 @@
                     <div class="row">
 
                         <div class="col-md-9">
-                            <form class="form-inline " method="post" action="/manager/join">
+                            <form class="form-inline " method="post" action="/user/join">
                                 @csrf
                                 <div class="form-group mx-sm-3 mb-2">
                                     <label for="title" class="sr-only">Meeting ID</label>

@@ -13,13 +13,12 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <li class="nav-item {{ (Request::is('user')) ? 'active' : '' }}"><a class="nav-link" href="/user"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
-    <li class="nav-item {{ (Request::is('user/meeting'))  ? 'active' : '' }}" >
+    <li class="nav-item {{ (Request::is('user/join'))  ? 'active' : '' }}" >
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>
-        <div id="collapseMeeting" class="collapse {{ (Request::is('user/meeting')) || (Request::is('user/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMeeting" class="collapse {{ (Request::is('user/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item {{ (Request::is('user/meeting')) ? 'active' : '' }}" href="/user/meeting">All Meeting</a>
                 <a class="collapse-item {{ (Request::is('user/join')) ? 'active' : '' }}" href="/user/join">Join Meeting</a>
             </div>
         </div>
