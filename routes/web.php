@@ -8,6 +8,7 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PlugnPaidController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\WebhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,11 @@ use App\Http\Controllers\PolicyController;
 | Guests Role
 |--------------------------------------------------------------------------
 */
-Auth::routes(['verify' => false]);
+Route::webhooks('webhook');
+Auth::routes(
+    ['verify' => false,'register' => false,]);
 Route::get('/api', [PlugnPaidController::class, 'index']);
+Route::get('/test', [PlugnPaidController::class, 'test']);
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);

@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '4df03bc9e7eb7451b477f37ef0a3e5e4fe50fd1d',
+        'reference' => '53a678c0c53e2d7dacd8eddac9aa75f72b2bdd74',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -397,7 +397,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '4df03bc9e7eb7451b477f37ef0a3e5e4fe50fd1d',
+            'reference' => '53a678c0c53e2d7dacd8eddac9aa75f72b2bdd74',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -1038,6 +1038,15 @@
             'install_path' => __DIR__ . '/../spatie/laravel-signal-aware-command',
             'aliases' => array(),
             'reference' => '46cda09a85aef3fd47fb73ddc7081f963e255571',
+            'dev_requirement' => false,
+        ),
+        'spatie/laravel-webhook-client' => array(
+            'pretty_version' => '3.1.7',
+            'version' => '3.1.7.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-webhook-client',
+            'aliases' => array(),
+            'reference' => '52635a661be67dbcbfc7fdf736c543ab4429d0e0',
             'dev_requirement' => false,
         ),
         'spatie/temporary-directory' => array(

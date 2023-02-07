@@ -17,21 +17,41 @@ class PlugnPaidController extends Controller
 
         $customers = $response['customers'];
         $last_customer = end($customers);
+        $billing_addresses = $last_customer['addresses']['billing'];
+        $last_billing_address = end($billing_addresses);
+        $custom_billing_fields = $last_billing_address['custom-billing-fields'];
+
+        foreach($custom_billing_fields as $field) {
+            if($field['label'] == 'Team Name') {
+               $teamname = $field['value'];
+            }
+            if($field['label'] == 'Account Password') {
+                $password = $field['value'];
+            }
+        }
 
         $user = User::firstOrNew(['email' => $last_customer['email']]);
         $user->name = $last_customer['name'];
         $user->email = $last_customer['email'];
-        $user->password = Hash::make($last_customer['name']);
+        $user->password = Hash::make($password);
         $user->save();
         $user->assignRole('manager');
 
         $team = Team::firstOrNew(['user_id' => $user->id]);
-        $team->name = 'Team Name';
+        $team->name = $teamname;
         $team->user = $last_customer['name'];
         $team->created_by = $last_customer['name'];
         $team->user_id = $user->id;
         $team->save();
 
         return redirect('/')->withSuccess('You have registered successfully!');
+    }
+
+    public function test(){
+        $response = Http::withToken("e0ea17d4-847a-4515-8069-3172d831668b")
+            ->get('https://api.plugnpaid.com/v1/orders/list');
+
+
+        return $response->json();
     }
 }

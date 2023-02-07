@@ -23,11 +23,12 @@
                     @endforeach
                 </div>
             @endif
-        <form method="post" action="/manager/profile/update" enctype="multipart/form-data">
-            @csrf
+
          <!-- panel  -->
             <div class="row">
                 <div class="col-md-12">
+                    <form method="post" action="/manager/profile/update" enctype="multipart/form-data">
+                        @csrf
                     @if($profile->image)
                     <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset('storage/'.$profile->image)}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
                         @else
@@ -67,21 +68,23 @@
 
                     </form>
                 </div>
-
             </div>
+
         </div>
+
     </div>
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Billing History</h6>
         </div>
         <div class="card-body">
-            <form method="post" action="/manager/profile/changepassword">
+            <form method="post" action="/manager/profile/billing">
                 @csrf
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Current Password</label>
+                        <label class="col-sm-3 control-label">Billing History</label>
                         <div class="col-sm-6">
                             <input type="password"  name="password" class="form-control" required placeholder="Enter current password" />
                         </div>
@@ -101,13 +104,47 @@
                     <div class="col-sm-offset-3 col-sm-9 m-t-15">
                         <button type="submit" class="btn btn-primary"><span class="btn-label"><i class="fa fa-refresh"></i></span> Change Now</button>
                     </div>
-
+                </div>
+            </div>
                 </form>
                 </div>
             </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/manager/profile/changepassword">
+                @csrf
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Current Password</label>
+                            <div class="col-sm-6">
+                                <input type="password"  name="password" class="form-control" required placeholder="Enter current password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">New Password</label>
+                            <div class="col-sm-6">
+                                <input type="password"  id="new_password" name="new_password" class="form-control" required placeholder="Enter new password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Retype New Password</label>
+                            <div class="col-sm-6">
+                                <input type="password"  data-parsley-equalto="#new_password" name="retype_new_password" class="form-control" required placeholder="Enter new password" />
+                            </div>
+                        </div>
+                        <div class="col-sm-offset-3 col-sm-9 m-t-15">
+                            <button type="submit" class="btn btn-primary"><span class="btn-label"><i class="fa fa-refresh"></i></span> Change Now</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
 
 
     <!--instant image dispaly-->
