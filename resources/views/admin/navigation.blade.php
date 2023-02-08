@@ -25,15 +25,16 @@
         </div>
     </li>
 
-    <li class="nav-item {{ (Request::is('admin/settings')) || (Request::is('admin/email-settings')) || (Request::is('admin/logo-settings'))  ? 'active' : '' }}">
+    <li class="nav-item {{ (Request::is('admin/settings')) || (Request::is('admin/email-settings')) || (Request::is('admin/logo-settings')) || (Request::is('admin/api-settings'))  ? 'active' : '' }}">
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
             <i class="fas fa-fw fa-cog" aria-hidden="true"></i><span>Setting</span>
         </a>
-        <div id="collapseSetting" class="collapse {{ (Request::is('admin/settings')) || (Request::is('admin/email-settings')) || (Request::is('admin/logo-settings'))  ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseSetting" class="collapse {{ (Request::is('admin/settings')) || (Request::is('admin/email-settings')) || (Request::is('admin/logo-settings')) || (Request::is('admin/api-settings'))  ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ (Request::is('admin/settings')) ? 'active' : '' }}" href="/admin/settings">System Setting</a>
                 <a class="collapse-item {{ (Request::is('admin/email-settings')) ? 'active' : '' }}" href="/admin/email-settings">Email Setting</a>
                 <a class="collapse-item {{ (Request::is('admin/logo-settings')) ? 'active' : '' }}" href="/admin/logo-settings">Logo & Image</a>
+                <a class="collapse-item {{ (Request::is('admin/api-settings')) ? 'active' : '' }}" href="/admin/api-settings">API Setting</a>
             </div>
         </div>
     </li>

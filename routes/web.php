@@ -74,6 +74,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/email-settings', [AdminController::class, 'do_emailSettings'])->name('admin.email.do_settings');
     Route::get('/admin/logo-settings', [AdminController::class, 'logoSettings'])->name('admin.logo.settings');
     Route::post('/admin/logo-settings', [AdminController::class, 'do_logoSettings'])->name('admin.logo.do_settings');
+    Route::get('/admin/api-settings', [AdminController::class, 'apiSettings'])->name('admin.api.settings');
+    Route::post('/admin/api-settings', [AdminController::class, 'do_apiSettings'])->name('admin.api.do_settings');
 
     Route::get('/admin/meeting', [AdminController::class, 'meeting'])->name('admin.meeting');
     Route::get('/admin/meeting/add', [AdminController::class, 'meeting_add'])->name('admin.meeting_add');

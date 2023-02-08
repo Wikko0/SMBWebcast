@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ApiSettings;
 use App\Models\Common;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use Spatie\FlareClient\Api;
 
 class AdminController extends Controller
 {
@@ -403,6 +405,28 @@ class AdminController extends Controller
                 return redirect()->back()->withSuccess('You have added this images successfully!');
             }
 
+    }
+
+    public function apiSettings()
+    {
+        $title = 'API Setting';
+        $api = ApiSettings::first();
+        return view('admin.api-settings',['title' => $title, 'api' => $api]);
+    }
+
+    public function do_apiSettings(Request $request)
+    {
+        $request->validate([
+            'plugnpaid_api' => 'required',
+
+        ]);
+
+        ApiSettings::where('id', $request->id)
+            ->update([
+                'plugnpaid_api' => $request->plugnpaid_api,
+            ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
 
     public function meeting(Request $request)

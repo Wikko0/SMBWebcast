@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingSeeder::class);
         $this->call(MailsettingsSeeder::class);
         $this->call(NotificationSeeder::class);
+        $this->call(ApisettingsSeeder::class);
 
     }
 }

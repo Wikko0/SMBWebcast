@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ApiSettings;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ use Illuminate\Support\Facades\Http;
 class PlugnPaidController extends Controller
 {
     public function index(){
-        $response = Http::withToken("b02591f5-71e3-4a97-a4c0-8f7f2fcfb96e")
+        $api = ApiSettings::first();
+        $response = Http::withToken($api->plugnpaid_api)
             ->get('https://api.plugnpaid.com/v1/customers/list');
 
         $customers = $response['customers'];
