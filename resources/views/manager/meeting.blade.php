@@ -26,13 +26,22 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-md-3">
-                            <a href="{{ route('manager.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
+                        @if($difference < 0)
+                            <div class="col-md-3">
                                 <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
-                                <span class="text">Add</span>
-                            </a>
-                            <br>
-                        </div>
+                                <span class="text">Your free trial has expired!</span>
+                                <br>
+                            </div>
+                        @else
+                            <div class="col-md-3">
+                                <a href="{{ route('manager.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
+                                    <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
+                                    <span class="text">Add</span>
+                                </a>
+                                <br>
+                            </div>
+                        @endif
+
                         <div class="col-md-9">
                             <form class="form-inline " method="get" action="/manager/meeting">
                                 <div class="form-group mx-sm-3 mb-2">
@@ -63,14 +72,19 @@
                         <tr id='row_{{$meeting->id}}'>
                             <td>{{$meeting->id}}</td>
                             <td>
-                                <div class="dropdown no-arrow mb-4">
-                                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="/room/{{$meeting->meeting_id}}" target="_blank">Join Meeting</a>
-                                        <a class="dropdown-item" href="/manager/meeting/edit/{{$meeting->id}}">Edit</a>
-                                        <a class="dropdown-item" href="/manager/meeting/delete/{{$meeting->id}}">Delete</a>
+                                @if($difference < 0)
+
+                                @else
+                                    <div class="dropdown no-arrow mb-4">
+                                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="/room/{{$meeting->meeting_id}}" target="_blank">Join Meeting</a>
+                                            <a class="dropdown-item" href="/manager/meeting/edit/{{$meeting->id}}">Edit</a>
+                                            <a class="dropdown-item" href="/manager/meeting/delete/{{$meeting->id}}">Delete</a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
                             </td>
                             <td><strong>{{$meeting->title}}</strong></td>
                             <td>{{$meeting->meeting_id}}</td>

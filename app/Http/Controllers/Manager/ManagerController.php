@@ -140,6 +140,10 @@ class ManagerController extends Controller
     public function manage_user(Request $request)
     {
         $title = 'Manage Users';
+        $check = Webhook::where('payer_email', Auth::user()->email)->first();
+        $start_time = $check->start_time;
+        $end_time = $check->end_time;
+        $difference = $end_time - $start_time;
         $loggedInUserName = Auth::user()->name;
         $users = User::whereHas('team', function ($query) use ($loggedInUserName) {
             $query->where('created_by', $loggedInUserName);
@@ -154,7 +158,7 @@ class ManagerController extends Controller
                 ->paginate(5);
         }
 
-        return view('manager.manage_user',['title' => $title, 'users' => $users]);
+        return view('manager.manage_user',['title' => $title, 'users' => $users, 'difference' => $difference]);
     }
 
     public function user_add()
@@ -233,13 +237,17 @@ class ManagerController extends Controller
     public function meeting(Request $request)
     {
         $title = 'Meetings';
+        $check = Webhook::where('payer_email', Auth::user()->email)->first();
+        $start_time = $check->start_time;
+        $end_time = $check->end_time;
+        $difference = $end_time - $start_time;
         $meetings = Meeting::where('created_by', Auth::user()->name)->get();
         $search = $request->get('meeting_code');
         if ($search)
         {
             $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
         }
-        return view('manager.meeting',['title' => $title, 'meetings' => $meetings]);
+        return view('manager.meeting',['title' => $title, 'meetings' => $meetings, 'difference' => $difference]);
     }
 
     public function meeting_add()
