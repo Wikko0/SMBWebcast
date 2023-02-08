@@ -8,6 +8,7 @@ use App\Models\Meeting;
 use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Webhook;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -52,7 +53,15 @@ class ManagerController extends Controller
         $title = 'Manage Profile';
         $profile = Auth::user();
         $team = Auth::user()->team;
-        return view('manager.profile', ['title' => $title, 'profile' => $profile, 'team' => $team]);
+        $billing = Webhook::where('payer_email', Auth::user()->email)->first();
+        $expires =  $billing->end_time - $billing->start_time;
+        if ($expires <= 0){
+            $time = 'Expired';
+        }else
+        {
+            $time = date("Y-m-d H:i:s", $billing->end_time);
+        }
+        return view('manager.profile', ['title' => $title, 'profile' => $profile, 'team' => $team, 'billing' => $billing, 'time' => $time]);
     }
 
     public function do_profile(Request $request)
@@ -72,11 +81,16 @@ class ManagerController extends Controller
             $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
             $photo->save();
 
+            Webhook::where('payer_email', Auth::user()->email)
+                ->update(['payer_email' => $request->email]);
+
+
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'image' => $photoPath,
             ]);
+
 
             $profile->team->update([
                 'name' => $request->team,
@@ -84,10 +98,15 @@ class ManagerController extends Controller
                 'created_by' => $request->name,
             ]);
         }else{
+            Webhook::where('payer_email', Auth::user()->email)
+                ->update(['payer_email' => $request->email]);
+
+
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
+
             $profile->team->update([
                 'name' => $request->team,
                 'user' => $request->name,

@@ -12,6 +12,7 @@ use App\Models\NotificationSettings;
 use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
+use App\Models\Webhook;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -224,13 +225,18 @@ class AdminController extends Controller
 
         if ($request->role == 'manager')
         {
+
             $user = User::find($request->id);
+            Webhook::where('payer_email', $user->email)
+                ->update(['payer_email' => $request->email]);
+
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
             $user->assignRole('manager');
+
 
             Team::where('user', $user->name)->update([
                     'name' => $request->team

@@ -30,7 +30,6 @@ Route::webhooks('webhook');
 Auth::routes(
     ['verify' => false,'register' => false,]);
 Route::get('/api', [PlugnPaidController::class, 'index']);
-Route::get('/test', [PlugnPaidController::class, 'test']);
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);
@@ -95,6 +94,24 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:manager'])->group(function () {
+
+    Route::middleware(['expire'])->group(function () {
+        Route::get('/manager/manage/add', [ManagerController::class, 'user_add'])->name('manager.manage_user_add');
+        Route::post('/manager/add', [ManagerController::class, 'do_user_add'])->name('manager.do_user_add');
+        Route::get('/manager/manage/edit/{id}', [ManagerController::class, 'user_edit'])->name('manager.manage_user_edit');
+        Route::post('/manager/edit', [ManagerController::class, 'do_user_edit'])->name('manager.do_user_edit');
+        Route::get('/manager/manage/delete/{id}', [ManagerController::class, 'user_delete'])->name('manager.manage_user_delete');
+
+        Route::get('/manager/meeting/add', [ManagerController::class, 'meeting_add'])->name('manager.meeting_add');
+        Route::post('/manager/meeting/add', [ManagerController::class, 'do_meeting_add'])->name('manager.do_meeting_add');
+        Route::get('/manager/meeting/edit/{id}', [ManagerController::class, 'meeting_edit'])->name('manager.meeting_edit');
+        Route::post('/manager/meeting/edit', [ManagerController::class, 'do_meeting_edit'])->name('manager.do_meeting_edit');
+        Route::get('/manager/meeting/delete/{id}', [ManagerController::class, 'meeting_delete'])->name('manager.meeting_delete');
+
+    });
+
+
+
     Route::get('/manager', [ManagerController::class, 'dashboard'])->name('manager.dashboard');
     Route::get('/manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
     Route::post('/manager/profile/update', [ManagerController::class, 'do_profile'])->name('manager.profile.update');
@@ -102,18 +119,9 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
 
 
     Route::get('/manager/manage', [ManagerController::class, 'manage_user'])->name('manager.manage_user');
-    Route::get('/manager/manage/add', [ManagerController::class, 'user_add'])->name('manager.manage_user_add');
-    Route::post('/manager/add', [ManagerController::class, 'do_user_add'])->name('manager.do_user_add');
-    Route::get('/manager/manage/edit/{id}', [ManagerController::class, 'user_edit'])->name('manager.manage_user_edit');
-    Route::post('/manager/edit', [ManagerController::class, 'do_user_edit'])->name('manager.do_user_edit');
-    Route::get('/manager/manage/delete/{id}', [ManagerController::class, 'user_delete'])->name('manager.manage_user_delete');
+
 
     Route::get('/manager/meeting', [ManagerController::class, 'meeting'])->name('manager.meeting');
-    Route::get('/manager/meeting/add', [ManagerController::class, 'meeting_add'])->name('manager.meeting_add');
-    Route::post('/manager/meeting/add', [ManagerController::class, 'do_meeting_add'])->name('manager.do_meeting_add');
-    Route::get('/manager/meeting/edit/{id}', [ManagerController::class, 'meeting_edit'])->name('manager.meeting_edit');
-    Route::post('/manager/meeting/edit', [ManagerController::class, 'do_meeting_edit'])->name('manager.do_meeting_edit');
-    Route::get('/manager/meeting/delete/{id}', [ManagerController::class, 'meeting_delete'])->name('manager.meeting_delete');
-    Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
+     Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
     Route::post('/manager/join', [ManagerController::class, 'join'])->name('manager.join');
    });

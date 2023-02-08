@@ -21,8 +21,10 @@ class WebhookHandler extends ProcessWebhookJob
         Webhook::create([
            'product_name' => $object['data']['order']['products'][0]['title'],
            'product_price' => $object['data']['order']['amount_total'],
+           'currency' => $object['data']['order']['currency'],
+           'payment_method' => $object['data']['order']['payment_method'],
            'cancellation_link' => $cancellation_link,
-           'status' => $object['data']['order']['status'],
+           'status' => $object['data']['subscription']['status'],
            'start_time' => $startTime,
            'end_time' => $endTime,
            'payer_email' => $object['data']['order']['customer']['addresses']['billing'][0]['email'],

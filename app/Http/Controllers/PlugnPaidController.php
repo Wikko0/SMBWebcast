@@ -47,11 +47,4 @@ class PlugnPaidController extends Controller
         return redirect('/')->withSuccess('You have registered successfully!');
     }
 
-    public function test(){
-        $response = Http::withToken("e0ea17d4-847a-4515-8069-3172d831668b")
-            ->get('https://api.plugnpaid.com/v1/orders/list');
-
-
-        return $response->json();
-    }
 }

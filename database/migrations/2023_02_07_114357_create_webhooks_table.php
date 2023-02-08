@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('product_name');
             $table->string('product_price');
+            $table->string('currency');
+            $table->string('payment_method');
             $table->string('cancellation_link');
             $table->string('status');
             $table->string('start_time');
