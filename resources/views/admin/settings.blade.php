@@ -61,10 +61,10 @@
                     </div>
 
                     <div class="form-group row">
-                        <label class="col-sm-3 control-label">Address</label>
+                        <label class="col-sm-3 control-label">Email Address</label>
                         <div class="col-sm-9">
-                            <textarea rows="5" name="adress" class="form-control">{{$settings['settings']->address}}</textarea>
-                        </div>
+                            <input type="text"  value="{{$settings['settings']->address}}" name="address" class="form-control" required  />
+                             </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Phone</label>

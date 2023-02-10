@@ -15,7 +15,7 @@
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
 
-            <form class="user" action="/api" method="post">
+            <form class="user" action="/join" method="post">
                 @csrf
                 <div class="form-group">
                     <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID">

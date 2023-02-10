@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\ApiSettings;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class PlugnPaidController extends Controller
 {
@@ -45,6 +45,8 @@ class PlugnPaidController extends Controller
         $team->created_by = $last_customer['name'];
         $team->user_id = $user->id;
         $team->save();
+
+        Mail::to($last_customer['email'])->send(new WelcomeMail());
 
         return redirect('/')->withSuccess('You have registered successfully!');
     }

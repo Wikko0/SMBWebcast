@@ -8,8 +8,9 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PlugnPaidController;
 use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\WebhookController;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,7 @@ use App\Http\Controllers\WebhookController;
 | Guests Role
 |--------------------------------------------------------------------------
 */
+
 Route::webhooks('webhook');
 Auth::routes(
     ['verify' => false,'register' => false,]);

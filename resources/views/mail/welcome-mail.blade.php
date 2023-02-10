@@ -386,7 +386,7 @@
                                     style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:42px;line-height:52px;font-weight:400;font-style:normal;color:#FFFFFF;text-decoration:none;letter-spacing:0px;">
 
                                     <div>
-                                        Welcome
+                                        Hey, Welcome
                                     </div>
 
                                 </td>
@@ -399,7 +399,7 @@
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;font-weight:300;font-style:normal;color:#FFFFFF;text-decoration:none;letter-spacing:0px;">
 
                                     <div>
-                                        111
+                                        Text here
                                     </div>
 
                                 </td>
@@ -421,8 +421,8 @@
                                                         <td align="center" height="50" style="height:50px;">
                                                 <![endif]-->
 
-                                                <a href="/" target="_blank"
-                                                   style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>{{ __('pleb.mail.action_button') }}</span></a>
+                                                <a href="{{ env('APP_URL') }}" target="_blank"
+                                                   style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>GET STARTED</span></a>
 
                                                 <!--[if (gte mso 9)|(IE)]>
                                                 </td>
@@ -452,7 +452,7 @@
                 <tr>
                     <td align="center" bgcolor="#FFFFFF">
                         <img style="width:50px;border:0px;display: inline!important;"
-                             src="/" width="50" border="0" alt="arrow">
+                             src="{{ asset('img/mail/arrow.png') }}" width="50" border="0" alt="arrow">
                     </td>
                 </tr>
             </table>
@@ -503,7 +503,7 @@
                                                         <td align="center">
                                                             <img
                                                                 style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ __('pleb.mail.icon_one') }}"
+                                                                width="70" src="{{ asset('img/mail/mail_icon_1.png') }}"
                                                                 border="0" alt="icon">
                                                         </td>
                                                     </tr>
@@ -535,7 +535,7 @@
                                                             style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Headline One') }}
+                                                                Headline One
                                                             </div>
 
                                                         </td>
@@ -549,7 +549,7 @@
                                                             style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Paragraph One') }}
+                                                                Paragraph One
                                                             </div>
 
                                                         </td>
@@ -608,7 +608,7 @@
                                                         <td align="center">
                                                             <img
                                                                 style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ __('pleb.mail.icon_two') }}"
+                                                                width="70" src="{{ asset('img/mail/mail_icon_2.png') }}"
                                                                 border="0" alt="icon">
                                                         </td>
                                                     </tr>
@@ -640,7 +640,7 @@
                                                             style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Headline Two') }}
+                                                                Headline
                                                             </div>
 
                                                         </td>
@@ -654,7 +654,7 @@
                                                             style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Paragraph Two') }}
+                                                                Paragraph two
                                                             </div>
 
                                                         </td>
@@ -713,7 +713,7 @@
                                                         <td align="center">
                                                             <img
                                                                 style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ __('pleb.mail.icon_three') }}"
+                                                                width="70" src="{{ asset('img/mail/mail_icon_3.png') }}"
                                                                 border="0" alt="icon">
                                                         </td>
                                                     </tr>
@@ -745,7 +745,7 @@
                                                             style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Headline Three') }}
+                                                                Headline
                                                             </div>
 
                                                         </td>
@@ -759,7 +759,7 @@
                                                             style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
                                                             <div>
-                                                                {{ __('pleb.mail.Paragraph Three') }}
+                                                                Paragraph three
                                                             </div>
 
                                                         </td>
@@ -799,96 +799,7 @@
                             </tr>
                             <tr>
                                 <td align="center">
-                                    <!-- Social Icons -->
-                                    <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation"
-                                           width="100%" style="width:100%;max-width:100%;">
-                                        <tr>
-                                            <td align="center">
-                                                <table border="0" align="center" cellpadding="0" cellspacing="0"
-                                                       role="presentation">
-                                                    <tr>
-                                                        <td class="rwd-on-mobile" align="center" valign="middle"
-                                                            height="36" style="height: 36px;">
-                                                            @if( config('pleb.mail.instagram_url') != '')
-                                                                <table border="0" align="center" cellpadding="0"
-                                                                       cellspacing="0" role="presentation">
-                                                                    <tr>
-                                                                        <td width="10"></td>
-                                                                        <td align="center">
-                                                                            <a href="{{ config('pleb.mail.facebook_url') }}"><img
-                                                                                    style="width:36px;border:0px;display: inline!important;"
-                                                                                    src="{{ asset('assets/img/emails/Facebook.png') }}"
-                                                                                    width="36" border="0"
-                                                                                    alt="icon"></a>
-                                                                        </td>
-                                                                        <td width="10"></td>
-                                                                    </tr>
-                                                                </table>
-                                                            @endif
-                                                        </td>
-                                                        <td class="rwd-on-mobile" align="center" valign="middle"
-                                                            height="36" style="height: 36px;">
-                                                            @if( config('pleb.mail.instagram_url') != '')
-                                                                <table border="0" align="center" cellpadding="0"
-                                                                       cellspacing="0" role="presentation">
-                                                                    <tr>
-                                                                        <td width="10"></td>
-                                                                        <td align="center">
-                                                                            <a href="{{ config('pleb.mail.instagram_url') }}"><img
-                                                                                    style="width:36px;border:0px;display: inline!important;"
-                                                                                    src="{{ asset('assets/img/emails/Instagram.png') }}"
-                                                                                    width="36" border="0"
-                                                                                    alt="icon"></a>
-                                                                        </td>
-                                                                        <td width="10"></td>
-                                                                    </tr>
-                                                                </table>
-                                                            @endif
-                                                        </td>
-                                                        <td class="rwd-on-mobile" align="center" valign="middle"
-                                                            height="36" style="height: 36px;">
-                                                            @if( config('pleb.mail.twitter_url') != '')
-                                                                <table border="0" align="center" cellpadding="0"
-                                                                       cellspacing="0" role="presentation">
-                                                                    <tr>
-                                                                        <td width="10"></td>
-                                                                        <td align="center">
-                                                                            <a href="{{ config('pleb.mail.twitter_url') }}"><img
-                                                                                    style="width:36px;border:0px;display: inline!important;"
-                                                                                    src="{{ asset('assets/img/emails/Twitter.png') }}"
-                                                                                    width="36" border="0"
-                                                                                    alt="icon"></a>
-                                                                        </td>
-                                                                        <td width="10"></td>
-                                                                    </tr>
-                                                                </table>
-                                                            @endif
-                                                        </td>
-                                                        <td class="rwd-on-mobile" align="center" valign="middle"
-                                                            height="36" style="height: 36px;">
-                                                            @if( config('pleb.mail.pinterest_url') != '')
-                                                                <table border="0" align="center" cellpadding="0"
-                                                                       cellspacing="0" role="presentation">
-                                                                    <tr>
-                                                                        <td width="10"></td>
-                                                                        <td align="center">
-                                                                            <a href="{{ config('pleb.mail.pinterest_url') }}"><img
-                                                                                    style="width:36px;border:0px;display: inline!important;"
-                                                                                    src="{{ asset('assets/img/emails/Pinterest.png') }}"
-                                                                                    width="36" border="0"
-                                                                                    alt="icon"></a>
-                                                                        </td>
-                                                                        <td width="10"></td>
-                                                                    </tr>
-                                                                </table>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- Social Icons -->
+
                                 </td>
                             </tr>
                             <tr>
@@ -898,9 +809,8 @@
                                 <td class="center-text" align="center"
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
-                                    <div>
-                                        {{ config('pleb.mail.street_address') }}
-                                    </div>
+                                    <a href="tel:0876206073"
+                                       style="color:#6e6e6e;"><span>Phone:{{$settings['settings']->phone}}</span></a>
 
                                 </td>
                             </tr>
@@ -908,61 +818,14 @@
                                 <td class="center-text" align="center"
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
-                                    <a href="tel:{{ config('pleb.mail.phone_number') }}"
-                                       style="color:#6e6e6e;"><span>{{ config('pleb.mail.phone_number') }}</span></a>
-
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="center-text" align="center"
-                                    style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
-
-                                    <a href="mailto:{{ config('pleb.mail.info_email') }}"
-                                       style="color:#6e6e6e;"><span>{{ config('pleb.mail.info_email') }}</span></a> - <a
+                                    <a href="mailto:{{$settings['settings']->address}}"
+                                       style="color:#6e6e6e;"><span>Mail:{{$settings['settings']->address}}</span></a> - <a
                                         href="{{ url('/') }}" style="color:#6e6e6e;"><span>{{ url('/') }}</span></a>
 
                                 </td>
                             </tr>
                             <tr>
                                 <td height="30" style="font-size:30px;line-height:30px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                @if( config('pleb.mail.play_url') != '' || config('pleb.mail.ios_url') != '' )
-                                    <!-- Buttons -->
-                                        <table border="0" align="center" cellpadding="0" cellspacing="0"
-                                               role="presentation" class="row" width="100%"
-                                               style="width:100%;max-width:100%;">
-                                            <tr>
-                                                <td align="center">
-                                                    <!-- column -->
-                                                    <table border="0" align="center" cellpadding="0" cellspacing="0"
-                                                           role="presentation">
-                                                        <tr>
-                                                            <td align="center">
-                                                                <a href="{{config('pleb.mail.ios_url')}}"><img
-                                                                        style="display:block;width:100%;max-width:117px;border:0px;"
-                                                                        width="117"
-                                                                        src="{{ asset('assets/img/emails/App-Store.png') }}"
-                                                                        border="0" alt="icon"></a>
-                                                            </td>
-                                                            <td width="10" style="width: 10px;"></td>
-                                                            <td align="center">
-                                                                <a href="{{config('pleb.mail.play_url')}}"><img
-                                                                        style="display:block;width:100%;max-width:117px;border:0px;"
-                                                                        width="117"
-                                                                        src="{{ asset('assets/img/emails/Google-play.png') }}"
-                                                                        border="0" alt="icon"></a>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <!-- column -->
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <!-- Buttons -->
-                                    @endif
-                                </td>
                             </tr>
                             <tr>
                                 <td height="30" style="font-size:30px;line-height:30px;">&nbsp;</td>
