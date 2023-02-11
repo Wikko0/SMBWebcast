@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
 use App\Models\ApiSettings;
 use App\Models\Common;
+use App\Models\GoogleSettings;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Meeting;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Spatie\FlareClient\Api;
+use Sheets;
 
 class AdminController extends Controller
 {
@@ -431,7 +433,8 @@ class AdminController extends Controller
     {
         $title = 'API Setting';
         $api = ApiSettings::first();
-        return view('admin.api-settings',['title' => $title, 'api' => $api]);
+        $google = GoogleSettings::first();
+        return view('admin.api-settings',['title' => $title, 'api' => $api, 'google' => $google]);
     }
 
     public function do_apiSettings(Request $request)
@@ -444,6 +447,27 @@ class AdminController extends Controller
         ApiSettings::where('id', $request->id)
             ->update([
                 'plugnpaid_api' => $request->plugnpaid_api,
+            ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function do_apiGoogle(Request $request)
+    {
+        $request->validate([
+            'google_client_id' => 'required',
+            'google_client_secret' => 'required',
+            'spreadsheet' => 'required',
+            'sheet_name' => 'required',
+
+        ]);
+
+        GoogleSettings::where('id', $request->id)
+            ->update([
+                'google_client_id' => $request->google_client_id,
+                'google_client_secret' => $request->google_client_secret,
+                'spreadsheet' => $request->spreadsheet,
+                'sheet_name' => $request->sheet_name,
             ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
@@ -620,4 +644,5 @@ class AdminController extends Controller
 
         return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
     }
+
 }

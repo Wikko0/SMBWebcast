@@ -8,6 +8,7 @@ use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
 use App\Http\Controllers\PlugnPaidController;
 use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\GoogleSheetController;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
@@ -32,6 +33,7 @@ Route::webhooks('webhook');
 Auth::routes(
     ['verify' => false,'register' => false,]);
 Route::get('/api', [PlugnPaidController::class, 'index']);
+
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);
@@ -78,6 +80,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/logo-settings', [AdminController::class, 'do_logoSettings'])->name('admin.logo.do_settings');
     Route::get('/admin/api-settings', [AdminController::class, 'apiSettings'])->name('admin.api.settings');
     Route::post('/admin/api-settings', [AdminController::class, 'do_apiSettings'])->name('admin.api.do_settings');
+    Route::post('/admin/api-google', [AdminController::class, 'do_apiGoogle'])->name('admin.api.do_google');
 
     Route::get('/admin/meeting', [AdminController::class, 'meeting'])->name('admin.meeting');
     Route::get('/admin/meeting/history', [AdminController::class, 'meetingHistory'])->name('admin.meeting.history');

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MailsettingsSeeder::class);
         $this->call(NotificationSeeder::class);
         $this->call(ApisettingsSeeder::class);
+        $this->call(GoogleSeeder::class);
 
     }
 }
