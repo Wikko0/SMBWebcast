@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.manager')
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -28,7 +28,7 @@
                     <div class="row">
 
                         <div class="col-md-9">
-                            <form class="form-inline " method="get" action="/admin/meeting/history">
+                            <form class="form-inline " method="get" action="/manager/meeting">
                                 <div class="form-group mx-sm-3 mb-2">
                                     <label for="title" class="sr-only">Meeting Title</label>
                                     <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting Title">&nbsp;

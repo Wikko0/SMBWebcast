@@ -14,14 +14,15 @@
     <hr class="sidebar-divider my-0">
     <li class="nav-item {{ (Request::is('manager')) ? 'active' : '' }}"><a class="nav-link" href="/manager"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard</span></a> </li>
     <li class="nav-item {{ (Request::is('manager/manage')) ? 'active' : '' }}"><a class="nav-link" href="/manager/manage"><i class="fas fa-fw fa-users"></i><span>Users</span></a></li>
-    <li class="nav-item {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) ? 'active' : '' }}" >
+    <li class="nav-item {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) || (Request::is('manager/meeting/history')) ? 'active' : '' }}" >
         <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseMeeting" aria-expanded="true" aria-controls="collapseMeeting">
             <i class="fas fa-fw fa-video" aria-hidden="true"></i><span>Meeting</span>
         </a>
-        <div id="collapseMeeting" class="collapse {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseMeeting" class="collapse {{ (Request::is('manager/meeting')) || (Request::is('manager/join')) || (Request::is('manager/meeting/history')) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item {{ (Request::is('manager/meeting')) ? 'active' : '' }}" href="/manager/meeting">All Meeting</a>
                 <a class="collapse-item {{ (Request::is('manager/join')) ? 'active' : '' }}" href="/manager/join">Join Meeting</a>
+                <a class="collapse-item {{ (Request::is('manager/meeting/history')) ? 'active' : '' }}" href="/manager/meeting/history">Meeting History</a>
             </div>
         </div>
     </li>

@@ -173,6 +173,21 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
+            $startTime = time();
+            $endTime = strtotime("1 Year");
+            Webhook::create([
+                'product_name' => 'Added by Admin',
+                'product_price' => '0',
+                'currency' => 'EUR',
+                'payment_method' => 'Admin',
+                'cancellation_link' => '.',
+                'status' => 'Paid',
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'payer_email' => $request->email,
+            ]);
+
+
             Mail::to($request->email)->send(new WelcomeMail());
         }
 

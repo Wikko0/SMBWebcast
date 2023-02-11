@@ -127,6 +127,7 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
 
 
     Route::get('/manager/meeting', [ManagerController::class, 'meeting'])->name('manager.meeting');
+    Route::get('/manager/meeting/history', [ManagerController::class, 'meetingHistory'])->name('manager.meeting.history');
      Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
     Route::post('/manager/join', [ManagerController::class, 'join'])->name('manager.join');
    });

@@ -237,6 +237,22 @@ class ManagerController extends Controller
         return redirect()->back()->withSuccess('You have deleted this user successfully!');
     }
 
+    public function meetingHistory(Request $request)
+    {
+        $title = 'Meetings History';
+        $check = Webhook::where('payer_email', Auth::user()->email)->first();
+        $start_time = $check->start_time;
+        $end_time = $check->end_time;
+        $difference = $end_time - $start_time;
+        $meetings = Meeting::onlyTrashed()->where('created_by', Auth::user()->name)->get();
+        $search = $request->get('meeting_code');
+        if ($search)
+        {
+            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
+        }
+        return view('manager.meeting_history',['title' => $title, 'meetings' => $meetings, 'difference' => $difference]);
+    }
+
     public function meeting(Request $request)
     {
         $title = 'Meetings';
