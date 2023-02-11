@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeMail;
 use App\Models\ApiSettings;
 use App\Models\Common;
 use App\Models\LogoSettings;
@@ -18,6 +19,7 @@ use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use Spatie\FlareClient\Api;
@@ -119,7 +121,7 @@ class AdminController extends Controller
         $search = $request->get('name');
         if ($search)
         {
-            $users = User::where('name', 'like', '%'.$search.'%')->with('roles')->paginate(5);
+            $users = User::where('email', 'like', '%'.$search.'%')->with('roles')->paginate(5);
         }
 
         return view('admin.manage_user',['title' => $title, 'users' => $users]);
@@ -155,6 +157,7 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
+            Mail::to($request->email)->send(new WelcomeMail());
         }
 
         if ($request->role == 'manager')
@@ -170,6 +173,7 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
+            Mail::to($request->email)->send(new WelcomeMail());
         }
 
         if ($request->role == 'admin')
@@ -185,6 +189,7 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
+            Mail::to($request->email)->send(new WelcomeMail());
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }
@@ -436,7 +441,7 @@ class AdminController extends Controller
         $search = $request->get('meeting_code');
         if ($search)
         {
-            $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
+            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
         }
         return view('admin.meeting',['title' => $title, 'meetings' => $meetings]);
     }

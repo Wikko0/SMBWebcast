@@ -131,10 +131,21 @@
                       <span class="btn-label">
                         <i class="fa fa-refresh"></i>
                       </span>
+                                    Cancel Subscribe
+                                </button>
+                            </a>
+
+                            <a href="{{$billing->cancellation_link}}" target="_blank">
+                                <button type="button" class="btn btn-primary">
+                      <span class="btn-label">
+                        <i class="fa fa-refresh"></i>
+                      </span>
                                     Subscribe
                                 </button>
                             </a>
                         </div>
+
+
                     </div>
                 </div>
 

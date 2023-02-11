@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeMail;
 use App\Models\Common;
 use App\Models\Meeting;
 use App\Models\Settings;
@@ -13,6 +14,7 @@ use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 
@@ -151,7 +153,7 @@ class ManagerController extends Controller
         $search = $request->get('name');
         if ($search)
         {
-            $users = User::where('name', 'like', '%'.$search.'%')
+            $users = User::where('email', 'like', '%'.$search.'%')
                 ->whereHas('team', function ($query) use ($loggedInUserName) {
                     $query->where('created_by', $loggedInUserName);
                 })
@@ -188,6 +190,7 @@ class ManagerController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
+        Mail::to($request->email)->send(new WelcomeMail());
 
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }
@@ -245,7 +248,7 @@ class ManagerController extends Controller
         $search = $request->get('meeting_code');
         if ($search)
         {
-            $meetings = Meeting::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
+            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
         }
         return view('manager.meeting',['title' => $title, 'meetings' => $meetings, 'difference' => $difference]);
     }

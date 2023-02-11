@@ -36,8 +36,8 @@
                         <div class="col-md-9">
                             <form class="form-inline " method="get" action="/admin/manage">
                                 <div class="form-group mx-sm-3 mb-2">
-                                    <label for="title" class="sr-only">Name</label>
-                                    <input type="text" name="name" class="form-control form-control-sm" id="title" placeholder="User Name">&nbsp;
+                                    <label for="title" class="sr-only">E-Mail</label>
+                                    <input type="text" name="name" class="form-control form-control-sm" id="title" placeholder="User E-Mail">&nbsp;
                                     <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
                                         <span class="icon text-white-50"><i class="fa fa-search"></i></span>
                                         <span class="text">Search</span>

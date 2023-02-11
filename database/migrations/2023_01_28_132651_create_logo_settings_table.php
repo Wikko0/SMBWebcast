@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('logo_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->default('1');
+            $table->string('key')->default('logo');
             $table->string('logo')->nullable();
             $table->string('image')->nullable();
             $table->string('favicon')->nullable();
