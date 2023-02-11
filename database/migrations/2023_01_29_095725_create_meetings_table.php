@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('joined')->default(1);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

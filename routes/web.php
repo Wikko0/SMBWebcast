@@ -80,6 +80,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/api-settings', [AdminController::class, 'do_apiSettings'])->name('admin.api.do_settings');
 
     Route::get('/admin/meeting', [AdminController::class, 'meeting'])->name('admin.meeting');
+    Route::get('/admin/meeting/history', [AdminController::class, 'meetingHistory'])->name('admin.meeting.history');
     Route::get('/admin/meeting/add', [AdminController::class, 'meeting_add'])->name('admin.meeting_add');
     Route::post('/admin/meeting/add', [AdminController::class, 'do_meeting_add'])->name('admin.do_meeting_add');
     Route::get('/admin/meeting/edit/{id}', [AdminController::class, 'meeting_edit'])->name('admin.meeting_edit');

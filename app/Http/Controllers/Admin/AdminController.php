@@ -434,6 +434,18 @@ class AdminController extends Controller
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
 
+    public function meetingHistory(Request $request)
+    {
+        $title = 'Meetings History';
+        $meetings = Meeting::onlyTrashed()->get();
+        $search = $request->get('meeting_code');
+        if ($search)
+        {
+            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
+        }
+        return view('admin.meeting_history',['title' => $title, 'meetings' => $meetings]);
+    }
+
     public function meeting(Request $request)
     {
         $title = 'Meetings';
