@@ -645,4 +645,30 @@ class AdminController extends Controller
         return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
     }
 
+    public function room()
+    {
+        $title = 'Meetings';
+        $meetings = Meeting::all();
+
+        return view('admin.join',['title' => $title, 'meetings' => $meetings]);
+    }
+
+    public function join(Request $request){
+
+        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
+        if (!empty($meeting->password))
+        {
+
+            if ($meeting->password == $request->password){
+
+                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                return redirect()->back()->withErrors('Wrong Password!');
+            }
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
+
+    }
+
 }

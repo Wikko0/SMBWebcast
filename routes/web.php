@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\JoinController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\PlugnPaidController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\GoogleSheetController;
@@ -28,17 +29,18 @@ use App\Mail\WelcomeMail;
 | Guests Role
 |--------------------------------------------------------------------------
 */
+Route::get('/test', [Controller::class, 'test'])->name('test');
 
-Route::webhooks('webhook');
+
 Auth::routes(
     ['verify' => false,'register' => false,]);
 Route::get('/api', [PlugnPaidController::class, 'index']);
-
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);
 Route::post('/join', [JoinController::class, 'join'])->name('join');
 Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
+Route::webhooks('webhook');
 /*
 |--------------------------------------------------------------------------
 | User Role
@@ -89,11 +91,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/meeting/edit/{id}', [AdminController::class, 'meeting_edit'])->name('admin.meeting_edit');
     Route::post('/admin/meeting/edit', [AdminController::class, 'do_meeting_edit'])->name('admin.do_meeting_edit');
     Route::get('/admin/meeting/delete/{id}', [AdminController::class, 'meeting_delete'])->name('admin.meeting_delete');
+    Route::get('/admin/join', [AdminController::class, 'room'])->name('admin.room');
+    Route::post('/admin/join', [AdminController::class, 'join'])->name('admin.join');
 
     Route::get('/admin/notification', [AdminController::class, 'notificationSettings'])->name('admin.notification');
     Route::post('/admin/notification', [AdminController::class, 'do_notificationSettings'])->name('admin.do_notification');
     Route::get('/admin/send-notification', [AdminController::class, 'notificationSend'])->name('admin.notificationSend');
     Route::post('/admin/send-notification', [AdminController::class, 'do_notificationSend'])->name('admin.do_notificationSend');
+
+
 });
 
 /*

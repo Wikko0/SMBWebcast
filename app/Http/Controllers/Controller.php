@@ -20,4 +20,7 @@ class Controller extends BaseController
         View::share(['onesignal' => $onesignal]);
     }
 
+    public function test(){
+        return view('mail.welcome-mail');
+    }
 }

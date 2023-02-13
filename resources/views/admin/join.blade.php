@@ -1,4 +1,4 @@
-@extends('layouts.manager')
+@extends('layouts.admin')
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -24,33 +24,19 @@
                 </div>
             @endif
             <div class="row">
-
                 <div class="col-sm-12">
                     <div class="row">
-                        @if($difference < 0)
-                            <div class="col-md-3">
-                                <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
-                                <span class="text">Your free trial has expired!</span>
-                                <br>
-                            </div>
-                        @else
-                            <div class="col-md-3">
-                                <a href="{{ route('manager.meeting_add') }}" class="btn btn-primary btn-sm btn-icon-split">
-                                    <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
-                                    <span class="text">Add</span>
-                                </a>
-                                <br>
-                            </div>
-                        @endif
 
                         <div class="col-md-9">
-                            <form class="form-inline " method="get" action="/manager/meeting">
+                            <form class="form-inline " method="post" action="/admin/join">
+                                @csrf
                                 <div class="form-group mx-sm-3 mb-2">
-                                    <label for="title" class="sr-only">Meeting Title</label>
-                                    <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting Title">&nbsp;
+                                    <label for="title" class="sr-only">Meeting ID</label>
+                                    <input type="text" name="meeting_id" class="form-control form-control-sm" id="title" placeholder="Meeting ID">&nbsp;
+                                    <input type="password" name="password" class="form-control form-control-sm" id="title" placeholder="Meeting Password(optional)">&nbsp;
                                     <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
-                                        <span class="icon text-white-50"><i class="fa fa-search"></i></span>
-                                        <span class="text">Search</span>
+                                        <span class="icon text-white-50"><i class="fa fa-camera"></i></span>
+                                        <span class="text">Join</span>
                                     </button>
                                 </div>
                             </form>
@@ -60,11 +46,11 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Option</th>
                             <th>Meeting Title</th>
                             <th>Meeting ID</th>
                             <th>Created by</th>
                             <th>Created At</th>
+                            <th>Option</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -72,25 +58,16 @@
                         @foreach($meetings as $meeting)
                         <tr id='row_{{$meeting->id}}'>
                             <td>{{$meeting->id}}</td>
-                            <td>
-                                @if($difference < 0)
 
-                                @else
-                                    <div class="dropdown no-arrow mb-4">
-                                        <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="/room/{{$meeting->meeting_id}}" target="_blank">Join Meeting</a>
-                                            <a class="dropdown-item" href="/manager/meeting/edit/{{$meeting->id}}">Edit</a>
-                                            <a class="dropdown-item" href="/manager/meeting/delete/{{$meeting->id}}">Delete</a>
-                                        </div>
-                                    </div>
-                                @endif
-
-                            </td>
                             <td><strong>{{$meeting->title}}</strong></td>
                             <td>{{$meeting->meeting_id}}</td>
                             <td>{{$meeting->created_by}}</td>
                             <td>{{$meeting->created_at}}</td>
+                            <td>
+                                <div class="dropdown no-arrow mb-4">
+                                    <a href="/room/{{$meeting->meeting_id}}" target="_blank" class="btn btn-primary btn-user btn-block">Join</a>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>
