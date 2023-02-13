@@ -12,6 +12,7 @@ use App\Models\MailSettings;
 use App\Models\Meeting;
 use App\Models\NotificationSend;
 use App\Models\NotificationSettings;
+use App\Models\NotificationTeams;
 use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
@@ -188,7 +189,11 @@ class AdminController extends Controller
                 'end_time' => $endTime,
                 'payer_email' => $request->email,
             ]);
-
+            NotificationTeams::create([
+                'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                'manager' => $request->name
+            ]);
 
             Mail::to($request->email)->send(new WelcomeMail());
         }
@@ -205,6 +210,11 @@ class AdminController extends Controller
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
+            ]);
+            NotificationTeams::create([
+                'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                'manager' => $request->name
             ]);
             Mail::to($request->email)->send(new WelcomeMail());
         }
@@ -513,7 +523,7 @@ class AdminController extends Controller
 
         $user = Auth::user()->name;
         $settings = Settings::first();
-
+        $notification = NotificationSettings::first();
         if ($request->password)
         {
             Meeting::create([
@@ -521,12 +531,14 @@ class AdminController extends Controller
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
                 'password' => $request->password,
+                'app_id' => $notification->app_id,
             ]);
         }else{
             Meeting::create([
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'app_id' => $notification->app_id,
             ]);
         }
 
@@ -651,24 +663,6 @@ class AdminController extends Controller
         $meetings = Meeting::all();
 
         return view('admin.join',['title' => $title, 'meetings' => $meetings]);
-    }
-
-    public function join(Request $request){
-
-        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                return redirect()->back()->withErrors('Wrong Password!');
-            }
-        }else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-        }
-
     }
 
 }

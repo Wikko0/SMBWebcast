@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\NotificationTeams;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -34,5 +35,6 @@ class AdminSeeder extends Seeder
             'created_by' => 'admin',
             'user_id' => $user->id,
         ]);
+
     }
 }

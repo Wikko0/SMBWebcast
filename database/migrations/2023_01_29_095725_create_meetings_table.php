@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('created_by');
             $table->string('password')->nullable();
             $table->string('joined')->default(1);
+            $table->string('app_id');
             $table->timestamps();
             $table->softDeletes();
         });

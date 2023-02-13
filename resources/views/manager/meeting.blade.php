@@ -1,5 +1,6 @@
 @extends('layouts.manager')
 @section('content')
+
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Meetings</h6>
@@ -79,7 +80,13 @@
                                     <div class="dropdown no-arrow mb-4">
                                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="/room/{{$meeting->meeting_id}}" target="_blank">Join Meeting</a>
+                                            <form class="user" action="/join" method="post">
+                                                @csrf
+                                                <div class="form-group">
+                                                    <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}" required class="form-control form-control-user" placeholder="Enter Meeting ID">
+                                                </div>
+                                                <button type="submit" class="dropdown-item">Join Meeting</button>
+                                            </form>
                                             <a class="dropdown-item" href="/manager/meeting/edit/{{$meeting->id}}">Edit</a>
                                             <a class="dropdown-item" href="/manager/meeting/delete/{{$meeting->id}}">Delete</a>
                                         </div>

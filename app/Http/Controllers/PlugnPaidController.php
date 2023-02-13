@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ApiSettings;
 use App\Models\GoogleSettings;
+use App\Models\NotificationTeams;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -66,6 +67,12 @@ class PlugnPaidController extends Controller
 
         Sheets::spreadsheet($sheets->spreadsheet)->sheet($sheets->sheet_name)->append([
             [$last_customer['name'], $last_customer['email'], $last_customer['country'], $teamname],
+        ]);
+
+        NotificationTeams::create([
+            'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+            'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+            'manager' => $last_customer['name']
         ]);
 
         Mail::to($last_customer['email'])->send(new WelcomeMail());

@@ -1,0 +1,7 @@
+@media only screen and (max-width: 767px) {
+    .table {
+        display: block;
+        overflow-x: scroll;
+        white-space: nowrap;
+    }
+}

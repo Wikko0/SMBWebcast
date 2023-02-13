@@ -30,7 +30,7 @@ class NotificationProvider extends ServiceProvider
         if ($notificationSettings) {
             $data = [
                 'app_id' => $notificationSettings->app_id,
-                'authorize' => $notificationSettings->mail_host,
+                'authorize' => $notificationSettings->authorize,
                 'auth_key' => $notificationSettings->auth_key,
             ];
             Config::set('one-signal', $data);

@@ -116,24 +116,13 @@ class UserController extends Controller
         $team_leader = Team::where('user', Auth::user()->name)->first();
         $meetings = Meeting::where('created_by', $team_leader->created_by)->get();
 
-        return view('user.join',['title' => $title, 'meetings' => $meetings]);
+        return view('user.meeting',['title' => $title, 'meetings' => $meetings]);
     }
 
-    public function join(Request $request){
-
-        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                return redirect()->back()->withErrors('Wrong Password!');
-            }
-        }else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-        }
-
+    public function join()
+    {
+        $title = 'Meetings';
+        $meetings = Meeting::all();
+        return view('user.join',['title' => $title, 'meetings' => $meetings]);
     }
 }

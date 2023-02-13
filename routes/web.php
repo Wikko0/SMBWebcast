@@ -9,7 +9,7 @@ use App\Http\Controllers\JoinController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\PlugnPaidController;
 use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\GoogleSheetController;
+use App\Http\Middleware\RecordLastActivity;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
@@ -39,7 +39,7 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);
 Route::post('/join', [JoinController::class, 'join'])->name('join');
-Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room');
+Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room')->middleware([RecordLastActivity::class]);
 Route::webhooks('webhook');
 /*
 |--------------------------------------------------------------------------
@@ -52,8 +52,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::post('/user/profile/update', [UserController::class, 'do_profile'])->name('user.profile.update');
     Route::post('/user/profile/changepassword', [UserController::class, 'do_changepassword'])->name('user.changepassword');
 
-    Route::get('/user/join', [UserController::class, 'room'])->name('user.room');
-    Route::post('/user/join', [UserController::class, 'join'])->name('user.join');
+    Route::get('/user/meeting', [UserController::class, 'room'])->name('user.room');
+    Route::get('/user/join', [UserController::class, 'join'])->name('user.join');
 });
 /*
 |--------------------------------------------------------------------------
@@ -137,6 +137,12 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
 
     Route::get('/manager/meeting', [ManagerController::class, 'meeting'])->name('manager.meeting');
     Route::get('/manager/meeting/history', [ManagerController::class, 'meetingHistory'])->name('manager.meeting.history');
-     Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
+    Route::get('/manager/join', [ManagerController::class, 'room'])->name('manager.room');
     Route::post('/manager/join', [ManagerController::class, 'join'])->name('manager.join');
-   });
+
+    Route::get('/manager/notification', [ManagerController::class, 'notificationSettings'])->name('manager.notification');
+    Route::post('/manager/notification', [ManagerController::class, 'do_notificationSettings'])->name('manager.do_notification');
+    Route::get('/manager/send-notification', [ManagerController::class, 'notificationSend'])->name('manager.notificationSend');
+    Route::post('/manager/send-notification', [ManagerController::class, 'do_notificationSend'])->name('manager.do_notificationSend');
+
+});

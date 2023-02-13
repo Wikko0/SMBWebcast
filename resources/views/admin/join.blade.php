@@ -1,81 +1,164 @@
 @extends('layouts.admin')
 @section('content')
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Meetings</h6>
-        </div>
-        <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                    </button>
-                    <h5><i class="icon fas fa-check"></i> Alert!</h5>
-                    <ul>{{session('success')}}</ul>
-                </div>
-            @endif
-            @if ($errors->any())
-                <div class="alert alert-warning alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                    </button>
-                    <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
-                    @foreach ($errors->all() as $error)
-                        <ul>{{ $error }}</ul>
-                    @endforeach
-                </div>
-            @endif
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="row">
+    <!DOCTYPE html>
+<html lang="en">
 
-                        <div class="col-md-9">
-                            <form class="form-inline " method="post" action="/admin/join">
-                                @csrf
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <label for="title" class="sr-only">Meeting ID</label>
-                                    <input type="text" name="meeting_id" class="form-control form-control-sm" id="title" placeholder="Meeting ID">&nbsp;
-                                    <input type="password" name="password" class="form-control form-control-sm" id="title" placeholder="Meeting Password(optional)">&nbsp;
-                                    <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
-                                        <span class="icon text-white-50"><i class="fa fa-camera"></i></span>
-                                        <span class="text">Join</span>
-                                    </button>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon  -->
+    @if(!empty($logo['logo']->favicon))
+        <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @else
+        <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
+@endif
+<!-- open-graph -->
+
+    <!-- Custom fonts for this template-->
+    <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <style type="text/css">
+        .bg-login-image{
+            background:
+                @if(!empty($logo['logo']->image))
+url('{{asset('storage/'.$logo['logo']->image)}}');
+        @else
+url('{{asset('img/login-bg.jpg')}}');
+            @endif
+            background-size: cover !important;
+            background-position: center !important;
+        }
+        .nav{
+            display: flex;
+            background-color: #eaecf4;
+            border-radius: 0.25rem;
+        }
+        .nav-item{
+            width: 50%;
+        }
+        .nav-pills .nav-link {
+            text-align: center;
+            border-radius: .25rem;
+        }
+        .nav-pills .nav-link.link-left {
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0rem;
+            border-bottom-right-radius: 0rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+        .nav-pills .nav-link.link-right {
+            border-top-left-radius: 0rem;
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+            border-bottom-left-radius: 0rem;
+        }
+    </style>
+
+</head>
+
+<body class="bg-gradient-primary">
+
+<div class="container">
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                        <div class="col-lg-6">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <a href="/">
+                                        @if(!empty($logo['logo']->logo))
+                                            <img src="{{asset('storage/'.$logo['logo']->logo)}}"></a><br>
+                                    @else
+                                        <img src="{{asset('img/logo.png')}}"></a><br>
+                                    @endif
+
+                                    <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</h1></a>
                                 </div>
-                            </form>
+                                @if(session('success'))
+                                    <div class="alert alert-success alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                        </button>
+                                        <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                                        <ul>{{session('success')}}</ul>
+                                    </div>
+                                @endif
+                                @if ($errors->any())
+                                    <div class="alert alert-warning alert-dismissible">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                        </button>
+                                        <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+                                        @foreach ($errors->all() as $error)
+                                            <ul>{{ $error }}</ul>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+
+
+                                <div class="tab-content" id="pills-tabContent">
+                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+
+                                        <form class="user" action="/join" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID">
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" name="password" class="form-control form-control-user" placeholder="Enter Meeting Password(optional)">
+                                                <div class="my-2"></div>
+
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-user btn-block">Join Now</button>
+                                        </form>
+
+
+
+                                    </div>
+                                </div>
+                                <hr>
+
+
+                            </div>
                         </div>
                     </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Meeting Title</th>
-                            <th>Meeting ID</th>
-                            <th>Created by</th>
-                            <th>Created At</th>
-                            <th>Option</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($meetings as $meeting)
-                        <tr id='row_{{$meeting->id}}'>
-                            <td>{{$meeting->id}}</td>
-
-                            <td><strong>{{$meeting->title}}</strong></td>
-                            <td>{{$meeting->meeting_id}}</td>
-                            <td>{{$meeting->created_by}}</td>
-                            <td>{{$meeting->created_at}}</td>
-                            <td>
-                                <div class="dropdown no-arrow mb-4">
-                                    <a href="/room/{{$meeting->meeting_id}}" target="_blank" class="btn btn-primary btn-user btn-block">Join</a>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
                 </div>
             </div>
+
         </div>
+
     </div>
+
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+
+</body>
+
+</html>
+
 
 @endsection

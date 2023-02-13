@@ -26,5 +26,14 @@
     }
     var api = new JitsiMeetExternalAPI(domain, options);
 </script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script>
+    window.OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+        OneSignal.init({
+            appId: "{{$meeting->app_id}}",
+        });
+    });
+</script>
 </body>
 </html>

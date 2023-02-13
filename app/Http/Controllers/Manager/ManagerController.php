@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
 use App\Models\Common;
 use App\Models\Meeting;
+use App\Models\NotificationSend;
+use App\Models\NotificationSettings;
+use App\Models\NotificationTeams;
 use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
@@ -286,6 +289,7 @@ class ManagerController extends Controller
 
         $user = Auth::user()->name;
         $settings = Settings::first();
+        $notification = NotificationTeams::where('manager', Auth::user()->name)->first();
         if ($request->password)
         {
             Meeting::create([
@@ -293,12 +297,14 @@ class ManagerController extends Controller
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
                 'password' => $request->password,
+                'app_id' => $notification->app_id,
             ]);
         }else{
             Meeting::create([
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'app_id' => $notification->app_id,
             ]);
         }
 
@@ -350,26 +356,76 @@ class ManagerController extends Controller
     public function room()
     {
         $title = 'Meetings';
-        $meetings = Meeting::where('created_by', Auth::user()->name)->get();
+        $meetings = Meeting::all();
 
         return view('manager.join',['title' => $title, 'meetings' => $meetings]);
     }
 
-    public function join(Request $request){
-
-        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                return redirect()->back()->withErrors('Wrong Password!');
-            }
-        }else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-        }
-
+    public function notificationSettings()
+    {
+        $title = 'Notification Setting';
+        $notificationSettings = NotificationTeams::where('manager', Auth::user()->name)->first();
+        return view('manager.notification-settings',['title' => $title, 'notificationSettings' => $notificationSettings]);
     }
+
+    public function do_notificationSettings(Request $request)
+    {
+        $request->validate([
+            'app_id' => 'required',
+        ]);
+
+        NotificationTeams::where('manager', $request->manager)
+            ->update([
+                'app_id' => $request->app_id,
+                'authorize' => $request->authorize,
+            ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function notificationSend()
+    {
+        $title = 'Notification Send';
+
+        return view('manager.notification-send',['title' => $title]);
+    }
+
+    public function do_notificationSend(Request $request)
+    {
+        $request->validate([
+            'title' => 'required',
+            'url' => 'required|url',
+        ]);
+
+
+        NotificationSend::create([
+            'content' => $request->title,
+            'url' => $request->url,
+        ]);
+
+
+        $settings = NotificationTeams::where('manager', Auth::user()->name)->first();
+        $data = NotificationSend::latest()
+            ->first();;
+
+        $client = new \GuzzleHttp\Client();
+        $body ='{"app_id":"'.$settings->app_id.'",
+            "included_segments":["All"],
+            "url":"'.$data->url.'",
+            "contents":{"en":"'.$data->content.'"},
+            "name":"INTERNAL_CAMPAIGN_NAME"}';
+        $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
+            'body' => $body,
+            'headers' => [
+                'Authorization' => 'Basic '.$settings->authorize,
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ],
+        ]);
+
+        echo $response->getBody();
+
+        return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
+    }
+
 }

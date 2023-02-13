@@ -18,7 +18,7 @@
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('css/sb-admin-mobile.css')}}" rel="stylesheet" />
+    <link href="{{asset('css/sb.mobile.css')}}" rel="stylesheet" />
     <link href="{{asset('plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
@@ -137,11 +137,12 @@
 <script src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
 <!-- OneSignal-->
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     window.OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
         OneSignal.init({
-            appId: "{{$onesignal->app_id}}",
+            appId: "882e057e-a5c8-48f6-b0ea-07bed340a69f",
         });
     });
 </script>

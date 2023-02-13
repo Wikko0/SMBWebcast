@@ -26,7 +26,17 @@
             </div>
         </div>
     </li>
-
+    <li class="nav-item">
+        <a href="#" class="nav-link" data-toggle="collapse" data-target="#collapseNotificationSetting" aria-expanded="true" aria-controls="collapseNotificationSetting">
+            <i class="fas fa-fw fa-bell" aria-hidden="true"></i><span>Notification</span>
+        </a>
+        <div id="collapseNotificationSetting" class="collapse {{ (Request::is('manager/send-notification')) || (Request::is('manager/notification'))  ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item {{ (Request::is('manager/send-notification')) ? 'active' : '' }}" href="/manager/send-notification">Send Notification </a>
+                <a class="collapse-item {{ (Request::is('manager/notification')) ? 'active' : '' }}" href="/manager/notification">Setting </a>
+            </div>
+        </div>
+    </li>
 
      <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
