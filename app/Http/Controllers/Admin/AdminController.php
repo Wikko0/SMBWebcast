@@ -70,7 +70,7 @@ class AdminController extends Controller
         $this->validate($request, [
             'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-
+            'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
 
         $profile = Auth::user();
@@ -81,12 +81,19 @@ class AdminController extends Controller
             $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
             $photo->save();
 
+            NotificationTeams::where('manager', Auth::user()->name)
+                ->update(['manager' => $request->name]);
+
+
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
                 'image' => $photoPath,
             ]);
         }else{
+            NotificationTeams::where('manager', Auth::user()->name)
+                ->update(['manager' => $request->name]);
+
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,

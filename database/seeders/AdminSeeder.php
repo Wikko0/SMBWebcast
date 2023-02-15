@@ -36,5 +36,10 @@ class AdminSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
+        NotificationTeams::create([
+            'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+            'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+            'manager' => $user->name
+        ]);
     }
 }

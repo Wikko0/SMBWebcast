@@ -70,7 +70,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
         </div>
         <div class="card-body">
-            <form method="post" action="/manager/profile/changepassword">
+            <form method="post" action="/user/profile/changepassword">
                 @csrf
             <div class="row">
                 <div class="col-md-12">

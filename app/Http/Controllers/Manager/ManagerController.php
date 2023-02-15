@@ -74,8 +74,8 @@ class ManagerController extends Controller
         $this->validate($request, [
             'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-            'team' => 'required'
-
+            'team' => 'required',
+            'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
 
         $profile = Auth::user();
@@ -89,6 +89,8 @@ class ManagerController extends Controller
             Webhook::where('payer_email', Auth::user()->email)
                 ->update(['payer_email' => $request->email]);
 
+            NotificationTeams::where('manager', Auth::user()->name)
+                ->update(['manager' => $request->name]);
 
             Auth::user()->update([
                 'name' => $request->name,
@@ -106,6 +108,8 @@ class ManagerController extends Controller
             Webhook::where('payer_email', Auth::user()->email)
                 ->update(['payer_email' => $request->email]);
 
+            NotificationTeams::where('manager', Auth::user()->name)
+                ->update(['manager' => $request->name]);
 
             Auth::user()->update([
                 'name' => $request->name,

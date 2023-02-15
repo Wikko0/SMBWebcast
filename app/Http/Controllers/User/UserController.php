@@ -57,7 +57,7 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-
+            'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
 
         $profile = Auth::user();
