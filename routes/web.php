@@ -54,6 +54,8 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
     Route::get('/user/meeting', [UserController::class, 'room'])->name('user.room');
     Route::get('/user/join', [UserController::class, 'join'])->name('user.join');
+
+    Route::post('user/join_meeting', [UserController::class, 'join_meeting'])->name('user.join_meeting');
 });
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +101,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/send-notification', [AdminController::class, 'notificationSend'])->name('admin.notificationSend');
     Route::post('/admin/send-notification', [AdminController::class, 'do_notificationSend'])->name('admin.do_notificationSend');
 
-
+    Route::post('admin/join', [AdminController::class, 'join'])->name('admin.join');
 });
 
 /*
@@ -145,4 +147,5 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager/send-notification', [ManagerController::class, 'notificationSend'])->name('manager.notificationSend');
     Route::post('/manager/send-notification', [ManagerController::class, 'do_notificationSend'])->name('manager.do_notificationSend');
 
+    Route::post('manager/join', [ManagerController::class, 'join'])->name('manager.join');
 });

@@ -48,7 +48,7 @@
                             <td>{{$meeting->created_at}}</td>
                             <td>
 
-                                <form class="user" action="/join" method="post">
+                                <form class="user" action="/user/join_meeting" method="post">
                                     @csrf
                                     <div class="dropdown no-arrow mb-4">
                                         <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}" required class="form-control form-control-user" placeholder="Enter Meeting ID">

@@ -80,7 +80,7 @@
                                     <div class="dropdown no-arrow mb-4">
                                         <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <form class="user" action="/join" method="post">
+                                            <form class="user" action="/manager/join" method="post">
                                                 @csrf
                                                 <div class="form-group">
                                                     <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}" required class="form-control form-control-user" placeholder="Enter Meeting ID">

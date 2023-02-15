@@ -440,4 +440,9 @@ class ManagerController extends Controller
         return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
     }
 
+    public function join(Request $request){
+
+        return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+
+    }
 }

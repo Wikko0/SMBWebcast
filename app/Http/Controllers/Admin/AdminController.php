@@ -677,4 +677,9 @@ class AdminController extends Controller
         return view('admin.join',['title' => $title, 'meetings' => $meetings]);
     }
 
+    public function join(Request $request){
+
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+
+    }
 }
