@@ -29,6 +29,13 @@
                 <!-- panel  -->
                 <div class="col-md-12">
                     <div class="form-group row">
+                        <label class="col-sm-3 control-label">Headings</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="heading" class="form-control" required  />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-sm-3 control-label">Content</label>
                         <div class="col-sm-9">
                             <input type="text" name="title" class="form-control" required  />
@@ -39,6 +46,20 @@
                         <label class="col-sm-3 control-label">Url</label>
                         <div class="col-sm-9">
                             <input type="url" name="url" class="form-control" required  />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Icon URL</label>
+                        <div class="col-sm-9">
+                            <input type="url" name="icon_url" class="form-control" required  />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Image URL</label>
+                        <div class="col-sm-9">
+                            <input type="url" name="image_url" class="form-control" required  />
                         </div>
                     </div>
 

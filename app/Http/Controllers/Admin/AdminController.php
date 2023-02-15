@@ -622,14 +622,20 @@ class AdminController extends Controller
     public function do_notificationSend(Request $request)
     {
         $request->validate([
+            'heading' => 'required',
             'title' => 'required',
             'url' => 'required|url',
+            'icon_url' => 'required|url',
+            'image_url' => 'required|url',
         ]);
 
 
         NotificationSend::create([
+                'heading' => $request->title,
                 'content' => $request->title,
                 'url' => $request->url,
+                'icon' => $request->icon_url,
+                'image' => $request->image_url,
             ]);
 
 
@@ -641,7 +647,13 @@ class AdminController extends Controller
         $body ='{"app_id":"'.$settings->app_id.'",
             "included_segments":["All"],
             "url":"'.$data->url.'",
+            "chrome_web_icon":"'.$data->icon.'",
+            "chrome_web_image":"'.$data->image.'",
+            "big_picture":"'.$data->image.'",
+            "small_icon":"'.$data->icon.'",
+            "large_icon":"'.$data->icon.'",
             "contents":{"en":"'.$data->content.'"},
+            "headings":{"en":"'.$data->heading.'"},
             "name":"INTERNAL_CAMPAIGN_NAME"}';
         $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
             'body' => $body,

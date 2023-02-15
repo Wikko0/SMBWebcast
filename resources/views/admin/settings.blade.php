@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 control-label"><strong>Privacy Policy URL FOR ANDROID</strong></label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{$settings['settings']->policy_url}}" readonly class="form-control" required data-parsley-length="[14, 128]" />
+                            <input type="text"  value="{{env('APP_URL').$settings['settings']->policy_url}}" readonly class="form-control" required data-parsley-length="[14, 128]" />
                             <p><small>Copy &amp; paste this URL to app source code.</small></p>
                         </div>
                     </div>

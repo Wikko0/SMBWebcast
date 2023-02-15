@@ -19,7 +19,7 @@ class SettingSeeder extends Seeder
             'key' => 'settings',
             'app_name' => 'SMBWebcast',
             'jitsi_url' => 'https://meet.jit.si/',
-            'policy_url' => 'https://live.smbwebcast.com/privacy-policy/',
+            'policy_url' => '/privacy-policy/',
             'meeting_id' => 'MEETING-',
         ]);
     }
