@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Common;
 use App\Models\Meeting;
 use App\Models\Team;
+use App\Models\User;
 use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -111,6 +112,24 @@ class UserController extends Controller
         return redirect()->back()->withSuccess('You have changed password successfully!');
     }
 
+    public function do_delete_profile($id)
+    {
+        $user = User::find($id); // find the user record by ID
+
+        if ($user) {
+            // delete the related records in the teams table
+            $user->team()->delete();
+
+
+            // delete the user record
+            $user->delete();
+
+            Auth::logout(); // log the user out
+            return redirect('/')->withSuccess('Your profile has been deleted.');
+        } else {
+            return redirect('/manager/profile')->withErrors('Could not delete profile. Please try again.');
+        }
+    }
 
     public function room()
     {

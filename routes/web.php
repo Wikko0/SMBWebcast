@@ -51,6 +51,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user.profile');
     Route::post('/user/profile/update', [UserController::class, 'do_profile'])->name('user.profile.update');
     Route::post('/user/profile/changepassword', [UserController::class, 'do_changepassword'])->name('user.changepassword');
+    Route::delete('/user/profile/delete/{id}', [UserController::class, 'do_delete_profile'])->name('user.delete');
 
     Route::get('/user/meeting', [UserController::class, 'room'])->name('user.room');
     Route::get('/user/join', [UserController::class, 'join'])->name('user.join');
@@ -132,6 +133,8 @@ Route::middleware(['auth', 'role:manager'])->group(function () {
     Route::get('/manager/profile', [ManagerController::class, 'profile'])->name('manager.profile');
     Route::post('/manager/profile/update', [ManagerController::class, 'do_profile'])->name('manager.profile.update');
     Route::post('/manager/profile/changepassword', [ManagerController::class, 'do_changepassword'])->name('manager.changepassword');
+
+    Route::delete('/manager/profile/delete/{id}', [ManagerController::class, 'do_delete_profile'])->name('manager.delete');
 
 
     Route::get('/manager/manage', [ManagerController::class, 'manage_user'])->name('manager.manage_user');

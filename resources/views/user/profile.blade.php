@@ -102,6 +102,54 @@
         </div>
     </div>
 
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Delete Profile</h6>
+        </div>
+        <div class="card-body">
+            <form method="post" action="{{ route('user.delete', ['id' => Auth::id()]) }}">
+                @csrf
+                @method('DELETE')
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Are you sure you want to delete your profile?</p>
+                        <div class="col-sm-offset-3 col-sm-9 m-t-15">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                <span class="btn-label"><i class="fa fa-trash"></i></span> Delete Profile
+                            </button>
+                            <a href="{{ url('/user') }}" class="btn btn-default">
+                                <span class="btn-label"><i class="fa fa-arrow-left"></i></span> Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Delete Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete Profile</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Are you sure you want to delete your profile?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger"><span class="btn-label"><i
+                                            class="fa fa-trash"></i></span> Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </div>
 
 
     <!--instant image dispaly-->

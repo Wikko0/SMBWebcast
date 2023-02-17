@@ -29,7 +29,7 @@ class JoinController extends Controller
 
         if ($meeting){
             $check = User::where('name', $meeting->created_by)->first();
-            if ($check->last_activity > now()->subMinutes(120)) {
+            if ($check->last_activity??null > now()->subMinutes(120)) {
                 Meeting::where('meeting_id', $id)
                     ->update(['joined' => Meeting::raw('joined+1')]);
                 return view('room', ['meeting' => $meeting, 'user' => $user]);
