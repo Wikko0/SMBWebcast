@@ -82,8 +82,10 @@ class ManagerController extends Controller
 
         if ($request->photo)
         {
-            $photoPath = $request->photo->storeAs('uploads', $profile->id.'.png', "public");
-            $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
+            $file = $request->file("photo");
+            $photoPath = $file->storeAs('/img/uploads', $profile->id.'.png',['disk' => 'public_uploads']);
+
+            $photo = Image::make(public_path("{$photoPath}"))->resize(275, 275);
             $photo->save();
 
             Webhook::where('payer_email', Auth::user()->email)
@@ -91,6 +93,17 @@ class ManagerController extends Controller
 
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
+
+            Team::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+            ]);
+
+            Meeting::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
 
             Auth::user()->update([
                 'name' => $request->name,
@@ -110,6 +123,17 @@ class ManagerController extends Controller
 
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
+
+            Team::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+            ]);
+
+            Meeting::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
 
             Auth::user()->update([
                 'name' => $request->name,
@@ -219,7 +243,6 @@ class ManagerController extends Controller
             'password' => ['required', 'min:8'],
         ]);
 
-
             $user = User::find($request->id);
             $user->update([
                 'name' => $request->name,
@@ -227,6 +250,7 @@ class ManagerController extends Controller
                 'password' => bcrypt($request->password),
             ]);
             $user->assignRole('user');
+
 
 
         return redirect()->back()->withSuccess('You have edited this user successfully!');
@@ -292,6 +316,7 @@ class ManagerController extends Controller
         ]);
 
         $user = Auth::user()->name;
+        $email = Auth::user()->email;
         $settings = Settings::first();
         $notification = NotificationTeams::where('manager', Auth::user()->name)->first();
         if ($request->password)
@@ -300,6 +325,7 @@ class ManagerController extends Controller
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'created_by_mail' => $email,
                 'password' => $request->password,
                 'app_id' => $notification->app_id,
             ]);
@@ -308,6 +334,7 @@ class ManagerController extends Controller
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'created_by_mail' => $email,
                 'app_id' => $notification->app_id,
             ]);
         }
@@ -446,7 +473,35 @@ class ManagerController extends Controller
 
     public function join(Request $request){
 
-        return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        $request->validate([
+            'meeting_id' => 'required',
+            'password' => 'nullable',
 
+        ]);
+
+        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
+
+        if (!$meeting) {
+            // Store the last tried meeting_id in session
+            $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+            return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
+        }
+
+        if (!empty($meeting->password))
+        {
+
+            if ($meeting->password == $request->password){
+
+                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                // Store the last tried meeting_id in session
+                $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+                return redirect()->back()->withErrors('Wrong Password!')->withInput();
+            }
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
     }
 }

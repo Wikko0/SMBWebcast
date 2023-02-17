@@ -64,8 +64,10 @@ class UserController extends Controller
 
         if ($request->photo)
         {
-            $photoPath = $request->photo->storeAs('uploads', $profile->id.'.png', "public");
-            $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
+            $file = $request->file("photo");
+            $photoPath = $file->storeAs('/img/uploads', $profile->id.'.png',['disk' => 'public_uploads']);
+
+            $photo = Image::make(public_path("{$photoPath}"))->resize(275, 275);
             $photo->save();
 
             Auth::user()->update([
@@ -128,7 +130,35 @@ class UserController extends Controller
 
     public function join_meeting(Request $request){
 
-        return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        $request->validate([
+            'meeting_id' => 'required',
+            'password' => 'nullable',
 
+        ]);
+
+        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
+
+        if (!$meeting) {
+            // Store the last tried meeting_id in session
+            $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+            return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
+        }
+
+        if (!empty($meeting->password))
+        {
+
+            if ($meeting->password == $request->password){
+
+                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                // Store the last tried meeting_id in session
+                $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+                return redirect()->back()->withErrors('Wrong Password!')->withInput();
+            }
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
     }
 }

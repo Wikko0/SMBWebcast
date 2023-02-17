@@ -31,15 +31,15 @@
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">App Name</label>
                         <div class="col-sm-9">
-                            <input type="hidden"  value="{{$settings['settings']->id}}" name="id"/>
-                            <input type="text"  value="{{$settings['settings']->app_name}}" name="app_name" class="form-control" required  />
+                            <input type="hidden"  value="{{$settings->id}}" name="id"/>
+                            <input type="text"  value="{{$settings->app_name}}" name="app_name" class="form-control" required  />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Jitsi Server URL</label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{$settings['settings']->jitsi_url}}" name="jitsi_url" class="form-control" required  />
+                            <input type="text"  value="{{$settings->jitsi_url}}" name="jitsi_url" class="form-control" required  />
                             <p><small>Upstreaming server address.You can use your own server by self host software download from here:</small></p>
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 control-label"><strong>Privacy Policy URL FOR ANDROID</strong></label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{env('APP_URL').$settings['settings']->policy_url}}" readonly class="form-control" required data-parsley-length="[14, 128]" />
+                            <input type="text"  value="{{env('APP_URL').$settings->policy_url}}" readonly class="form-control" required data-parsley-length="[14, 128]" />
                             <p><small>Copy &amp; paste this URL to app source code.</small></p>
                         </div>
                     </div>
@@ -56,27 +56,27 @@
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Meeting ID Prefix</label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{$settings['settings']->meeting_id}}" name="meeting_prefix" class="form-control" required  />
+                            <input type="text"  value="{{$settings->meeting_id}}" name="meeting_prefix" class="form-control" required  />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Email Address</label>
                         <div class="col-sm-9">
-                            <input type="text"  value="{{$settings['settings']->address}}" name="address" class="form-control" required  />
+                            <input type="text"  value="{{$settings->address}}" name="address" class="form-control" required  />
                              </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Phone</label>
                         <div class="col-sm-9">
-                            <input type="number"  value="{{$settings['settings']->phone}}" name="phone" class="form-control" data-parsley-length="[10, 14]"  />
+                            <input type="number"  value="{{$settings->phone}}" name="phone" class="form-control" data-parsley-length="[10, 14]"  />
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">Privacy &amp; Policy</label>
                         <div class="col-sm-9">
-                            <textarea name="policy_text" id="privacy_policy_text" rows="10" class="form-control">{{$settings['settings']->policy}}</textarea>
+                            <textarea name="policy_text" id="privacy_policy_text" rows="10" class="form-control">{{$settings->policy}}</textarea>
                             <p><small>HTML is allowed</small></p>
                         </div>
                     </div>

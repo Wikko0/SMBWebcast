@@ -5,13 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Meeting;
 use App\Models\User;
+use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JoinController extends Controller
 {
     public function room($id){
-        $meeting = Meeting::where('meeting_id', $id)->first();
+        $last_meeting_id = session('last_meeting_id');
+
+        if ($last_meeting_id) {
+            // If there was a last meeting_id, use it
+            $meeting = Meeting::where('meeting_id', $last_meeting_id)->first();
+
+            if (!$meeting) {
+                return redirect()->back()->withErrors('No meeting with that name exists!');
+            }
+        } else {
+            $meeting = Meeting::where('meeting_id', $id)->first();
+        }
+
         $user = Auth::user();
 
         if ($meeting){
@@ -21,33 +34,45 @@ class JoinController extends Controller
                     ->update(['joined' => Meeting::raw('joined+1')]);
                 return view('room', ['meeting' => $meeting, 'user' => $user]);
             } else {
-                return redirect()->back()->withErrors('A moderator has not yet entered the event!');
+                session()->flash('last_meeting_id',$last_meeting_id);
+                return redirect()->back()->withErrors('A moderator has not yet entered the event!')->withInput();
             }
         }else{
             return redirect()->back()->withErrors('No meeting with that name exists!');
         }
-
     }
 
     public function join(Request $request){
 
+        $request->validate([
+            'meeting_id' => 'required',
+            'password' => 'nullable',
+
+        ]);
+
         $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
 
+        if (!$meeting) {
+            // Store the last tried meeting_id in session
+            $request->session()->flash('last_meeting_id', $request->meeting_id);
 
-            if (!empty($meeting->password))
-            {
+            return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
+        }
 
-                if ($meeting->password == $request->password){
+        if (!empty($meeting->password))
+        {
 
-                    return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-                }else{
-                    return redirect()->back()->withErrors('Wrong Password!');
-                }
-            }else{
+            if ($meeting->password == $request->password){
+
                 return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                // Store the last tried meeting_id in session
+                $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+                return redirect()->back()->withErrors('Wrong Password!')->withInput();
             }
-
-
-
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
     }
 }

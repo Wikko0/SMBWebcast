@@ -30,7 +30,7 @@
                     <label class="control-label col-sm-3"></label>
                     <div class="col-sm-9">
                         @if(!empty($images->logo))
-                            <img id="website_logo" src="{{asset('storage/'.$images->logo)}}"  alt="logo" >
+                            <img id="website_logo" src="{{asset($images->logo)}}"  alt="logo" >
                         @else
                             <img id="website_logo" src="{{asset('img/logo.png')}}"  alt="logo" >
                         @endif
@@ -49,7 +49,7 @@
                     <label class="control-label col-sm-3"></label>
                     <div class="col-sm-9">
                         @if(!empty($images->image))
-                            <img id="backdrop_image" src="{{asset('storage/'.$images->image)}}"  alt="backdrop_image" style="max-width: 440px" >
+                            <img id="backdrop_image" src="{{asset($images->image)}}"  alt="backdrop_image" style="max-width: 440px" >
                         @else
                             <img id="backdrop_image" src="{{asset('img/login-bg.jpg')}}"  alt="backdrop_image" style="max-width: 440px" >
                         @endif
@@ -69,7 +69,7 @@
                     <label class="control-label col-sm-3"></label>
                     <div class="col-sm-9">
                         @if(!empty($images->favicon))
-                            <img id="website_favicon" src="{{asset('storage/'.$images->favicon)}}"  alt="favicon" >
+                            <img id="website_favicon" src="{{asset($images->favicon)}}"  alt="favicon" >
                         @else
                             <img id="backdrop_image" src="{{asset('favicon.ico')}}"  alt="backdrop_image" style="max-width: 440px" >
                         @endif

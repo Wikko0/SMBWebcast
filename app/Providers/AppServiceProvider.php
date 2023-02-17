@@ -26,11 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $settings = cache()->remember(
-            key:'settings',
-            ttl:3600,
-            callback: fn() => Settings::all()->keyBy('key')
-        );
+        $settings = Settings::where('key', 'settings')->first();
         View::share('settings', $settings);
     }
 }

@@ -7,8 +7,8 @@
     <meta name="description" content="">
     <meta name="author" content="SMBWebcast">
     <meta name="copyright" content="Copyright (c) 2023 Wikko0 for SMBWebcast">
-    @if(!empty($logo['logo']->favicon))
-        <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @if(!empty($logo->favicon))
+        <link rel="shortcut icon" href="{{asset($logo->favicon)}}" />
     @else
         <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
 @endif
@@ -21,7 +21,7 @@
     <link href="{{asset('plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
-    <title>Admin Panel | {{$settings['settings']->app_name}}</title>
+    <title>Admin Panel | {{$settings->app_name}}</title>
 
 </head>
 
@@ -54,7 +54,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                             @if(Auth::user()->image)
-                                <img class="img-profile rounded-circle" src="{{asset('storage/'.Auth::user()->image)}}">
+                                <img class="img-profile rounded-circle" src="{{asset(Auth::user()->image)}}">
                             @else
                                 <img class="img-profile rounded-circle" src="{{asset('img/user.jpg')}}">
                             @endif

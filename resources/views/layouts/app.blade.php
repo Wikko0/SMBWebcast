@@ -9,27 +9,27 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon  -->
-    @if(!empty($logo['logo']->favicon))
-    <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @if(!empty($logo->favicon))
+    <link rel="shortcut icon" href="{{asset($logo->favicon)}}" />
     @else
     <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
     @endif
     <!-- open-graph -->
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:description" content="Join and host a meeting by - {{$settings['settings']->app_name ?? 'SMBWebcast'}}" />
-    <meta name="twitter:title" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Join Meeting" />
-    <meta name="twitter:image" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}}">
-    <meta name="twitter:site" content="@ {{$settings['settings']->app_name ?? 'SMBWebcast'}}">
+    <meta name="twitter:description" content="Join and host a meeting by - {{$settings->app_name ?? 'SMBWebcast'}}" />
+    <meta name="twitter:title" content="{{$settings->app_name ?? 'SMBWebcast'}} - Join Meeting" />
+    <meta name="twitter:image" content="{{$settings->app_name ?? 'SMBWebcast'}}">
+    <meta name="twitter:site" content="@ {{$settings->app_name ?? 'SMBWebcast'}}">
 
-    <meta property="og:title" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Join Meeting" />
-    <meta property="og:url" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}}" />
+    <meta property="og:title" content="{{$settings->app_name ?? 'SMBWebcast'}} - Join Meeting" />
+    <meta property="og:url" content="{{$settings->app_name ?? 'SMBWebcast'}}" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="Join and host a meeting by - {{$settings['settings']->app_name ?? 'SMBWebcast'}}" />
-    <meta property="og:image" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}}" />
-    <meta property="og:image:alt" content="{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Preview">
+    <meta property="og:description" content="Join and host a meeting by - {{$settings->app_name ?? 'SMBWebcast'}}" />
+    <meta property="og:image" content="{{$settings->app_name ?? 'SMBWebcast'}}" />
+    <meta property="og:image:alt" content="{{$settings->app_name ?? 'SMBWebcast'}} - Preview">
 
-    <title>{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</title>
+    <title>{{$settings->app_name ?? 'SMBWebcast'}} - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -40,8 +40,8 @@
     <style type="text/css">
         .bg-login-image{
             background:
-            @if(!empty($logo['logo']->image))
-            url('{{asset('storage/'.$logo['logo']->image)}}');
+            @if(!empty($logo->image))
+            url('{{asset($logo->image)}}');
             @else
             url('{{asset('img/login-bg.jpg')}}');
             @endif
@@ -94,13 +94,13 @@
                             <div class="p-5">
                                 <div class="text-center">
                                     <a href="/">
-                                        @if(!empty($logo['logo']->logo))
-                                            <img src="{{asset('storage/'.$logo['logo']->logo)}}"></a><br>
+                                        @if(!empty($logo->logo))
+                                            <img src="{{asset($logo->logo)}}"></a><br>
                                         @else
                                             <img src="{{asset('img/logo.png')}}"></a><br>
                                         @endif
 
-                                    <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</h1></a>
+                                    <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings->app_name ?? 'SMBWebcast'}} - Login</h1></a>
                                 </div>
                                 @if(session('success'))
                                     <div class="alert alert-success alert-dismissible">

@@ -2,8 +2,8 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
         <div class="sidebar-brand-icon">
-            @if(!empty($logo['logo']->logo))
-                <img src="{{asset('storage/'.$logo['logo']->logo)}}">
+            @if(!empty($logo->logo))
+                <img src="{{asset($logo->logo)}}">
             @else
             <img src="{{asset('img/logo.png')}}">
             @endif

@@ -77,8 +77,10 @@ class AdminController extends Controller
 
         if ($request->photo)
         {
-            $photoPath = $request->photo->storeAs('uploads', $profile->id.'.png', "public");
-            $photo = Image::make(public_path("storage/{$photoPath}"))->resize(275, 275);
+            $file = $request->file("photo");
+            $photoPath = $file->storeAs('/img/uploads', $profile->id.'.png',['disk' => 'public_uploads']);
+
+            $photo = Image::make(public_path("{$photoPath}"))->resize(275, 275);
             $photo->save();
 
             NotificationTeams::where('manager', Auth::user()->name)
@@ -396,9 +398,13 @@ class AdminController extends Controller
             $logoCheck = LogoSettings::first();
 
             if ($request->logo){
-                $logoPath = $request->logo->storeAs('uploads', 'logo.png', "public");
-                $logo = Image::make(public_path("storage/{$logoPath}"))->resize(80, 80);
+
+                $file = $request->file("logo");
+                $logoPath = $file->storeAs('/img/uploads', 'logo.png',['disk' => 'public_uploads']);
+
+                $logo = Image::make(public_path("{$logoPath}"))->resize(80, 80);
                 $logo->save();
+
             }else {
                 if (!empty($logoCheck->logo)){
                     $logoPath = $logoCheck->logo;
@@ -406,9 +412,13 @@ class AdminController extends Controller
             }
 
             if ($request->image){
-                $imagePath = $request->image->storeAs('uploads', 'login-bg.jpg', "public");
-                $image = Image::make(public_path("storage/{$imagePath}"))->resize(640, 440);
+
+                $file = $request->file("image");
+                $imagePath = $file->storeAs('/img/uploads', 'login-bg.jpg',['disk' => 'public_uploads']);
+
+                $image = Image::make(public_path("{$imagePath}"))->resize(640, 440);
                 $image->save();
+
 
             }else {
                 if (!empty($logoCheck->image)){
@@ -418,9 +428,12 @@ class AdminController extends Controller
 
             if ($request->favicon)
             {
-                $favPath = $request->favicon->storeAs('uploads', 'favicon.png', "public");
-                $fav = Image::make(public_path("storage/{$favPath}"))->resize(16, 16);
+                $file = $request->file("favicon");
+                $favPath = $file->storeAs('/img/uploads', 'favicon.png',['disk' => 'public_uploads']);
+
+                $fav = Image::make(public_path("{$favPath}"))->resize(16, 16);
                 $fav->save();
+
             }else {
                 if (!empty($logoCheck->favicon)){
                     $favPath = $logoCheck->favicon;
@@ -529,6 +542,7 @@ class AdminController extends Controller
         ]);
 
         $user = Auth::user()->name;
+        $email = Auth::user()->email;
         $settings = Settings::first();
         $notification = NotificationSettings::first();
         if ($request->password)
@@ -537,6 +551,7 @@ class AdminController extends Controller
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'created_by_mail' => $email,
                 'password' => $request->password,
                 'app_id' => $notification->app_id,
             ]);
@@ -545,6 +560,7 @@ class AdminController extends Controller
                 'title' => $request->title,
                 'meeting_id' => $settings->meeting_id.$request->meeting_id,
                 'created_by' => $user,
+                'created_by_mail' => $email,
                 'app_id' => $notification->app_id,
             ]);
         }
@@ -686,7 +702,35 @@ class AdminController extends Controller
 
     public function join(Request $request){
 
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        $request->validate([
+            'meeting_id' => 'required',
+            'password' => 'nullable',
 
+        ]);
+
+        $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
+
+        if (!$meeting) {
+            // Store the last tried meeting_id in session
+            $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+            return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
+        }
+
+        if (!empty($meeting->password))
+        {
+
+            if ($meeting->password == $request->password){
+
+                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+            }else{
+                // Store the last tried meeting_id in session
+                $request->session()->flash('last_meeting_id', $request->meeting_id);
+
+                return redirect()->back()->withErrors('Wrong Password!')->withInput();
+            }
+        }else{
+            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+        }
     }
 }

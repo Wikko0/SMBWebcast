@@ -117,10 +117,10 @@ url('{{asset('img/login-bg.jpg')}}');
                                         <form class="user" action="/join" method="post">
                                             @csrf
                                             <div class="form-group">
-                                                <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID">
+                                                <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID" value="{{ old('meeting_id') }}">
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" name="password" class="form-control form-control-user" placeholder="Enter Meeting Password(optional)">
+                                                <input type="password" name="password" class="form-control form-control-user" placeholder="Enter Meeting Password(optional)" value="{{ old('password') }}">
                                                 <div class="my-2"></div>
 
                                             </div>

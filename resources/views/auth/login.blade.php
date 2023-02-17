@@ -18,14 +18,24 @@
             <form class="user" action="/join" method="post">
                 @csrf
                 <div class="form-group">
-                    <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID">
+                    <input type="text" name="meeting_id" required class="form-control form-control-user" placeholder="Enter Meeting ID" value="{{ old('meeting_id') }}">
+                    @error('meeting_id')
+                    <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control form-control-user" placeholder="Enter Meeting Password(optional)">
+                    <input type="password" name="password" class="form-control form-control-user" placeholder="Enter Meeting Password(optional)" value="{{ old('password') }}">
                     <div class="my-2"></div>
-
+                    @error('password')
+                    <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">Join Now</button>
+
             </form>
 
 
@@ -36,7 +46,7 @@
                 @csrf
 
                 <div class="form-group">
-                    <input type="email" name="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                    <input type="email" name="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." value="{{ old('mail') }}" required>
                     @error('email')
                     <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>
@@ -44,7 +54,7 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="exampleInputPassword" placeholder="Password" required>
+                    <input type="password" name="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="exampleInputPassword" placeholder="Password" value="{{ old('password') }}" required>
                     @error('password')
                     <span class="invalid-feedback" role="alert">
         <strong>{{ $message }}</strong>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('meeting_id');
             $table->string('created_by');
+            $table->string('created_by_mail');
             $table->string('password')->nullable();
             $table->string('joined')->default(1);
             $table->string('app_id');

@@ -80,7 +80,7 @@
                             </td>
                             <td><strong>{{$meeting->title}}</strong></td>
                             <td>{{$meeting->meeting_id}}</td>
-                            <td>{{$meeting->created_by}}</td>
+                            <td>{{$meeting->created_by_mail}}</td>
                             <td>{{$meeting->created_at}}</td>
                         </tr>
                         @endforeach

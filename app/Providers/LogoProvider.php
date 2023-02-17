@@ -25,11 +25,7 @@ class LogoProvider extends ServiceProvider
      */
     public function boot()
     {
-        $logo = cache()->remember(
-            key:'logo',
-            ttl:3600,
-            callback: fn() => LogoSettings::all()->keyBy('key')
-        );
+        $logo = LogoSettings::where('key', 'logo')->first();
         View::share('logo', $logo);
     }
 }

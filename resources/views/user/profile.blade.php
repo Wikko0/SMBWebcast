@@ -29,7 +29,7 @@
             <div class="row">
                 <div class="col-md-12">
                     @if($profile->image)
-                    <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset('storage/'.$profile->image)}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
+                    <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset($profile->image)}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
                         @else
                     <div class="profile-info-name text-center col-sm-6"> <img id="profile_image" src="{{asset('img/user.jpg')}}" class="thumb-lg img-circle img-thumbnail" alt="/" >
                     @endif
