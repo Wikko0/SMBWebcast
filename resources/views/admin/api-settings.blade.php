@@ -2,6 +2,68 @@
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">API APP Settings</h6>
+        </div>
+        <div class="card-body">
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                    </button>
+                    <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                    <ul>{{session('success')}}</ul>
+                </div>
+            @endif
+            @if ($errors->any())
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                    </button>
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+                    @foreach ($errors->all() as $error)
+                        <ul>{{ $error }}</ul>
+                    @endforeach
+                </div>
+            @endif
+            <form method="post" action="/admin/api-app">
+                @csrf
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">API Server Url For APP</label>
+                        <div class="col-sm-9">
+                            <input type="hidden" value="{{$app->id}}" name="id"/>
+                            <input type="text" value="{{env('APP_URL').$app->apiurl}}" class="form-control" required readonly />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">API Key For APP</label>
+                        <div class="col-sm-7">
+                            <input type="text" value="{{$app->apikey}}" name="apikey" class="form-control" required />
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary" onclick="generateApiKey()">Create New Key</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50"><i class="fa fa-check"></i></span>
+                        <span class="text">Save Changes</span>
+                    </button>
+                </div>
+            </form>
+
+            <script>
+                function generateApiKey() {
+                    var length = 32;
+                    var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    var apiKey = '';
+                    for (var i = length; i > 0; --i) {
+                        apiKey += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    document.getElementsByName('apikey')[0].value = apiKey;
+                }
+            </script>
+        </div>
+    </div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">PlugnPaid Settings</h6>
         </div>
         <div class="card-body">
@@ -111,6 +173,7 @@
             </form>
         </div>
     </div>
+
     </div>
     </div>
 

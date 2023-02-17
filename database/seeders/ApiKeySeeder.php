@@ -16,6 +16,7 @@ class ApiKeySeeder extends Seeder
     public function run()
     {
         ApiKey::create([
+            'apiurl' => '/api/v1',
             'apikey' => 'a94jwdbe8wx7pcdogqivoki8',
         ]);
     }

@@ -87,6 +87,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/api-settings', [AdminController::class, 'apiSettings'])->name('admin.api.settings');
     Route::post('/admin/api-settings', [AdminController::class, 'do_apiSettings'])->name('admin.api.do_settings');
     Route::post('/admin/api-google', [AdminController::class, 'do_apiGoogle'])->name('admin.api.do_google');
+    Route::post('/admin/api-app', [AdminController::class, 'do_apiApp'])->name('admin.api.do_app');
 
     Route::get('/admin/meeting', [AdminController::class, 'meeting'])->name('admin.meeting');
     Route::get('/admin/meeting/history', [AdminController::class, 'meetingHistory'])->name('admin.meeting.history');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
+use App\Models\ApiKey;
 use App\Models\ApiSettings;
 use App\Models\Common;
 use App\Models\GoogleSettings;
@@ -478,7 +479,8 @@ class AdminController extends Controller
         $title = 'API Setting';
         $api = ApiSettings::first();
         $google = GoogleSettings::first();
-        return view('admin.api-settings',['title' => $title, 'api' => $api, 'google' => $google]);
+        $app = ApiKey::first();
+        return view('admin.api-settings',['title' => $title, 'api' => $api, 'google' => $google, 'app' => $app]);
     }
 
     public function do_apiSettings(Request $request)
@@ -512,6 +514,22 @@ class AdminController extends Controller
                 'google_client_secret' => $request->google_client_secret,
                 'spreadsheet' => $request->spreadsheet,
                 'sheet_name' => $request->sheet_name,
+            ]);
+
+        return redirect()->back()->withSuccess('You have changed this settings successfully!');
+    }
+
+    public function do_apiApp(Request $request)
+    {
+        $request->validate([
+            'apikey' => 'required|min:14|max:128',
+
+
+        ]);
+
+        ApiKey::where('id', $request->id)
+            ->update([
+                'apikey' => $request->apikey,
             ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
