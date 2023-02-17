@@ -355,6 +355,7 @@ class AdminController extends Controller
     public function do_emailSettings(Request $request)
     {
         $request->validate([
+            'name' => 'required',
             'transport' => 'required',
             'host' => 'required',
             'port' => 'required',
@@ -367,6 +368,7 @@ class AdminController extends Controller
 
         MailSettings::where('id', $request->id)
             ->update([
+                'from_name' => $request->name,
                 'mail_transport' => $request->transport,
                 'mail_host' => $request->host,
                 'mail_port' => $request->port,

@@ -348,8 +348,8 @@
                                                         <td align="left" class="center-text">
                                                             <a href="{{ url('/') }}"><img
                                                                     style="width:72px;border:0px;display: inline!important;"
-                                                                @if(!empty($logo['logo']->logo))
-                                                                    src="{{asset('storage/'.$logo['logo']->logo)}}"
+                                                                @if(!empty($logo->logo))
+                                                                    src="{{asset('img/uploads/'.$logo->logo)}}"
                                                             @else
                                                                 src="{{asset('img/logo.png')}}"
                                                             @endif
@@ -810,7 +810,7 @@
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
                                     <a href="tel:0876206073"
-                                       style="color:#6e6e6e;"><span>Phone:{{$settings['settings']->phone}}</span></a>
+                                       style="color:#6e6e6e;"><span>Phone:{{$settings->phone}}</span></a>
 
                                 </td>
                             </tr>
@@ -818,8 +818,8 @@
                                 <td class="center-text" align="center"
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
-                                    <a href="mailto:{{$settings['settings']->address}}"
-                                       style="color:#6e6e6e;"><span>Mail:{{$settings['settings']->address}}</span></a> - <a
+                                    <a href="mailto:{{$settings->address}}"
+                                       style="color:#6e6e6e;"><span>Mail:{{$settings->address}}</span></a> - <a
                                         href="{{ url('/') }}" style="color:#6e6e6e;"><span>{{ url('/') }}</span></a>
 
                                 </td>

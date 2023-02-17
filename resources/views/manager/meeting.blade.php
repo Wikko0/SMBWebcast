@@ -45,17 +45,31 @@
                         @endif
 
                         <div class="col-md-9">
-                            <form class="form-inline " method="get" action="/manager/meeting">
-                                <div class="form-group mx-sm-3 mb-2">
-                                    <label for="title" class="sr-only">Meeting Title</label>
-                                    <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting Title">&nbsp;
-                                    <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
-                                        <span class="icon text-white-50"><i class="fa fa-search"></i></span>
-                                        <span class="text">Search</span>
-                                    </button>
+
+                                <div class="form-group mx-sm-3 mb-2 form-inline">
+                                    <form method="get" action="/manager/meeting">
+                                        <label for="title" class="sr-only">Meeting Title</label>
+                                        <input type="text" name="meeting_code" class="form-control form-control-sm" id="title" placeholder="Meeting Title">&nbsp;
+                                        <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
+                                            <span class="icon text-white-50"><i class="fa fa-search"></i></span>
+                                            <span class="text">Search</span>
+                                        </button>
+                                    </form>
+                                    <form class="ml-5" method="post" action="/join">
+                                        @csrf
+                                        <label for="title" class="sr-only">Meeting ID</label>
+                                        <input type="text" name="meeting_id" class="form-control form-control-sm" id="title" placeholder="Meeting ID">&nbsp;
+                                        <input type="text" name="password" class="form-control form-control-sm" id="title" placeholder="Password">&nbsp;
+                                        <button type="submit" class="btn btn-primary btn-sm btn-icon-split">
+                                            <span class="icon text-white-50"><i class="fa fa-camera"></i></span>
+                                            <span class="text">Join</span>
+                                        </button>
+                                    </form>
                                 </div>
-                            </form>
+
+
                         </div>
+
                     </div>
                     <table class="table table-striped">
                         <thead>

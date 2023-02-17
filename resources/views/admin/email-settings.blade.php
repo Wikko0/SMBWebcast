@@ -29,6 +29,13 @@
                 <!-- panel  -->
                 <div class="col-md-12">
                     <div class="form-group row">
+                        <label class="col-sm-3 control-label">From Name</label>
+                        <div class="col-sm-9">
+                            <input type="text"  value="{{$mailSettings->from_name}}" name="name" class="form-control" required  />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label class="col-sm-3 control-label">Mail Transport</label>
                         <div class="col-sm-9">
                             <input type="hidden"  value="{{$mailSettings->id}}" name="id"/>

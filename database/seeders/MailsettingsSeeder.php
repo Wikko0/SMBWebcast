@@ -17,6 +17,7 @@ class MailsettingsSeeder extends Seeder
     public function run()
     {
         MailSettings::create([
+            'from_name' => 'SMB Webcast',
             'mail_transport' => 'smtp',
             'mail_host' => 'smtp.mailtrap.io',
             'mail_port' => '2525',

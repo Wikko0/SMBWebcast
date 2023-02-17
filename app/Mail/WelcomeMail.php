@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\MailSettings;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -30,8 +31,9 @@ class WelcomeMail extends Mailable
      */
     public function envelope()
     {
+        $mail = MailSettings::first();
         return new Envelope(
-            subject: 'Welcome Mail',
+            subject: $mail->from_name,
         );
     }
 

@@ -11,8 +11,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon  -->
-    @if(!empty($logo['logo']->favicon))
-        <link rel="shortcut icon" href="{{asset('storage/'.$logo['logo']->favicon)}}" />
+    @if(!empty($logo->favicon))
+        <link rel="shortcut icon" href="{{asset('img/uploads/'.$logo->favicon)}}" />
     @else
         <link rel="shortcut icon" href="{{asset('img/favicon.png')}}" />
 @endif
@@ -25,24 +25,6 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <style type="text/css">
-        .bg-login-image{
-            background:
-                @if(!empty($logo['logo']->image))
-url('{{asset('storage/'.$logo['logo']->image)}}');
-        @else
-url('{{asset('img/login-bg.jpg')}}');
-            @endif
-            background-size: cover !important;
-            background-position: center !important;
-        }
-        .nav{
-            display: flex;
-            background-color: #eaecf4;
-            border-radius: 0.25rem;
-        }
-        .nav-item{
-            width: 50%;
-        }
         .nav-pills .nav-link {
             text-align: center;
             border-radius: .25rem;
@@ -76,19 +58,8 @@ url('{{asset('img/login-bg.jpg')}}');
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
-                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="p-5">
-                                <div class="text-center">
-                                    <a href="/">
-                                        @if(!empty($logo['logo']->logo))
-                                            <img src="{{asset('storage/'.$logo['logo']->logo)}}"></a><br>
-                                    @else
-                                        <img src="{{asset('img/logo.png')}}"></a><br>
-                                    @endif
-
-                                    <a href="/"><h1 class="h4 text-gray-900 mb-4">{{$settings['settings']->app_name ?? 'SMBWebcast'}} - Login</h1></a>
-                                </div>
                                 @if(session('success'))
                                     <div class="alert alert-success alert-dismissible">
                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
