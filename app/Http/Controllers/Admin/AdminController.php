@@ -381,6 +381,18 @@ class AdminController extends Controller
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
 
+    public function do_emailSettings_test(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        Mail::to($request->name)->send(new WelcomeMail());
+
+        return redirect()->back()->withSuccess('You have send test mail successfully!');
+    }
+
+
     public function logoSettings()
     {
         $title = 'Logo & Image Setting';

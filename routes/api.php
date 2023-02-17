@@ -15,6 +15,7 @@ use App\Http\Controllers\api\ApiController;
 |
 */
 
-Route::get('v1', [ApiController::class,'index']);
 
-
+Route::middleware(['api-key'])->group(function () {
+    Route::apiResource('v1', ApiController::class);
+});

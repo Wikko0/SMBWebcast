@@ -93,8 +93,41 @@
                     </button>
                 </div>
         </form>
+
+
                 </div>
+
         </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Test Mail</h6>
+        </div>
+        <div class="card-body">
+            <form method="post" action="/admin/email-settings/test">
+            @csrf
+            <!-- panel  -->
+                <!-- panel  -->
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Test Configuration</label>
+                        <div class="col-sm-9">
+                            <input type="email" name="name" class="form-control" placeholder="Enter email address.." required  />
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary btn-icon-split">
+                        <span class="icon text-white-50"><i class="fa fa-check"></i></span>
+                        <span class="text">Test Mail</span>
+                    </button>
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
     </div>
     </div>
 
