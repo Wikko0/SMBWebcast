@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Http\Controllers\Controller;
 use App\Mail\WelcomeMail;
 use App\Models\Common;
+use App\Models\Joined;
 use App\Models\Meeting;
 use App\Models\NotificationSend;
 use App\Models\NotificationSettings;
@@ -293,13 +294,21 @@ class ManagerController extends Controller
         $start_time = $check->start_time;
         $end_time = $check->end_time;
         $difference = $end_time - $start_time;
-        $meetings = Meeting::onlyTrashed()->where('created_by', Auth::user()->name)->get();
+
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+        $user = Auth::user();
+
+        $meetings = Meeting::where('created_by', $user->name)->get();
+        $joined = Joined::whereIn('meeting_id', $meetings->pluck('meeting_id'))
+            ->where('created_at', '>=', $thirtyDaysAgo)
+            ->orderBy('created_at', 'desc')
+            ->get();
         $search = $request->get('meeting_code');
         if ($search)
         {
-            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
+            $joined = Joined::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
         }
-        return view('manager.meeting_history',['title' => $title, 'meetings' => $meetings, 'difference' => $difference]);
+        return view('manager.meeting_history',['title' => $title, 'meetings' => $meetings,'joined' => $joined, 'difference' => $difference]);
     }
 
     public function meeting(Request $request)
@@ -504,22 +513,10 @@ class ManagerController extends Controller
             $request->session()->flash('last_meeting_id', $request->meeting_id);
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
-        }
-
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                // Store the last tried meeting_id in session
-                $request->session()->flash('last_meeting_id', $request->meeting_id);
-
-                return redirect()->back()->withErrors('Wrong Password!')->withInput();
-            }
         }else{
             return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
         }
-    }
+
+        }
+
 }

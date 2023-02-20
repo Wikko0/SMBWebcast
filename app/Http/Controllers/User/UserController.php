@@ -162,21 +162,7 @@ class UserController extends Controller
             $request->session()->flash('last_meeting_id', $request->meeting_id);
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
-        }
-
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                // Store the last tried meeting_id in session
-                $request->session()->flash('last_meeting_id', $request->meeting_id);
-
-                return redirect()->back()->withErrors('Wrong Password!')->withInput();
-            }
-        }else{
+        } else{
             return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
         }
     }

@@ -44,24 +44,28 @@
                         <thead>
                         <tr>
                             <th>#</th>
+                            <th>Name</th>
                             <th>Meeting Title</th>
                             <th>Meeting ID</th>
-                            <th>Created by</th>
-                            <th>Created At</th>
-                            <th>Deleted At</th>
+                            <th>Joined At</th>
+                            <th>Host by</th>
+                            <th>Host At</th>
+
                         </tr>
                         </thead>
                         <tbody>
 
-                        @foreach($meetings as $meeting)
-                        <tr id='row_{{$meeting->id}}'>
-                            <td>{{$meeting->id}}</td>
-                            <td><strong>{{$meeting->title}}</strong></td>
-                            <td>{{$meeting->meeting_id}}</td>
-                            <td>{{$meeting->created_by}}</td>
-                            <td>{{$meeting->created_at}}</td>
-                            <td>{{$meeting->deleted_at}}</td>
-                        </tr>
+                        @foreach($joined as $user)
+                            <tr id='row_{{$user->id}}'>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->meeting->title}}</td>
+                                <td>{{$user->meeting->meeting_id}}</td>
+                                <td>{{$user->created_at}}</td>
+                                <td>{{$user->meeting->created_by}}</td>
+                                <td>{{$user->meeting->created_at}}</td>
+
+                            </tr>
                         @endforeach
                         </tbody>
                     </table>

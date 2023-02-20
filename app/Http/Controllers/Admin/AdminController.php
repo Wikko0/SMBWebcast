@@ -541,7 +541,7 @@ class AdminController extends Controller
         $title = 'Meetings History';
         $thirtyDaysAgo = Carbon::now()->subDays(30);
 
-        $joined = Joined::where('created_at', '>=', $thirtyDaysAgo)->get();
+        $joined = Joined::where('created_at', '>=', $thirtyDaysAgo)->orderBy('created_at', 'desc')->get();
         $meetings = Meeting::all();
         $search = $request->get('meeting_code');
         if ($search)
@@ -751,21 +751,7 @@ class AdminController extends Controller
             $request->session()->flash('last_meeting_id', $request->meeting_id);
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
-        }
-
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                // Store the last tried meeting_id in session
-                $request->session()->flash('last_meeting_id', $request->meeting_id);
-
-                return redirect()->back()->withErrors('Wrong Password!')->withInput();
-            }
-        }else{
+        } else{
             return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
         }
     }
