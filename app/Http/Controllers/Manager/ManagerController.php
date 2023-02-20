@@ -239,7 +239,7 @@ class ManagerController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
-        Mail::to($request->email)->send(new WelcomeMail());
+        Mail::to($request->email)->send(new WelcomeMail($request->name));
 
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }

@@ -75,7 +75,7 @@ class PlugnPaidController extends Controller
             'manager' => $last_customer['name']
         ]);
 
-        Mail::to($last_customer['email'])->send(new WelcomeMail());
+        Mail::to($last_customer['email'])->send(new WelcomeMail($last_customer['name']));
 
         return redirect('/')->withSuccess('You have registered successfully!');
     }

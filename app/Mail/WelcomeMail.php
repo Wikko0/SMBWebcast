@@ -19,9 +19,12 @@ class WelcomeMail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    public $name;
+
+    public function __construct($name)
     {
-        //
+        $this->name = $name;
     }
 
     /**
@@ -46,6 +49,9 @@ class WelcomeMail extends Mailable
     {
         return new Content(
             view: 'mail.welcome-mail',
+            with: [
+                'name' => $this->name,
+            ],
         );
     }
 

@@ -18,7 +18,7 @@
     <meta name="format-detection" content="address=no"> <!-- disable auto address linking in iOS -->
     <meta name="format-detection" content="email=no"> <!-- disable auto email linking in iOS -->
     <meta name="author" content="Simple-Pleb.com">
-    <title>Welcome | {{ config('app.name') }}</title>
+    <title>Welcome to {{ config('app.name') }}. It's Time to Build Trust, Live.</title>
 
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -291,7 +291,7 @@
                    style="width:100%;max-width:100%;">
                 <!-- lotus-header-1 -->
                 <tr>
-                    <td align="center" bgcolor="#343e9e" class="container-padding">
+                    <td align="center" bgcolor="#FE5722" class="container-padding">
 
                         <!-- Content -->
                         <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row"
@@ -340,25 +340,6 @@
                                                 <!--[if (gte mso 9)|(IE)]></td>
                                                 <td><![endif]-->
 
-                                                <!-- column -->
-                                                <table border="0" align="right" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="280"
-                                                       style="width:280px;max-width:280px;">
-                                                    <tr>
-                                                        <td align="left" class="center-text">
-                                                            <a href="{{ url('/') }}"><img
-                                                                    style="width:72px;border:0px;display: inline!important;"
-                                                                @if(!empty($logo->logo))
-                                                                    src="{{asset('img/uploads/'.$logo->logo)}}"
-                                                            @else
-                                                                src="{{asset('img/logo.png')}}"
-                                                            @endif
-                                                                     width="72"
-                                                                    border="0" alt="logo"></a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
 
                                                 <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
 
@@ -372,13 +353,6 @@
                                 <td height="40" style="font-size:40px;line-height:40px;">&nbsp;</td>
                             </tr>
                             <tr>
-                                <td align="center" class="center-text">
-                                    <img style="width:190px;border:0px;display: inline!important;"
-                                         src="{{ asset('img/mail/mail_intro.png') }}" width="190" border="0"
-                                         alt="intro">
-                                </td>
-                            </tr>
-                            <tr>
                                 <td height="40" style="font-size:40px;line-height:40px;">&nbsp;</td>
                             </tr>
                             <tr>
@@ -386,7 +360,7 @@
                                     style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:42px;line-height:52px;font-weight:400;font-style:normal;color:#FFFFFF;text-decoration:none;letter-spacing:0px;">
 
                                     <div>
-                                        Hey, Welcome
+                                        Hi {{$name}},
                                     </div>
 
                                 </td>
@@ -399,7 +373,15 @@
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:16px;line-height:26px;font-weight:300;font-style:normal;color:#FFFFFF;text-decoration:none;letter-spacing:0px;">
 
                                     <div>
-                                        Text here
+                                        I'd like to be the first one to welcome you to SMBwebcast.<br>
+                                        We built this tool to be extremely simple, perhaps the simplest webinar, bootcamp, and meeting platform ever created.<br>
+                                        <br>
+                                        You won't find any software to install, or 1,000 settings.<br>
+                                        <br>
+                                        Just... a meeting or webinar link, and an optional password.<br>
+                                        Sweet, right?<br>
+                                        <br>
+                                        You'll want to watch this video to learn how to begin building trust with your audience using SMBwebcast:<br>
                                     </div>
 
                                 </td>
@@ -421,7 +403,7 @@
                                                         <td align="center" height="50" style="height:50px;">
                                                 <![endif]-->
 
-                                                <a href="{{ env('APP_URL') }}" target="_blank"
+                                                <a href="https://go.smbwebcast.com/start" target="_blank"
                                                    style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>GET STARTED</span></a>
 
                                                 <!--[if (gte mso 9)|(IE)]>
@@ -446,16 +428,6 @@
                 </tr>
             </table>
 
-            <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                   style="width:100%;max-width:100%;">
-                <!-- lotus-arrow-divider -->
-                <tr>
-                    <td align="center" bgcolor="#FFFFFF">
-                        <img style="width:50px;border:0px;display: inline!important;"
-                             src="{{ asset('img/mail/arrow.png') }}" width="50" border="0" alt="arrow">
-                    </td>
-                </tr>
-            </table>
 
             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%"
                    style="width:100%;max-width:100%;">
@@ -474,100 +446,47 @@
                                     style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:32px;line-height:42px;font-weight:400;font-style:normal;color:#282828;text-decoration:none;letter-spacing:0px;">
 
                                     <div>
-                                        What next
+                                        If you have any questions, please be sure to utilize the chat to message our team, or access the support page:<br>
+                                        <br>
+
+
+                                    <!-- Header Button -->
+                                    <table border="0" cellspacing="0" cellpadding="0" role="presentation" align="center"
+                                           class="center-float">
+                                        <tr>
+                                            <td align="center" bgcolor="#d6df58" style="border-radius: 6px;">
+                                                <!--[if (gte mso 9)|(IE)]>
+                                                <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                                    <tr>
+                                                        <td align="center" width="50"></td>
+                                                        <td align="center" height="50" style="height:50px;">
+                                                <![endif]-->
+
+                                                <a href="https://support.smbbizapps.com/smbwebcast/live/getting-started" target="_blank"
+                                                   style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:16px;line-height:19px;font-weight:700;font-style:normal;color:#000000;text-decoration:none;letter-spacing:0px;padding: 20px 50px 20px 50px;display: inline-block;"><span>SUPPORT</span></a>
+
+                                                <!--[if (gte mso 9)|(IE)]>
+                                                </td>
+                                                <td align="center" width="50"></td>
+                                                </tr>
+                                                </table>
+                                                <![endif]-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- Header Button -->
+
+
+                                        <br>
+                                        I'm here for you, so let me know if you need anything.<br>
+                                        <br>
+                                        To your success,<br>
+
                                     </div>
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td height="30" style="font-size:30px;line-height:30px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                    <!-- 2-columns -->
-                                    <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation"
-                                           width="100%" style="width:100%;max-width:100%;">
-                                        <tr>
-                                            <td align="center">
 
-                                                <!--[if (gte mso 9)|(IE)]>
-                                                <table border="0" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="70"
-                                                       style="width:70px;max-width:70px;">
-                                                    <tr>
-                                                        <td align="center">
-                                                            <img
-                                                                style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ asset('img/mail/mail_icon_1.png') }}"
-                                                                border="0" alt="icon">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- gap -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="30"
-                                                       style="width:30px;max-width:30px;">
-                                                    <tr>
-                                                        <td height="20" style="font-size:20px;line-height:20px;"></td>
-                                                    </tr>
-                                                </table>
-                                                <!-- gap -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="480"
-                                                       style="width:480px;max-width:480px;">
-                                                    <tr>
-                                                        <td class="center-text" align="left"
-                                                            style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Headline One
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td height="5" style="font-size:5px;line-height:5px;">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="center-text container-padding" align="left"
-                                                            style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Paragraph One
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
-
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- 2-columns -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="15" style="font-size:15px;line-height:15px;">&nbsp;</td>
-                            </tr>
                         </table>
                         <!-- Content -->
 
@@ -575,215 +494,6 @@
                 </tr>
             </table>
 
-            <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                   style="width:100%;max-width:100%;">
-                <!-- lotus-content-1-2 -->
-                <tr>
-                    <td align="center" bgcolor="#FFFFFF" class="container-padding">
-
-                        <!-- Content -->
-                        <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row"
-                               width="580" style="width:580px;max-width:580px;">
-                            <tr>
-                                <td height="15" style="font-size:15px;line-height:15px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                    <!-- 2-columns -->
-                                    <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation"
-                                           width="100%" style="width:100%;max-width:100%;">
-                                        <tr>
-                                            <td align="center">
-
-                                                <!--[if (gte mso 9)|(IE)]>
-                                                <table border="0" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="70"
-                                                       style="width:70px;max-width:70px;">
-                                                    <tr>
-                                                        <td align="center">
-                                                            <img
-                                                                style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ asset('img/mail/mail_icon_2.png') }}"
-                                                                border="0" alt="icon">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- gap -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="30"
-                                                       style="width:30px;max-width:30px;">
-                                                    <tr>
-                                                        <td height="20" style="font-size:20px;line-height:20px;"></td>
-                                                    </tr>
-                                                </table>
-                                                <!-- gap -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="480"
-                                                       style="width:480px;max-width:480px;">
-                                                    <tr>
-                                                        <td class="center-text" align="left"
-                                                            style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Headline
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td height="5" style="font-size:5px;line-height:5px;">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="center-text container-padding" align="left"
-                                                            style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Paragraph two
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
-
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- 2-columns -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="15" style="font-size:15px;line-height:15px;">&nbsp;</td>
-                            </tr>
-                        </table>
-                        <!-- Content -->
-
-                    </td>
-                </tr>
-            </table>
-
-            <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%"
-                   style="width:100%;max-width:100%;">
-                <!-- lotus-content-1-3 -->
-                <tr>
-                    <td align="center" bgcolor="#FFFFFF" class="container-padding">
-
-                        <!-- Content -->
-                        <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" class="row"
-                               width="580" style="width:580px;max-width:580px;">
-                            <tr>
-                                <td height="15" style="font-size:15px;line-height:15px;">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td align="center">
-                                    <!-- 2-columns -->
-                                    <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation"
-                                           width="100%" style="width:100%;max-width:100%;">
-                                        <tr>
-                                            <td align="center">
-
-                                                <!--[if (gte mso 9)|(IE)]>
-                                                <table border="0" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="70"
-                                                       style="width:70px;max-width:70px;">
-                                                    <tr>
-                                                        <td align="center">
-                                                            <img
-                                                                style="display:block;width:100%;max-width:70px;border:0px;"
-                                                                width="70" src="{{ asset('img/mail/mail_icon_3.png') }}"
-                                                                border="0" alt="icon">
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- gap -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="30"
-                                                       style="width:30px;max-width:30px;">
-                                                    <tr>
-                                                        <td height="20" style="font-size:20px;line-height:20px;"></td>
-                                                    </tr>
-                                                </table>
-                                                <!-- gap -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td>
-                                                <td><![endif]-->
-
-                                                <!-- column -->
-                                                <table border="0" align="left" cellpadding="0" cellspacing="0"
-                                                       role="presentation" class="row" width="480"
-                                                       style="width:480px;max-width:480px;">
-                                                    <tr>
-                                                        <td class="center-text" align="left"
-                                                            style="font-family:'Roboto Slab',Arial,Helvetica,sans-serif;font-size:20px;line-height:28px;font-weight:400;font-style:normal;color:#343e9e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Headline
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td height="5" style="font-size:5px;line-height:5px;">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="center-text container-padding" align="left"
-                                                            style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
-
-                                                            <div>
-                                                                Paragraph three
-                                                            </div>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                                <!-- column -->
-
-                                                <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
-
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- 2-columns -->
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="50" style="font-size:50px;line-height:50px;">&nbsp;</td>
-                            </tr>
-                        </table>
-                        <!-- Content -->
-
-                    </td>
-                </tr>
-            </table>
 
             <table border="0" align="center" cellpadding="0" cellspacing="0" role="presentation" width="100%"
                    style="width:100%;max-width:100%;">
@@ -802,15 +512,21 @@
 
                                 </td>
                             </tr>
-                            <tr>
-                                <td height="30" style="font-size:30px;line-height:30px;">&nbsp;</td>
-                            </tr>
+
                             <tr>
                                 <td class="center-text" align="center"
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
-                                    <a href="tel:0876206073"
-                                       style="color:#6e6e6e;"><span>Phone:{{$settings->phone}}</span></a>
+                                    <span>Vik</span>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="center-text" align="center"
+                                    style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
+
+                                   <span>Vik Karanovich</span>
 
                                 </td>
                             </tr>
@@ -818,9 +534,23 @@
                                 <td class="center-text" align="center"
                                     style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
 
-                                    <a href="mailto:{{$settings->address}}"
-                                       style="color:#6e6e6e;"><span>Mail:{{$settings->address}}</span></a> - <a
-                                        href="{{ url('/') }}" style="color:#6e6e6e;"><span>{{ url('/') }}</span></a>
+                                   <span>SMBwebcast</span>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center-text" align="center"
+                                    style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
+                        <span>SMBbizapps | Stop Marketing. Build Trust.</span>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="center-text" align="center"
+                                    style="font-family:'Poppins',Arial,Helvetica,sans-serif;font-size:14px;line-height:24px;font-weight:400;font-style:normal;color:#6e6e6e;text-decoration:none;letter-spacing:0px;">
+
+                                    <a href="mailto:{{$settings->address??'support@smbbizapps.com'}}"
+                                       style="color:#6e6e6e;"><span>{{$settings->address??'support@smbbizapps.com'}}</span></a>
 
                                 </td>
                             </tr>

@@ -170,7 +170,7 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->name,
                 'user_id' => $user->id,
             ]);
-            Mail::to($request->email)->send(new WelcomeMail());
+            Mail::to($request->email)->send(new WelcomeMail($request->name));
         }
 
         if ($request->role == 'manager')
@@ -205,7 +205,7 @@ class AdminController extends Controller
                 'manager' => $request->name
             ]);
 
-            Mail::to($request->email)->send(new WelcomeMail());
+            Mail::to($request->email)->send(new WelcomeMail($request->name));
         }
 
         if ($request->role == 'admin')
@@ -226,7 +226,7 @@ class AdminController extends Controller
                 'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
                 'manager' => $request->name
             ]);
-            Mail::to($request->email)->send(new WelcomeMail());
+            Mail::to($request->email)->send(new WelcomeMail($request->name));
         }
         return redirect()->back()->withSuccess('You have added this user successfully!');
     }
@@ -388,7 +388,7 @@ class AdminController extends Controller
             'name' => 'required',
         ]);
 
-        Mail::to($request->name)->send(new WelcomeMail());
+        Mail::to($request->name)->send(new WelcomeMail('Test'));
 
         return redirect()->back()->withSuccess('You have send test mail successfully!');
     }
