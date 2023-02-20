@@ -8,6 +8,7 @@ use App\Models\ApiKey;
 use App\Models\ApiSettings;
 use App\Models\Common;
 use App\Models\GoogleSettings;
+use App\Models\Joined;
 use App\Models\LogoSettings;
 use App\Models\MailSettings;
 use App\Models\Meeting;
@@ -538,13 +539,16 @@ class AdminController extends Controller
     public function meetingHistory(Request $request)
     {
         $title = 'Meetings History';
-        $meetings = Meeting::onlyTrashed()->get();
+        $thirtyDaysAgo = Carbon::now()->subDays(30);
+
+        $joined = Joined::where('created_at', '>=', $thirtyDaysAgo)->get();
+        $meetings = Meeting::all();
         $search = $request->get('meeting_code');
         if ($search)
         {
-            $meetings = Meeting::where('title', 'like', '%'.$search.'%')->paginate(5);
+            $joined = Joined::where('meeting_id', 'like', '%'.$search.'%')->paginate(5);
         }
-        return view('admin.meeting_history',['title' => $title, 'meetings' => $meetings]);
+        return view('admin.meeting_history',['title' => $title, 'meetings' => $meetings, 'joined' => $joined]);
     }
 
     public function meeting(Request $request)

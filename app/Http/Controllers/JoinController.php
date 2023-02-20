@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Joined;
 use App\Models\Meeting;
 use App\Models\User;
 use App\Rules\MatchOldPassword;
@@ -32,6 +33,10 @@ class JoinController extends Controller
             if ($check->last_activity??null > now()->subMinutes(120)) {
                 Meeting::where('meeting_id', $id)
                     ->update(['joined' => Meeting::raw('joined+1')]);
+                Joined::create([
+                    'name' => Auth::user()->name??'Guest',
+                    'meeting_id' => $meeting->meeting_id
+                ]);
                 return view('room', ['meeting' => $meeting, 'user' => $user]);
             } else {
                 session()->flash('last_meeting_id',$last_meeting_id);

@@ -12,4 +12,9 @@ class Meeting extends Model
     use HasApiTokens ,HasFactory, SoftDeletes;
 
     protected $guarded;
+
+    public function joined()
+    {
+        return $this->hasMany(Joined::class, 'meeting_id', 'meeting_id');
+    }
 }
