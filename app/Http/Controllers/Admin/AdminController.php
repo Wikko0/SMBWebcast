@@ -88,6 +88,17 @@ class AdminController extends Controller
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
 
+            Team::where('user', Auth::user()->name)->
+            update([
+                'user' => $request->name,
+                'created_by' => $request->name,
+            ]);
+
+            Meeting::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
 
             Auth::user()->update([
                 'name' => $request->name,
@@ -97,6 +108,18 @@ class AdminController extends Controller
         }else{
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
+
+            Team::where('created_by', Auth::user()->name)->
+            update([
+                'name' => $request->name,
+                'created_by' => $request->name,
+            ]);
+
+            Meeting::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
 
             Auth::user()->update([
                 'name' => $request->name,
@@ -572,14 +595,23 @@ class AdminController extends Controller
     public function do_meeting_add(Request $request)
     {
 
+        $settings = Settings::first();
         $request->validate([
             'title' => ['required', 'min:3'],
-            'meeting_id' => ['required', 'unique:meetings,meeting_id', 'regex:/^\S*$/u']
+            'meeting_id' => [
+                'required',
+                'regex:/^\S*$/u',
+                function ($attribute, $value, $fail) use ($request, $settings) {
+                    $meeting_id = $settings->meeting_id . $value;
+                    if (Meeting::where('meeting_id', $meeting_id)->exists()) {
+                        $fail('The Meeting ID has already been taken.');
+                    }
+                },
+            ],
         ]);
 
         $user = Auth::user()->name;
         $email = Auth::user()->email;
-        $settings = Settings::first();
         $notification = NotificationSettings::first();
         if ($request->password)
         {

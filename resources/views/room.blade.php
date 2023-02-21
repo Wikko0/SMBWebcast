@@ -3,6 +3,8 @@
     <meta charset="utf-8">
     <title> Meeting </title>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
 <script src="https://meet.jit.si/external_api.js"></script>
@@ -22,7 +24,7 @@
         width: "100%",
         height: 800,
         parentNode: undefined,
-        configOverwrite: {},
+        configOverwrite: {disableDeepLinking: true},
     }
     var api = new JitsiMeetExternalAPI(domain, options);
 </script>

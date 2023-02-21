@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
 class WelcomeMail extends Mailable
 {
@@ -36,7 +37,8 @@ class WelcomeMail extends Mailable
     {
         $mail = MailSettings::first();
         return new Envelope(
-            subject: $mail->from_name,
+            from: new Address($mail->mail_from, $mail->from_name),
+            subject: 'Welcome to SMBwebcast. It\'s Time to Build Trust, Live.',
         );
     }
 

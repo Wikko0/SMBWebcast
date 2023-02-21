@@ -67,7 +67,11 @@
 
                             </tr>
                         @endforeach
-
+                        @if($joined->isEmpty())
+                            <tr>
+                                <td colspan="7">No results found.</td>
+                            </tr>
+                        @endif
                         </tbody>
                     </table>
 
