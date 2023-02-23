@@ -9,6 +9,7 @@
 <body>
 <script src="https://meet.jit.si/external_api.js"></script>
 <script>
+
     var domain = "meet.jit.si";
     var options = {
         roomName: '{{$meeting->meeting_id}}',
@@ -22,11 +23,34 @@
             videoInput: '<deviceLabel>'
         },
         width: "100%",
-        height: 800,
+        height: "100%",
         parentNode: undefined,
         configOverwrite: {disableDeepLinking: true},
     }
     var api = new JitsiMeetExternalAPI(domain, options);
+
+
+</script>
+
+<script>
+    if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
+        // Replace iframe tag with embed tag
+        var iframes = document.getElementsByTagName("iframe");
+        for (var i = 0; i < iframes.length; i++) {
+            var iframe = iframes[i];
+            var embed = document.createElement("embed");
+            embed.setAttribute("src", iframe.getAttribute("src"));
+
+            // Set width and height attributes to match aspect ratio of original iframe tag
+            var width = iframe.getAttribute("width");
+            var height = iframe.getAttribute("height");
+            var aspectRatio = height / width;
+            embed.setAttribute("width", "100%");
+            embed.setAttribute("height", "100%");
+
+            iframe.parentNode.replaceChild(embed, iframe);
+        }
+    }
 </script>
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>

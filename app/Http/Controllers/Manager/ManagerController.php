@@ -320,7 +320,7 @@ class ManagerController extends Controller
         $start_time = $check->start_time;
         $end_time = $check->end_time;
         $difference = $end_time - $start_time;
-        $meetings = Meeting::where('created_by', Auth::user()->name)->get();
+        $meetings = Meeting::where('created_by_mail', Auth::user()->email)->get();
         $search = $request->get('meeting_code');
         if ($search)
         {
@@ -508,12 +508,11 @@ class ManagerController extends Controller
         return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
     }
 
-    public function join(Request $request){
-
+    public function join(Request $request)
+    {
         $request->validate([
             'meeting_id' => 'required',
             'password' => 'nullable',
-
         ]);
 
         $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
@@ -523,10 +522,13 @@ class ManagerController extends Controller
             $request->session()->flash('last_meeting_id', $request->meeting_id);
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
-        }else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
         }
 
-        }
+        $password = $meeting->password ?? null;
+
+        $request->session()->put('meeting_password', $password);
+
+        return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
+    }
 
 }

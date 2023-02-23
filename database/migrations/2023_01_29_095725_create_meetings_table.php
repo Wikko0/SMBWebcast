@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('joined')->default(1);
             $table->string('app_id');
+            $table->timestamp('last_activity')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class JoinController extends Controller
 {
-    public function room($id){
+    public function room($id)
+    {
         $last_meeting_id = session('last_meeting_id');
 
         if ($last_meeting_id) {
@@ -30,10 +31,19 @@ class JoinController extends Controller
         $team = Team::where('name', $teamName->name)->get(['user']);
         $user = Auth::user();
 
+        // Check password
+        $password = session('meeting_password');
+        if (!empty($meeting->password)) {
+            if ($password !== $meeting->password) {
+                session()->flash('last_meeting_id', $last_meeting_id);
+                return redirect()->back()->withErrors('Wrong password!')->withInput();
+            }
+        }
+
         $active = false;
         foreach ($team as $key => $teamMember) {
             $check = User::where('name', $teamMember->user)->first();
-            if ($check->last_activity > now()->subMinutes(120)) {
+            if ($check->last_activity > now()->subMinutes(120) && $meeting->last_activity > now()->subMinutes(120)) {
                 $active = true;
                 break;
             }
@@ -57,7 +67,6 @@ class JoinController extends Controller
         $request->validate([
             'meeting_id' => 'required',
             'password' => 'nullable',
-
         ]);
 
         $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
@@ -68,21 +77,9 @@ class JoinController extends Controller
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
         }
+        $request->session()->put('meeting_password', $request->password);
 
-        if (!empty($meeting->password))
-        {
-
-            if ($meeting->password == $request->password){
-
-                return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-            }else{
-                // Store the last tried meeting_id in session
-                $request->session()->flash('last_meeting_id', $request->meeting_id);
-
-                return redirect()->back()->withErrors('Wrong Password!')->withInput();
-            }
-        }else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
-        }
+        return $this->room($request->meeting_id);
     }
+
 }

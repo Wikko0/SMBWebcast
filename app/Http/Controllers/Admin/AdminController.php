@@ -768,12 +768,11 @@ class AdminController extends Controller
         return view('admin.join',['title' => $title, 'meetings' => $meetings]);
     }
 
-    public function join(Request $request){
-
+    public function join(Request $request)
+    {
         $request->validate([
             'meeting_id' => 'required',
             'password' => 'nullable',
-
         ]);
 
         $meeting = Meeting::where('meeting_id', $request->meeting_id)->first();
@@ -783,8 +782,12 @@ class AdminController extends Controller
             $request->session()->flash('last_meeting_id', $request->meeting_id);
 
             return redirect()->back()->withErrors('No meeting with that name exists!')->withInput();
-        } else{
-            return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
         }
+
+        $password = $meeting->password ?? null;
+
+        $request->session()->put('meeting_password', $password);
+
+        return redirect()->route('room', ['meeting_id' => $request->meeting_id]);
     }
 }
