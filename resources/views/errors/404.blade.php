@@ -2,4 +2,6 @@
 
 @section('title', __('Not Found'))
 @section('code', '404')
-@section('message', __('An error occurred, please contact support developer@smbbizapps.com'))
+@section('message')
+    An error occurred, please contact support {!! '<a href="mailto:support@smbbizapps.com">support@smbbizapps.com</a>' !!}
+@endsection

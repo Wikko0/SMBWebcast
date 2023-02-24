@@ -2,4 +2,6 @@
 
 @section('title', __('Too Many Requests'))
 @section('code', '429')
-@section('message', __('An error occurred, please contact support developer@smbbizapps.com'))
+@section('message')
+    An error occurred, please contact support {!! '<a href="mailto:support@smbbizapps.com">support@smbbizapps.com</a>' !!}
+@endsection

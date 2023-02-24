@@ -2,4 +2,6 @@
 
 @section('title', __('Forbidden'))
 @section('code', '403')
-@section('message', __($exception->getMessage() ?: 'An error occurred, please contact support developer@smbbizapps.com'))
+@section('message')
+    An error occurred, please contact support {!! '<a href="mailto:support@smbbizapps.com">support@smbbizapps.com</a>' !!}
+@endsection

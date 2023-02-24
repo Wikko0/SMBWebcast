@@ -5,6 +5,10 @@
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src *;
+                  style-src * 'self' 'unsafe-inline' 'unsafe-eval';
+                  script-src * 'self' 'unsafe-inline' 'unsafe-eval';">
 </head>
 <body>
 <script src="https://meet.jit.si/external_api.js"></script>
@@ -27,31 +31,26 @@
         parentNode: undefined,
         configOverwrite: {disableDeepLinking: true},
     }
-    var api = new JitsiMeetExternalAPI(domain, options);
 
+    var userAgent = window.navigator.userAgent;
+    var iOS = /iPad|iPhone|iPod/.test(userAgent);
+    var iOSVersion = null;
 
-</script>
-
-<script>
-    if (navigator.userAgent.match(/(iPad|iPhone|iPod)/g)) {
-        // Replace iframe tag with embed tag
-        var iframes = document.getElementsByTagName("iframe");
-        for (var i = 0; i < iframes.length; i++) {
-            var iframe = iframes[i];
-            var embed = document.createElement("embed");
-            embed.setAttribute("src", iframe.getAttribute("src"));
-
-            // Set width and height attributes to match aspect ratio of original iframe tag
-            var width = iframe.getAttribute("width");
-            var height = iframe.getAttribute("height");
-            var aspectRatio = height / width;
-            embed.setAttribute("width", "100%");
-            embed.setAttribute("height", "100%");
-
-            iframe.parentNode.replaceChild(embed, iframe);
+    if (iOS) {
+        var regex = /OS (\d+)_(\d+)_?(\d+)?/;
+        var match = regex.exec(navigator.userAgent);
+        if (match !== null) {
+            iOSVersion = parseInt(match[1], 10);
         }
     }
+
+    if (iOS && iOSVersion > 9) {
+        window.location.href = 'https://meet.jit.si/{{$meeting->meeting_id}}';
+    } else {
+        var api = new JitsiMeetExternalAPI(domain, options);
+    }
 </script>
+
 <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
 <script>
     window.OneSignal = window.OneSignal || [];
