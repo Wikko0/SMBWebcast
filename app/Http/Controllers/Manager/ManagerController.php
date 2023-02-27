@@ -95,11 +95,11 @@ class ManagerController extends Controller
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
 
-            Team::where('created_by', Auth::user()->name)->
-            update([
-                'name' => $request->name,
-                'created_by' => $request->name,
-            ]);
+            Team::where('created_by', Auth::user()->name)
+                ->update([
+                    'name' => $request->team,
+                    'created_by' => $request->name,
+                ]);
 
             Meeting::where('created_by', Auth::user()->name)->
             update([
@@ -126,9 +126,9 @@ class ManagerController extends Controller
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
 
-            Team::where('user', Auth::user()->name)
+            Team::where('created_by', Auth::user()->name)
                 ->update([
-                    'user' => $request->name,
+                    'name' => $request->team,
                     'created_by' => $request->name,
                 ]);
 
@@ -407,6 +407,7 @@ class ManagerController extends Controller
                 ->update([
                     'title' => $request->title,
                     'meeting_id' => $request->meeting_id,
+                    'password' => null,
                 ]);
         }
 

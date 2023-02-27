@@ -40,6 +40,8 @@ Route::post('/', [LoginController::class, 'login']);
 Route::get('/privacy-policy', [PolicyController::class, 'index']);
 Route::post('/join', [JoinController::class, 'join'])->name('join');
 Route::get('/room/{meeting_id}', [JoinController::class, 'room'])->name('room')->middleware([RecordLastActivity::class]);
+Route::get('/room', [JoinController::class, 'roomError'])->name('room.error');
+Route::get('/webhook', [JoinController::class, 'webhook'])->name('webhook');
 Route::webhooks('webhook');
 /*
 |--------------------------------------------------------------------------

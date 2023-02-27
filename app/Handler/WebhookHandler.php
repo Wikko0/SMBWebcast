@@ -30,6 +30,7 @@ class WebhookHandler extends ProcessWebhookJob
            'payer_email' => $object['data']['order']['customer']['addresses']['billing'][0]['email'],
         ]);
 
+        return response()->json(['message' => 'Method is not allowed!', 405]);
     }
 
 }

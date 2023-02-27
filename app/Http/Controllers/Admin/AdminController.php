@@ -94,6 +94,11 @@ class AdminController extends Controller
                 'created_by' => $request->name,
             ]);
 
+            Team::where('created_by', Auth::user()->name)
+                ->update([
+                    'created_by' => $request->name,
+                ]);
+
             Meeting::where('created_by', Auth::user()->name)->
             update([
                 'created_by' => $request->name,
@@ -109,11 +114,16 @@ class AdminController extends Controller
             NotificationTeams::where('manager', Auth::user()->name)
                 ->update(['manager' => $request->name]);
 
-            Team::where('created_by', Auth::user()->name)->
+            Team::where('user', Auth::user()->name)->
             update([
-                'name' => $request->name,
+                'user' => $request->name,
                 'created_by' => $request->name,
             ]);
+
+            Team::where('created_by', Auth::user()->name)
+                ->update([
+                    'created_by' => $request->name,
+                ]);
 
             Meeting::where('created_by', Auth::user()->name)->
             update([
@@ -663,6 +673,7 @@ class AdminController extends Controller
                 ->update([
                     'title' => $request->title,
                     'meeting_id' => $request->meeting_id,
+                    'password' => null,
                 ]);
         }
 
