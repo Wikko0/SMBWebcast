@@ -620,6 +620,11 @@ class AdminController extends Controller
             ],
         ]);
 
+        $microphone = false;
+        if ($request->checkbox == '1')
+        {
+            $microphone = true;
+        }
         $user = Auth::user()->name;
         $email = Auth::user()->email;
         $notification = NotificationSettings::first();
@@ -632,6 +637,7 @@ class AdminController extends Controller
                 'created_by_mail' => $email,
                 'password' => $request->password,
                 'app_id' => $notification->app_id,
+                'microphone' => $microphone,
             ]);
         }else{
             Meeting::create([
@@ -640,6 +646,7 @@ class AdminController extends Controller
                 'created_by' => $user,
                 'created_by_mail' => $email,
                 'app_id' => $notification->app_id,
+                'microphone' => $microphone,
             ]);
         }
 
@@ -660,13 +667,18 @@ class AdminController extends Controller
             'title' => ['required', 'min:3'],
             'meeting_id' => ['required','regex:/^\S*$/u', Rule::unique('meetings')->ignore($request->id)],
         ]);
-
+        $microphone = false;
+        if ($request->checkbox == '1')
+        {
+            $microphone = true;
+        }
         if ($request->password){
             Meeting::where('id',$request->id)
                 ->update([
                     'title' => $request->title,
                     'meeting_id' => $request->meeting_id,
                     'password' => $request->password,
+                    'microphone' => $microphone,
                 ]);
         }else{
             Meeting::where('id',$request->id)
@@ -674,6 +686,7 @@ class AdminController extends Controller
                     'title' => $request->title,
                     'meeting_id' => $request->meeting_id,
                     'password' => null,
+                    'microphone' => $microphone,
                 ]);
         }
 

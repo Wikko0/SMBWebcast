@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <title>{{$settings->app_name ?? 'SMBWebcast'}}</title>
     <!-- Favicon  -->
     @if(!empty($logo->favicon))
         <link rel="shortcut icon" href="{{asset('img/uploads/'.$logo->favicon)}}" />
@@ -102,7 +103,9 @@
                                     </div>
                                 </div>
                                 <hr>
-
+                                    <div class="text-center">
+                                        <a class="small" href="/">Back</a>
+                                    </div>
 
                             </div>
                         </div>

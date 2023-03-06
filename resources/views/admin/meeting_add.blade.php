@@ -42,9 +42,17 @@
                             <label class="control-label">Meeting Password</label>
                             <input type="password" name="password" class="form-control" placeholder="Enter password (optional)" />
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="checkbox" value="1" id="defaultCheck1" >
+                            <label class="form-check-label" for="defaultCheck1">
+                                Enable Microphone for All Attendees
+                            </label>
+                        </div>
                     </div>
+
                     <!-- modal footer -->
                     <div class="modal-footer">
+
                         <button type="submit" class="btn btn-primary btn-icon-split">
                             <span class="icon text-white-50"><i class="fa fa-plus"></i></span>
                             <span class="text">Create</span>

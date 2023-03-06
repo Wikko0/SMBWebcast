@@ -43,7 +43,12 @@
                             <label class="control-label">Meeting Password</label>
                             <input type="password" name="password" class="form-control" value="{{$meeting->password??null}}" />
                         </div>
-
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="checkbox" value="1" id="defaultCheck1" {{ $meeting->microphone ? 'checked' : '' }}>
+                            <label class="form-check-label" for="defaultCheck1">
+                                Enable Microphone for All Attendees
+                            </label>
+                        </div>
                     </div>
                     <!-- modal footer -->
                     <div class="modal-footer">
