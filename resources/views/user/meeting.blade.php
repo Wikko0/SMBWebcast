@@ -55,7 +55,7 @@
                             <th>Meeting ID</th>
                             <th>Created by</th>
                             <th>Created At</th>
-                            <th>Option</th>
+                            <th>Moderator Link</th>
                         </tr>
                         </thead>
                         <tbody>

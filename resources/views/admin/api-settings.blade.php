@@ -131,7 +131,7 @@
                     @endforeach
                 </div>
             @endif
-            <form method="post" action="/admin/api-google">
+            <form method="post" action="/admin/api-google" enctype="multipart/form-data">
             @csrf
             <!-- panel  -->
                 <!-- panel  -->
@@ -164,7 +164,12 @@
                             <input type="text"  value="{{$google->sheet_name}}" name="sheet_name" class="form-control" required  />
                         </div>
                     </div>
-
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Service Account JSON</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="service_account" class="form-control-file">
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary btn-icon-split">
                         <span class="icon text-white-50"><i class="fa fa-check"></i></span>
                         <span class="text">Save Changes</span>

@@ -27,6 +27,8 @@ class GoogleProvider extends ServiceProvider
     {
         $googleSettings = GoogleSettings::first();
         if ($googleSettings) {
+            $filePath = storage_path("app/storage/{$googleSettings->service_account}");
+
             $data = [
                 'client_id' => $googleSettings->google_client_id,
                 'client_secret' => $googleSettings->google_client_secret,
@@ -35,11 +37,11 @@ class GoogleProvider extends ServiceProvider
                 'approval_prompt' => 'auto',
                 'service' => [
                     'enable' => true,
-                    'file' => storage_path('smbwebcast-ec10257b7eec.json'),
-
+                    'file' => $filePath,
                 ]
             ];
             Config::set('google', $data);
+
         }
     }
 }

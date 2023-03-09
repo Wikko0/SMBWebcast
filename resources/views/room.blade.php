@@ -25,8 +25,8 @@
     var options = {
         roomName: '{{$meeting->meeting_id}}',
         userInfo: {
-            email: '{{$user->email??'Guest'}}',
-            displayName: '{{$user->name??'Guest'}}'
+            email: '{{$user->email??'Moderator'}}',
+            displayName: '{{$user->name??'Moderator'}}'
         },
         devices: {
             audioInput: '<deviceLabel>',
@@ -45,9 +45,9 @@
             },
             disablePolls: false,
             screenshotCapture : {
-                enabled: false,
+                enabled: true,
                 mode: 'always',
-                },
+            },
             disableAudioLevels: false,
             enableNoAudioDetection: true,
             startWithAudioMuted: false,
@@ -55,8 +55,8 @@
             maxFullResolutionParticipants: 2,
             localRecording: {
                 disable: false,
-                disableSelfRecording: true,
-                },
+                disableSelfRecording: false,
+            },
             disableResponsiveTiles: false,
             hideLobbyButton: false,
             enableLobbyChat: true,
@@ -82,7 +82,7 @@
             prejoinConfig: {
                 enabled: true,
                 hideDisplayName: false,
-                hideExtraJoinButtons: ['no-audio', 'by-phone'],
+
             },
             readOnlyName: false,
             enableInsecureRoomNameWarning: false,
@@ -116,7 +116,7 @@
                 disableKick: false,
                 disableGrantModerator: false,
                 disablePrivateChat: false,
-               },
+            },
             disableInviteFunctions: false,
             logoClickUrl: 'https://live.smbwebcast.com',
             logoImageUrl: 'https://live.smbwebcast.com/img/logo.png',
@@ -124,23 +124,27 @@
                 helpCentre: 'https://support.smbbizapps.com/smbwebcast/live/welcome',
                 privacy: 'https://live.smbwebcast.com/privacy-policy',
                 terms: 'https://live.smbwebcast.com/terms'
-                },
+            },
 
 
         },
 
 
-            interfaceConfigOverwrite: {
-                APP_NAME: 'SMBwebcast',
-                DEFAULT_WELCOME_PAGE_LOGO_URL: 'https://live.smbwebcast.com/img/logo.png',
-                MOBILE_APP_PROMO: false,
-                SETTINGS_SECTIONS: [ 'devices', 'language', 'moderator', 'profile', 'calendar', 'sounds', 'more' ],
-                SHOW_CHROME_EXTENSION_BANNER: false,
-                SHOW_JITSI_WATERMARK: false,
-                SHOW_POWERED_BY: false,
-                SHOW_PROMOTIONAL_CLOSE_PAGE: false,
-                SUPPORT_URL: 'https://support.smbbizapps.com/smbwebcast/live/welcome',
-            },
+        interfaceConfigOverwrite: {
+            APP_NAME: 'SMBwebcast',
+            DEFAULT_WELCOME_PAGE_LOGO_URL: 'https://live.smbwebcast.com/img/logo.png',
+            MOBILE_APP_PROMO: false,
+            SETTINGS_SECTIONS: [ 'devices', 'language', 'moderator', 'profile', 'sounds', 'more' ],
+            SHOW_CHROME_EXTENSION_BANNER: false,
+            SHOW_JITSI_WATERMARK: false,
+            SHOW_POWERED_BY: false,
+            SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+            SUPPORT_URL: 'https://support.smbbizapps.com/smbwebcast/live/welcome',
+            DISABLE_DOMINANT_SPEAKER_INDICATOR: false,
+            DISABLE_TRANSCRIPTION_SUBTITLES: false,
+            DISABLE_VIDEO_BACKGROUND: true,
+            PROVIDER_NAME: 'SMBwebcast',
+        },
     }
 
     var userAgent = window.navigator.userAgent;
@@ -157,6 +161,7 @@
 
     if (iOS && iOSVersion > 9) {
         alert("SMBwebcast may not be compatible with certain recent versions of iOS due to certain restrictions that Apple has enforced. While we work on an iOS app as the solution, we recommend that you use live.smbwebcast.com on any modern desktop browser, or Android phone.");
+        window.location.href = 'https://meet.jit.si/{{$meeting->meeting_id}}';
     } else {
         var api = new JitsiMeetExternalAPI(domain, options);
     }
@@ -237,15 +242,20 @@
                     'closedcaptions',
                     'desktop',
                     'download',
+                    'fullscreen',
+                    'profile',
                     'embedmeeting',
                     @if($meeting->microphone)
                         'microphone',
                     @endif
-                    ],
+                ],
+
+
+
                 analytics: {
                     disabled: true,
                 },
-                    breakoutRooms: {
+                breakoutRooms: {
                     hideAddRoomButton: true,
                     hideAutoAssignButton: true,
                     hideJoinRoomButton: false,
@@ -266,7 +276,7 @@
                 legalUrls: {
                     helpCentre: 'https://support.smbbizapps.com/smbwebcast/live/welcome',
                     privacy: 'https://live.smbwebcast.com/privacy-policy',
-                    terms: 'https://live.smbwebcast.com/terms'
+                    terms: 'https://smbwebcast.com/terms'
                 },
 
             },
@@ -276,7 +286,7 @@
                 APP_NAME: 'SMBwebcast',
                 DEFAULT_WELCOME_PAGE_LOGO_URL: 'https://live.smbwebcast.com/img/logo.png',
                 MOBILE_APP_PROMO: false,
-                SETTINGS_SECTIONS: [ 'devices', 'language', 'moderator', 'profile', 'calendar', 'sounds', 'more' ],
+                SETTINGS_SECTIONS: [ 'devices', 'language', 'moderator', 'profile', 'sounds', 'more' ],
                 SHOW_CHROME_EXTENSION_BANNER: false,
                 SHOW_JITSI_WATERMARK: false,
                 SHOW_POWERED_BY: false,
@@ -300,19 +310,20 @@
 
         if (iOS && iOSVersion > 9) {
             alert("SMBwebcast may not be compatible with certain recent versions of iOS due to certain restrictions that Apple has enforced. While we work on an iOS app as the solution, we recommend that you use live.smbwebcast.com on any modern desktop browser, or Android phone.");
+            window.location.href = 'https://meet.jit.si/{{$meeting->meeting_id}}';
         } else {
             var api = new JitsiMeetExternalAPI(domain, options);
         }
     </script>
     @endhasanyrole
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-        OneSignal.init({
-            appId: "{{$meeting->app_id}}",
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{$meeting->app_id}}",
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

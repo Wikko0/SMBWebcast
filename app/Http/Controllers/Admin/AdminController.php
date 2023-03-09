@@ -539,8 +539,14 @@ class AdminController extends Controller
             'google_client_secret' => 'required',
             'spreadsheet' => 'required',
             'sheet_name' => 'required',
-
+            'service_account' => 'required|file|mimes:json',
         ]);
+
+        $serviceAccountName = $request->file('service_account')->getClientOriginalName();
+
+        $request->file('service_account')->storeAs(
+            'storage', $serviceAccountName
+        );
 
         GoogleSettings::where('id', $request->id)
             ->update([
@@ -548,10 +554,13 @@ class AdminController extends Controller
                 'google_client_secret' => $request->google_client_secret,
                 'spreadsheet' => $request->spreadsheet,
                 'sheet_name' => $request->sheet_name,
+                'service_account' => $serviceAccountName,
             ]);
 
         return redirect()->back()->withSuccess('You have changed this settings successfully!');
     }
+
+
 
     public function do_apiApp(Request $request)
     {

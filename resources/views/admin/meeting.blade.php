@@ -60,11 +60,12 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Option</th>
+                            <th>Moderator Access</th>
                             <th>Meeting Title</th>
                             <th>Meeting ID</th>
                             <th>Created by</th>
                             <th>Created At</th>
+                            <th>Moderator Link</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -92,6 +93,17 @@
                             <td>{{$meeting->meeting_id}}</td>
                             <td>{{$meeting->created_by_mail}}</td>
                             <td>{{$meeting->created_at}}</td>
+                            <td>
+
+                                <form class="user" action="/admin/join" method="post">
+                                    @csrf
+                                    <div class="dropdown no-arrow mb-4">
+                                        <input type="hidden" name="meeting_id" value="{{$meeting->meeting_id}}" required class="form-control form-control-user" placeholder="Enter Meeting ID">
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Join</button>
+                                    </div>
+                                </form>
+                            </td>
                         </tr>
                         @endforeach
                         </tbody>

@@ -54,7 +54,7 @@ return [
          * Path to service account json file. You can also pass the credentials as an array
          * instead of a file path.
          */
-        'file' => storage_path('smbwebcast-ec10257b7eec.json'),
+        'file' => storage_path('smbwebcast-380016-ca8a27e98c21.json'),
     ],
 
     /*

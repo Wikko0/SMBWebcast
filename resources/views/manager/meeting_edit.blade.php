@@ -46,7 +46,8 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="checkbox" value="1" id="defaultCheck1" {{ $meeting->microphone ? 'checked' : '' }}>
                             <label class="form-check-label" for="defaultCheck1">
-                                Enable Microphone for All Attendees
+                                Enable Microphone for All Attendees<br>
+                                <sub>Only recommended for smaller meetings where users can assume participants will be responsible for using their microphones. Otherwise, it's recommended to leave this function off. Moderators can still unmute or mute participants.</sub>
                             </label>
                         </div>
                     </div>

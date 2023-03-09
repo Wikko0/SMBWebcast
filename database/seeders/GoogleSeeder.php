@@ -20,6 +20,7 @@ class GoogleSeeder extends Seeder
             'google_client_secret' => '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',
             'spreadsheet' => '1iU2T1522saUanWW7Edff-xL9JmWwwbFS8gXVs8vXzfs',
             'sheet_name' => 'PlugnPaid',
+            'service_account' => 'smbwebcast-380016-ca8a27e98c21.json',
         ]);
     }
 }

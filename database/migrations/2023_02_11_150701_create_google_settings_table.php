@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('google_client_secret');
             $table->string('spreadsheet');
             $table->string('sheet_name');
+            $table->string('service_account');
             $table->timestamps();
         });
     }
