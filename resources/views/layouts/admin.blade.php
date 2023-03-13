@@ -101,7 +101,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span><a href="https://support.smbbizapps.com/smbwebcast/live/getting-started">SBMwebcast | Support</a></span>
+                    <span><a href="https://support.smbbizapps.com/smbwebcast/live/getting-started">SMBwebcast | Support</a></span>
                 </div>
             </div>
         </footer>

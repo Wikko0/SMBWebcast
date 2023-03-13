@@ -35,6 +35,8 @@ class MailProvider extends ServiceProvider
                 'encryption' => $mailSettings->mail_encryption,
                 'username' => $mailSettings->mail_username,
                 'password' => $mailSettings->mail_password,
+                'auth_mode'  => null,
+                'verify_peer'       => false,
                 'from' => [
                     'address' => $mailSettings->mail_from,
                     'name' => 'SMBWebcast']

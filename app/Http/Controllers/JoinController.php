@@ -44,13 +44,26 @@ class JoinController extends Controller
         }
 
         $active = false;
+        $inTeam = false;
         foreach ($team as $key => $teamMember) {
             $check = User::where('name', $teamMember->user)->first();
+
+            foreach ($team as $teamMemb)
+            {
+                if (isset($user->name) && $user->name == $teamMemb->user)
+                {
+                    $inTeam = true;
+                    break;
+                }
+            }
+
+
             if ($check->last_activity > now()->subMinutes(120) && $meeting->last_activity > now()->subMinutes(120)) {
                 $active = true;
                 break;
             }
         }
+
 
         if ($active) {
             Meeting::where('meeting_id', $id)->update(['joined' => Meeting::raw('joined+1')]);
@@ -61,7 +74,9 @@ class JoinController extends Controller
             // Set cookie if meeting is correct
 
 
-            return view('room', ['meeting' => $meeting, 'user' => $user]);
+                return view('room', ['meeting' => $meeting, 'user' => $user, 'inTeam' => $inTeam]);
+
+
 
         } else {
             session()->flash('last_meeting_id', $last_meeting_id);

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
 use Sheets;
+use Illuminate\Support\Str;
 
 class PlugnPaidController extends Controller
 {
@@ -26,9 +27,20 @@ class PlugnPaidController extends Controller
         $last_billing_address = end($billing_addresses);
         $custom_billing_fields = $last_billing_address['custom-billing-fields'];
 
+        $nameExist = User::where('name', $last_customer['name'])->first();
+        if($nameExist) {
+            $randomString = Str::random(2);
+            $last_customer['name'] = $last_customer['name'] . ' ' . $randomString;
+        }
+
         foreach($custom_billing_fields as $field) {
             if($field['label'] == 'Team Name') {
                $teamname = $field['value'];
+                $team = Team::where('name', $teamname)->first();
+                if($team) {
+                    $randomString = Str::random(2);
+                    $teamname = $teamname . ' ' . $randomString;
+                }
             }
             if($field['label'] == 'Account Password') {
                 $password = $field['value'];

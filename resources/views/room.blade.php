@@ -18,7 +18,7 @@
 </head>
 <body>
 <script src="https://meet.jit.si/external_api.js"></script>
-@hasanyrole('manager|admin|user')
+@if ($inTeam && $user->hasAnyRole(['manager', 'admin', 'user']))
 <script>
 
     var domain = "meet.jit.si";
@@ -161,7 +161,7 @@
 
     if (iOS && iOSVersion > 9) {
         alert("SMBwebcast may not be compatible with certain recent versions of iOS due to certain restrictions that Apple has enforced. While we work on an iOS app as the solution, we recommend that you use live.smbwebcast.com on any modern desktop browser, or Android phone.");
-        window.location.href = 'https://meet.jit.si/{{$meeting->meeting_id}}';
+        var api = new JitsiMeetExternalAPI(domain, options);
     } else {
         var api = new JitsiMeetExternalAPI(domain, options);
     }
@@ -240,13 +240,15 @@
                     'camera',
                     'chat',
                     'closedcaptions',
-                    'desktop',
                     'download',
                     'fullscreen',
                     'profile',
                     'embedmeeting',
                     @if($meeting->microphone)
                         'microphone',
+                    @endif
+                    @if($meeting->desktop)
+                        'desktop',
                     @endif
                 ],
 
@@ -310,12 +312,12 @@
 
         if (iOS && iOSVersion > 9) {
             alert("SMBwebcast may not be compatible with certain recent versions of iOS due to certain restrictions that Apple has enforced. While we work on an iOS app as the solution, we recommend that you use live.smbwebcast.com on any modern desktop browser, or Android phone.");
-            window.location.href = 'https://meet.jit.si/{{$meeting->meeting_id}}';
+            var api = new JitsiMeetExternalAPI(domain, options);
         } else {
             var api = new JitsiMeetExternalAPI(domain, options);
         }
     </script>
-    @endhasanyrole
+@endif
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
     <script>
         window.OneSignal = window.OneSignal || [];

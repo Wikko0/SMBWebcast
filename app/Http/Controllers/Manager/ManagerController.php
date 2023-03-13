@@ -75,7 +75,7 @@ class ManagerController extends Controller
         $this->validate($request, [
             'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-            'team' => 'required',
+            'team' => ['required', Rule::unique('teams','name')->ignore(Auth::user()->name, 'created_by'),],
             'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
 
@@ -107,6 +107,12 @@ class ManagerController extends Controller
                 'created_by_mail' => $request->email,
             ]);
 
+            Meeting::where('created_by_mail', Auth::user()->email)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+
             Auth::user()->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -133,6 +139,12 @@ class ManagerController extends Controller
                 ]);
 
             Meeting::where('created_by', Auth::user()->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+
+            Meeting::where('created_by_mail', Auth::user()->email)->
             update([
                 'created_by' => $request->name,
                 'created_by_mail' => $request->email,
@@ -225,7 +237,7 @@ class ManagerController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3'],
+            'name' => ['required', 'min:3', 'unique:users,name'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
         ]);
@@ -259,12 +271,15 @@ class ManagerController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3'],
+            'name' => ['required', 'min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
         ]);
 
             $user = User::find($request->id);
+            Team::where('user', $user->name)->update([
+                'user' => $request->name,
+            ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -357,6 +372,11 @@ class ManagerController extends Controller
         {
             $microphone = true;
         }
+        $desktop = false;
+        if ($request->desktop == '1')
+        {
+            $desktop = true;
+        }
         $user = Auth::user()->name;
         $email = Auth::user()->email;
         $notification = NotificationTeams::where('manager', Auth::user()->name)->first();
@@ -370,6 +390,7 @@ class ManagerController extends Controller
                 'password' => $request->password,
                 'app_id' => $notification->app_id,
                 'microphone' => $microphone,
+                'desktop' => $desktop,
             ]);
         }else{
             Meeting::create([
@@ -379,6 +400,7 @@ class ManagerController extends Controller
                 'created_by_mail' => $email,
                 'app_id' => $notification->app_id,
                 'microphone' => $microphone,
+                'desktop' => $desktop,
             ]);
         }
 
@@ -405,6 +427,11 @@ class ManagerController extends Controller
         {
             $microphone = true;
         }
+        $desktop = false;
+        if ($request->desktop == '1')
+        {
+            $desktop = true;
+        }
         if ($request->password){
             Meeting::where('id',$request->id)
                 ->update([
@@ -412,6 +439,7 @@ class ManagerController extends Controller
                     'meeting_id' => $request->meeting_id,
                     'password' => $request->password,
                     'microphone' => $microphone,
+                    'desktop' => $desktop,
                 ]);
         }else{
             Meeting::where('id',$request->id)
@@ -420,6 +448,7 @@ class ManagerController extends Controller
                     'meeting_id' => $request->meeting_id,
                     'password' => null,
                     'microphone' => $microphone,
+                    'desktop' => $desktop,
                 ]);
         }
 

@@ -184,10 +184,10 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3'],
+            'name' => ['required', 'min:3', 'unique:users,name'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
-            'team' => ['required'],
+            'team' => ['required', 'unique:teams,name'],
             'role' => ['required'],
         ]);
 
@@ -277,7 +277,7 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3'],
+            'name' => ['required', 'min:3', Rule::unique('users')->ignore($request->id),],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
             'team' => ['required'],
@@ -287,6 +287,25 @@ class AdminController extends Controller
         if ($request->role == 'user')
         {
             $user = User::find($request->id);
+            Team::where('user', $user->name)->update([
+                    'name' => $request->team,
+                    'user' => $request->name,
+                    'created_by' => $request->name,
+                ]);
+            Team::where('created_by', $user->name)->update([
+                'name' => $request->team,
+                'created_by' => $request->name,
+            ]);
+            Meeting::where('created_by', $user->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+            Meeting::where('created_by_mail', $user->email)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -294,10 +313,7 @@ class AdminController extends Controller
             ]);
             $user->assignRole('user');
 
-            Team::where('user', $user->name)->update([
-                'name' => $request->team
-                ]
-            );
+
 
         }
 
@@ -307,7 +323,25 @@ class AdminController extends Controller
             $user = User::find($request->id);
             Webhook::where('payer_email', $user->email)
                 ->update(['payer_email' => $request->email]);
-
+            Team::where('user', $user->name)->update([
+                    'name' => $request->team,
+                    'user' => $request->name,
+                    'created_by' => $request->name,
+                ]);
+            Team::where('created_by', $user->name)->update([
+                'name' => $request->team,
+                'created_by' => $request->name,
+            ]);
+            Meeting::where('created_by', $user->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+            Meeting::where('created_by_mail', $user->email)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -316,15 +350,32 @@ class AdminController extends Controller
             $user->assignRole('manager');
 
 
-            Team::where('user', $user->name)->update([
-                    'name' => $request->team
-                ]
-            );
+
         }
 
         if ($request->role == 'admin')
         {
             $user = User::find($request->id);
+            Team::where('user', $user->name)->update([
+                    'name' => $request->team,
+                'user' => $request->name,
+                'created_by' => $request->name,
+                ]);
+            Team::where('created_by', $user->name)->update([
+                'name' => $request->team,
+                'created_by' => $request->name,
+            ]);
+            Meeting::where('created_by', $user->name)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+            Meeting::where('created_by_mail', $user->email)->
+            update([
+                'created_by' => $request->name,
+                'created_by_mail' => $request->email,
+            ]);
+
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -332,10 +383,7 @@ class AdminController extends Controller
             ]);
             $user->assignRole('admin');
 
-            Team::where('user', $user->name)->update([
-                    'name' => $request->team
-                ]
-            );
+
         }
         return redirect()->back()->withSuccess('You have edited this user successfully!');
     }
@@ -634,6 +682,11 @@ class AdminController extends Controller
         {
             $microphone = true;
         }
+        $desktop = false;
+        if ($request->desktop == '1')
+        {
+            $desktop = true;
+        }
         $user = Auth::user()->name;
         $email = Auth::user()->email;
         $notification = NotificationSettings::first();
@@ -647,6 +700,7 @@ class AdminController extends Controller
                 'password' => $request->password,
                 'app_id' => $notification->app_id,
                 'microphone' => $microphone,
+                'desktop' => $desktop,
             ]);
         }else{
             Meeting::create([
@@ -656,6 +710,7 @@ class AdminController extends Controller
                 'created_by_mail' => $email,
                 'app_id' => $notification->app_id,
                 'microphone' => $microphone,
+                'desktop' => $desktop,
             ]);
         }
 
@@ -681,6 +736,11 @@ class AdminController extends Controller
         {
             $microphone = true;
         }
+        $desktop = false;
+        if ($request->desktop == '1')
+        {
+            $desktop = true;
+        }
         if ($request->password){
             Meeting::where('id',$request->id)
                 ->update([
@@ -688,6 +748,7 @@ class AdminController extends Controller
                     'meeting_id' => $request->meeting_id,
                     'password' => $request->password,
                     'microphone' => $microphone,
+                    'desktop' => $desktop,
                 ]);
         }else{
             Meeting::where('id',$request->id)
@@ -696,6 +757,7 @@ class AdminController extends Controller
                     'meeting_id' => $request->meeting_id,
                     'password' => null,
                     'microphone' => $microphone,
+                    'desktop' => $desktop,
                 ]);
         }
 
