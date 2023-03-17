@@ -33,13 +33,14 @@ class AdminSeeder extends Seeder
             'name' => 'Admin Team',
             'user' => 'admin',
             'created_by' => 'admin',
+            'created_by_mail' => 'admin@gmail.com',
             'user_id' => $user->id,
         ]);
 
         NotificationTeams::create([
             'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
             'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
-            'manager' => $user->name
+            'manager' => $user->email
         ]);
     }
 }

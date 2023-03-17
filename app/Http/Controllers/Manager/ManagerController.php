@@ -31,10 +31,10 @@ class ManagerController extends Controller
 
 
         $today = Carbon::today();
-        $hostToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count();
-        $joinedToday = Meeting::where('created_by', Auth::user()->name)->whereDate('created_at', $today)->sum('joined');
-        $userRegister = Auth::user()->team->where('created_by', Auth::user()->name)->count('user');
-        $userRegisterToday = Auth::user()->team->where('created_by', Auth::user()->name)->whereDate('created_at', $today)->count('user');
+        $hostToday = Meeting::where('created_by_mail', Auth::user()->email)->whereDate('created_at', $today)->count();
+        $joinedToday = Meeting::where('created_by_mail', Auth::user()->email)->whereDate('created_at', $today)->sum('joined');
+        $userRegister = Auth::user()->team->where('created_by_mail', Auth::user()->email)->count('user');
+        $userRegisterToday = Auth::user()->team->where('created_by_mail', Auth::user()->email)->whereDate('created_at', $today)->count('user');
         $commonModel = new Common();
         $getDay = $commonModel->get_days_of_this_month();
         $joined = $commonModel->joined_meeting_this_month_chart_data_team();
@@ -73,9 +73,9 @@ class ManagerController extends Controller
     public function do_profile(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
+            'name' => ['required', 'max:50','min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
-            'team' => ['required', Rule::unique('teams','name')->ignore(Auth::user()->name, 'created_by'),],
+            'team' => ['required', Rule::unique('teams','name')->ignore(Auth::user()->email, 'created_by_mail'),],
             'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
 
@@ -92,13 +92,14 @@ class ManagerController extends Controller
             Webhook::where('payer_email', Auth::user()->email)
                 ->update(['payer_email' => $request->email]);
 
-            NotificationTeams::where('manager', Auth::user()->name)
-                ->update(['manager' => $request->name]);
+            NotificationTeams::where('manager', Auth::user()->email)
+                ->update(['manager' => $request->email]);
 
-            Team::where('created_by', Auth::user()->name)
+            Team::where('created_by_mail', Auth::user()->email)
                 ->update([
                     'name' => $request->team,
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
 
             Meeting::where('created_by', Auth::user()->name)->
@@ -124,18 +125,20 @@ class ManagerController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
         }else{
             Webhook::where('payer_email', Auth::user()->email)
                 ->update(['payer_email' => $request->email]);
 
-            NotificationTeams::where('manager', Auth::user()->name)
-                ->update(['manager' => $request->name]);
+            NotificationTeams::where('manager', Auth::user()->email)
+                ->update(['manager' => $request->email]);
 
-            Team::where('created_by', Auth::user()->name)
+            Team::where('created_by_mail', Auth::user()->email)
                 ->update([
                     'name' => $request->team,
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
 
             Meeting::where('created_by', Auth::user()->name)->
@@ -159,6 +162,7 @@ class ManagerController extends Controller
                 'name' => $request->team,
                 'user' => $request->name,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
         }
 
@@ -210,16 +214,16 @@ class ManagerController extends Controller
         $start_time = $check->start_time;
         $end_time = $check->end_time;
         $difference = $end_time - $start_time;
-        $loggedInUserName = Auth::user()->name;
+        $loggedInUserName = Auth::user()->email;
         $users = User::whereHas('team', function ($query) use ($loggedInUserName) {
-            $query->where('created_by', $loggedInUserName);
+            $query->where('created_by_mail', $loggedInUserName);
         })->get();
         $search = $request->get('name');
         if ($search)
         {
             $users = User::where('email', 'like', '%'.$search.'%')
                 ->whereHas('team', function ($query) use ($loggedInUserName) {
-                    $query->where('created_by', $loggedInUserName);
+                    $query->where('created_by_mail', $loggedInUserName);
                 })
                 ->paginate(5);
         }
@@ -237,7 +241,7 @@ class ManagerController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3', 'unique:users,name'],
+            'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
         ]);
@@ -252,6 +256,7 @@ class ManagerController extends Controller
                 'name' => Auth::user()->team->name,
                 'user' => $request->name,
                 'created_by' => Auth::user()->name,
+                'created_by_mail' => Auth::user()->email,
                 'user_id' => $user->id,
             ]);
         Mail::to($request->email)->send(new WelcomeMail($request->name));
@@ -263,21 +268,26 @@ class ManagerController extends Controller
     {
         $title = 'Edit Users';
         $user = User::findOrFail($id);
-        $team = Team::where('user', $user->name)->first();
-        return view('manager.user_edit',['title' => $title, 'user' => $user, 'team' => $team]);
+        if ($user->team->created_by_mail == Auth::user()->email)
+        {
+            return view('manager.user_edit',['title' => $title, 'user' => $user]);
+        }
+            return redirect()->back()->withErrors('This is not your user!');
+
+
     }
 
     public function do_user_edit(Request $request)
     {
 
         $request->validate([
-            'name' => ['required', 'min:3', Rule::unique('users')->ignore($request->id),],
+            'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
         ]);
 
             $user = User::find($request->id);
-            Team::where('user', $user->name)->update([
+            Team::where('user_id', $request->id)->update([
                 'user' => $request->name,
             ]);
             $user->update([
@@ -379,7 +389,7 @@ class ManagerController extends Controller
         }
         $user = Auth::user()->name;
         $email = Auth::user()->email;
-        $notification = NotificationTeams::where('manager', Auth::user()->name)->first();
+        $notification = NotificationTeams::where('manager', Auth::user()->email)->first();
         if ($request->password)
         {
             Meeting::create([
@@ -474,7 +484,7 @@ class ManagerController extends Controller
     public function notificationSettings()
     {
         $title = 'Notification Setting';
-        $notificationSettings = NotificationTeams::where('manager', Auth::user()->name)->first();
+        $notificationSettings = NotificationTeams::where('manager', Auth::user()->email)->first();
         return view('manager.notification-settings',['title' => $title, 'notificationSettings' => $notificationSettings]);
     }
 
@@ -520,7 +530,7 @@ class ManagerController extends Controller
         ]);
 
 
-        $settings = NotificationSettings::first();
+        $settings = NotificationTeams::where('manager', Auth::user()->email)->first();
         $data = NotificationSend::latest()
             ->first();;
 
@@ -536,18 +546,25 @@ class ManagerController extends Controller
             "contents":{"en":"'.$data->content.'"},
             "headings":{"en":"'.$data->heading.'"},
             "name":"INTERNAL_CAMPAIGN_NAME"}';
-        $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
-            'body' => $body,
-            'headers' => [
-                'Authorization' => 'Basic '.$settings->authorize,
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-            ],
-        ]);
-
-        echo $response->getBody();
-
-        return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
+        try {
+            $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
+                'body' => $body,
+                'headers' => [
+                    'Authorization' => 'Basic '.$settings->authorize,
+                    'accept' => 'application/json',
+                    'content-type' => 'application/json',
+                ],
+            ]);
+            echo $response->getBody();
+            return redirect()->back()->withSuccess('You have pushed this OneSignal successfully!');
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            if ($statusCode == 400) {
+                return redirect()->back()->withErrors('Config your settings first!');
+            } else {
+                throw $e;
+            }
+        }
     }
 
     public function join(Request $request)

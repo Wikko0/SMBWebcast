@@ -27,7 +27,7 @@ class JoinController extends Controller
         } else {
             $meeting = Meeting::where('meeting_id', $id)->first();
         }
-        $teamName = Team::where('user', $meeting->created_by)->first();
+        $teamName = Team::where('created_by_mail', $meeting->created_by_mail)->first();
         $team = Team::where('name', $teamName->name)->get(['user']);
         $user = Auth::user();
 
@@ -46,7 +46,10 @@ class JoinController extends Controller
         $active = false;
         $inTeam = false;
         foreach ($team as $key => $teamMember) {
-            $check = User::where('name', $teamMember->user)->first();
+            $check = User::where('name', $teamMember->user)->get();
+        foreach ($check as $checks)
+        {
+
 
             foreach ($team as $teamMemb)
             {
@@ -58,10 +61,12 @@ class JoinController extends Controller
             }
 
 
-            if ($check->last_activity > now()->subMinutes(120) && $meeting->last_activity > now()->subMinutes(120)) {
+            if ($checks->last_activity > now()->subMinutes(120) && $meeting->last_activity > now()->subMinutes(120)) {
                 $active = true;
                 break;
             }
+
+        }
         }
 
 

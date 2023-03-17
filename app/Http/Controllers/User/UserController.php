@@ -20,13 +20,13 @@ class UserController extends Controller
     {
         $title = 'Dashboard';
 
-        $team_leader = Team::where('user', Auth::user()->name)->first();
+        $team_leader = Auth::user()->team;
 
         $today = Carbon::today();
-        $hostToday = Meeting::where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->count();
-        $joinedToday = Meeting::where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->sum('joined');
-        $userRegister = Auth::user()->team->where('created_by', $team_leader->created_by)->count('user');
-        $userRegisterToday = Auth::user()->team->where('created_by', $team_leader->created_by)->whereDate('created_at', $today)->count('user');
+        $hostToday = Meeting::where('created_by_mail', $team_leader->created_by_mail)->whereDate('created_at', $today)->count();
+        $joinedToday = Meeting::where('created_by_mail', $team_leader->created_by_mail)->whereDate('created_at', $today)->sum('joined');
+        $userRegister = Auth::user()->team->where('created_by_mail', $team_leader->created_by_mail)->count('user');
+        $userRegisterToday = Auth::user()->team->where('created_by_mail', $team_leader->created_by_mail)->whereDate('created_at', $today)->count('user');
         $commonModel = new Common();
         $getDay = $commonModel->get_days_of_this_month();
         $joined = $commonModel->joined_meeting_this_month_chart_data_user();
@@ -56,7 +56,7 @@ class UserController extends Controller
     public function do_profile(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
+            'name' => ['required', 'max:50','min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
@@ -134,8 +134,8 @@ class UserController extends Controller
     public function room()
     {
         $title = 'Meetings';
-        $team_leader = Team::where('user', Auth::user()->name)->first();
-        $meetings = Meeting::where('created_by', $team_leader->created_by)->get();
+        $team_leader = Auth::user()->team;
+        $meetings = Meeting::where('created_by_mail', $team_leader->created_by_mail)->get();
 
         return view('user.meeting',['title' => $title, 'meetings' => $meetings]);
     }

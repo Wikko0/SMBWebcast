@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NotificationSettings;
+use App\Models\NotificationTeams;
 use App\Models\Team;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -17,6 +18,7 @@ class Controller extends BaseController
     public function __construct()
     {
         $onesignal = NotificationSettings::first();
+
         View::share(['onesignal' => $onesignal]);
     }
 

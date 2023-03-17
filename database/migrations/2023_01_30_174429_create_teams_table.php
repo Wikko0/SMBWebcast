@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('user');
             $table->string('created_by');
+            $table->string('created_by_mail');
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

@@ -22,8 +22,18 @@
     <link href="{{asset('plugins/summernote/dist/summernote.css')}}" rel="stylesheet" />
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
 
-    <title>Admin Panel | {{$settings->app_name}}</title>
+    <title>User Panel | {{$settings->app_name}}</title>
 
+    <!-- OneSignal-->
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{$oneSignalTeam->app_id}}",
+            });
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -135,16 +145,7 @@
 
 <!--sweet alert2 JS -->
 <script src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
-<!-- OneSignal-->
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-        OneSignal.init({
-            appId: "{{$onesignal->app_id}}",
-        });
-    });
-</script>
+
 
 </body>
 </html>

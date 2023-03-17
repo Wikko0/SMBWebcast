@@ -199,6 +199,7 @@ return [
         App\Providers\LogoProvider::class,
         App\Providers\GoogleProvider::class,
         App\Providers\NotificationProvider::class,
+        App\Providers\OneSignalProvider::class,
         Ladumor\OneSignal\OneSignalServiceProvider::class,
     ],
 

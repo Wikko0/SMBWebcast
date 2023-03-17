@@ -24,6 +24,16 @@
 
     <title>Admin Panel | {{$settings->app_name}}</title>
 
+    <!-- OneSignal-->
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{$onesignal->app_id}}",
+            });
+        });
+    </script>
 </head>
 
 <body id="page-top">
@@ -135,17 +145,7 @@
 
 <!--sweet alert2 JS -->
 <script src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
-<!-- OneSignal-->
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-<script>
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-        OneSignal.init({
-            appId: "882e057e-a5c8-48f6-b0ea-07bed340a69f",
-        });
-    });
-</script>
+
 
 </body>
 </html>

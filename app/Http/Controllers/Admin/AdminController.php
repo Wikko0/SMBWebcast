@@ -70,7 +70,7 @@ class AdminController extends Controller
     public function do_profile(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required', 'max:50','min:3', Rule::unique('users')->ignore($request->id),],
+            'name' => ['required', 'max:50','min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'photo' => 'mimes:jpeg,png,jpg,gif'
         ]);
@@ -85,18 +85,21 @@ class AdminController extends Controller
             $photo = Image::make(public_path("{$photoPath}"))->resize(275, 275);
             $photo->save();
 
-            NotificationTeams::where('manager', Auth::user()->name)
-                ->update(['manager' => $request->name]);
+            NotificationTeams::where('manager', Auth::user()->email)
+                ->update(['manager' => $request->email]);
 
-            Team::where('user', Auth::user()->name)->
-            update([
-                'user' => $request->name,
-                'created_by' => $request->name,
-            ]);
+            Team::where('user', Auth::user()->name)
+                ->where('created_by_mail', Auth::user()->email)
+                ->update([
+                    'user' => $request->name,
+                    'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
+                ]);
 
-            Team::where('created_by', Auth::user()->name)
+            Team::where('created_by_mail', Auth::user()->email)
                 ->update([
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
 
             Meeting::where('created_by', Auth::user()->name)->
@@ -111,18 +114,20 @@ class AdminController extends Controller
                 'image' => $photoPath,
             ]);
         }else{
-            NotificationTeams::where('manager', Auth::user()->name)
-                ->update(['manager' => $request->name]);
+            NotificationTeams::where('manager', Auth::user()->email)
+                ->update(['manager' => $request->email]);
 
             Team::where('user', Auth::user()->name)->
             update([
                 'user' => $request->name,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
 
             Team::where('created_by', Auth::user()->name)
                 ->update([
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
 
             Meeting::where('created_by', Auth::user()->name)->
@@ -184,10 +189,10 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3', 'unique:users,name'],
+            'name' => ['required', 'min:3'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8'],
-            'team' => ['required', 'unique:teams,name'],
+            'team' => ['required'],
             'role' => ['required'],
         ]);
 
@@ -198,10 +203,12 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('user');
+            $team = Team::where('name', $request->team)->first();
             Team::create([
                 'name' => $request->team,
                 'user' => $request->name,
-                'created_by' => Auth::user()->name,
+                'created_by' => $team->created_by??$request->name,
+                'created_by_mail' => $team->created_by_mail??$request->email,
                 'user_id' => $user->id,
             ]);
             Mail::to($request->email)->send(new WelcomeMail($request->name));
@@ -214,10 +221,12 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('manager');
+            $team = Team::where('name', $request->team)->first();
             Team::create([
                 'name' => $request->team,
                 'user' => $request->name,
-                'created_by' => Auth::user()->name,
+                'created_by' => $team->created_by??$request->name,
+                'created_by_mail' => $team->created_by_mail??$request->email,
                 'user_id' => $user->id,
             ]);
             $startTime = time();
@@ -236,7 +245,7 @@ class AdminController extends Controller
             NotificationTeams::create([
                 'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
                 'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
-                'manager' => $request->name
+                'manager' => $request->email
             ]);
 
             Mail::to($request->email)->send(new WelcomeMail($request->name));
@@ -249,16 +258,18 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ])->assignRole('admin');
+            $team = Team::where('name', $request->team)->first();
             Team::create([
                 'name' => $request->team,
                 'user' => $request->name,
-                'created_by' => Auth::user()->name,
+                'created_by' => $team->created_by??$request->name,
+                'created_by_mail' => $team->created_by_mail??$request->email,
                 'user_id' => $user->id,
             ]);
             NotificationTeams::create([
                 'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
                 'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
-                'manager' => $request->name
+                'manager' => $request->email
             ]);
             Mail::to($request->email)->send(new WelcomeMail($request->name));
         }
@@ -269,7 +280,7 @@ class AdminController extends Controller
     {
         $title = 'Edit Users';
         $user = User::findOrFail($id);
-        $team = Team::where('user', $user->name)->first();
+        $team = Team::where('user_id', $id)->first();
         return view('admin.user_edit',['title' => $title, 'user' => $user, 'team' => $team]);
     }
 
@@ -277,7 +288,7 @@ class AdminController extends Controller
     {
 
         $request->validate([
-            'name' => ['required', 'min:3', Rule::unique('users')->ignore($request->id),],
+            'name' => ['required', 'min:3'],
             'email' => ['required', 'email', Rule::unique('users')->ignore($request->id),],
             'password' => ['required', 'min:8'],
             'team' => ['required'],
@@ -287,14 +298,17 @@ class AdminController extends Controller
         if ($request->role == 'user')
         {
             $user = User::find($request->id);
-            Team::where('user', $user->name)->update([
+            Team::where('user_id', $request->id)
+                ->update([
                     'name' => $request->team,
                     'user' => $request->name,
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
-            Team::where('created_by', $user->name)->update([
+            Team::where('created_by_mail', $user->email)->update([
                 'name' => $request->team,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
             Meeting::where('created_by', $user->name)->
             update([
@@ -311,7 +325,7 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-            $user->assignRole('user');
+            $user->syncRoles('user');
 
 
 
@@ -323,14 +337,17 @@ class AdminController extends Controller
             $user = User::find($request->id);
             Webhook::where('payer_email', $user->email)
                 ->update(['payer_email' => $request->email]);
-            Team::where('user', $user->name)->update([
+            Team::where('user_id', $request->id)
+                ->update([
                     'name' => $request->team,
                     'user' => $request->name,
                     'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
-            Team::where('created_by', $user->name)->update([
+            Team::where('created_by_mail', $user->email)->update([
                 'name' => $request->team,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
             Meeting::where('created_by', $user->name)->
             update([
@@ -347,7 +364,7 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-            $user->assignRole('manager');
+            $user->syncRoles('manager');
 
 
 
@@ -356,14 +373,17 @@ class AdminController extends Controller
         if ($request->role == 'admin')
         {
             $user = User::find($request->id);
-            Team::where('user', $user->name)->update([
+            Team::where('user_id', $request->id)
+                ->update([
                     'name' => $request->team,
-                'user' => $request->name,
-                'created_by' => $request->name,
+                    'user' => $request->name,
+                    'created_by' => $request->name,
+                    'created_by_mail' => $request->email,
                 ]);
-            Team::where('created_by', $user->name)->update([
+            Team::where('created_by_mail', $user->email)->update([
                 'name' => $request->team,
                 'created_by' => $request->name,
+                'created_by_mail' => $request->email,
             ]);
             Meeting::where('created_by', $user->name)->
             update([
@@ -381,7 +401,7 @@ class AdminController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
-            $user->assignRole('admin');
+            $user->syncRoles('admin');
 
 
         }
@@ -841,18 +861,25 @@ class AdminController extends Controller
             "contents":{"en":"'.$data->content.'"},
             "headings":{"en":"'.$data->heading.'"},
             "name":"INTERNAL_CAMPAIGN_NAME"}';
-        $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
-            'body' => $body,
-            'headers' => [
-                'Authorization' => 'Basic '.$settings->authorize,
-                'accept' => 'application/json',
-                'content-type' => 'application/json',
-            ],
-        ]);
-
-        echo $response->getBody();
-
-        return redirect()->back()->withSuccess('You have push this OneSignal successfully!');
+        try {
+            $response = $client->request('POST', 'https://onesignal.com/api/v1/notifications', [
+                'body' => $body,
+                'headers' => [
+                    'Authorization' => 'Basic '.$settings->authorize,
+                    'accept' => 'application/json',
+                    'content-type' => 'application/json',
+                ],
+            ]);
+            echo $response->getBody();
+            return redirect()->back()->withSuccess('You have pushed this OneSignal successfully!');
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            $statusCode = $e->getResponse()->getStatusCode();
+            if ($statusCode == 400) {
+                return redirect()->back()->withErrors('Config your settings first!');
+            } else {
+                throw $e;
+            }
+        }
     }
 
     public function room()

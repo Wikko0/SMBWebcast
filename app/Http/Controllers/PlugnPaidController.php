@@ -27,12 +27,6 @@ class PlugnPaidController extends Controller
         $last_billing_address = end($billing_addresses);
         $custom_billing_fields = $last_billing_address['custom-billing-fields'];
 
-        $nameExist = User::where('name', $last_customer['name'])->first();
-        if($nameExist) {
-            $randomString = Str::random(2);
-            $last_customer['name'] = $last_customer['name'] . ' ' . $randomString;
-        }
-
         foreach($custom_billing_fields as $field) {
             if($field['label'] == 'Team Name') {
                $teamname = $field['value'];
@@ -58,6 +52,7 @@ class PlugnPaidController extends Controller
         $team->name = $teamname;
         $team->user = $last_customer['name'];
         $team->created_by = $last_customer['name'];
+        $team->created_by_mail = $last_customer['email'];
         $team->user_id = $user->id;
         $team->save();
 
@@ -84,7 +79,7 @@ class PlugnPaidController extends Controller
         NotificationTeams::create([
             'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
             'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
-            'manager' => $last_customer['name']
+            'manager' => $last_customer['email']
         ]);
 
         Mail::to($last_customer['email'])->send(new WelcomeMail($last_customer['name']));
