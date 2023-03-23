@@ -23,6 +23,7 @@ use App\Rules\MatchOldPassword;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
@@ -196,8 +197,7 @@ class AdminController extends Controller
             'role' => ['required'],
         ]);
 
-        if ($request->role == 'user')
-        {
+        if ($request->role == 'user') {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -207,10 +207,11 @@ class AdminController extends Controller
             Team::create([
                 'name' => $request->team,
                 'user' => $request->name,
-                'created_by' => $team->created_by??$request->name,
-                'created_by_mail' => $team->created_by_mail??$request->email,
+                'created_by' => $team->created_by ?? $request->name,
+                'created_by_mail' => $team->created_by_mail ?? $request->email,
                 'user_id' => $user->id,
             ]);
+
             Mail::to($request->email)->send(new WelcomeMail($request->name));
         }
 
@@ -295,20 +296,30 @@ class AdminController extends Controller
             'role' => ['required'],
         ]);
 
+        $user = User::find($request->id);
+
+        if ($request->password == $user->password)
+        {
+            $password = $request->password;
+        } else{
+            $password = bcrypt($request->password);
+        }
+
         if ($request->role == 'user')
         {
-            $user = User::find($request->id);
+
+            $team = Team::where('name', $request->team)->first();
             Team::where('user_id', $request->id)
                 ->update([
-                    'name' => $request->team,
+                    'name' => $team->name??$request->team,
                     'user' => $request->name,
-                    'created_by' => $request->name,
-                    'created_by_mail' => $request->email,
+                    'created_by' => $team->created_by??$request->name,
+                    'created_by_mail' => $team->created_by_mail??$request->email,
                 ]);
             Team::where('created_by_mail', $user->email)->update([
-                'name' => $request->team,
-                'created_by' => $request->name,
-                'created_by_mail' => $request->email,
+                'name' => $team->name??$request->team,
+                'created_by' => $team->created_by??$request->name,
+                'created_by_mail' => $team->created_by_mail??$request->email,
             ]);
             Meeting::where('created_by', $user->name)->
             update([
@@ -323,20 +334,53 @@ class AdminController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => $password,
             ]);
             $user->syncRoles('user');
-
-
 
         }
 
         if ($request->role == 'manager')
         {
 
-            $user = User::find($request->id);
-            Webhook::where('payer_email', $user->email)
-                ->update(['payer_email' => $request->email]);
+
+            $startTime = time();
+            $endTime = strtotime("1 Year");
+            $checkWebHook = Webhook::where('payer_email', $user->email)->first();
+            $checkNotification = NotificationTeams::where('manager', $user->email)->first();
+            if ($checkWebHook){
+                Webhook::where('payer_email', $user->email)
+                    ->update(['payer_email' => $request->email]);
+
+            }else{
+                Webhook::create([
+                    'product_name' => 'Added by Admin',
+                    'product_price' => '0',
+                    'currency' => 'EUR',
+                    'payment_method' => 'Admin',
+                    'cancellation_link' => '.',
+                    'status' => 'Paid',
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'payer_email' => $request->email,
+                ]);
+            }
+
+
+            if ($checkNotification){
+                NotificationTeams::where('manager', $user->email)->update([
+                    'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                    'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                    'manager' => $request->email
+                ]);
+            }else{
+                NotificationTeams::create([
+                    'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                    'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                    'manager' => $request->email
+                ]);
+            }
+
             Team::where('user_id', $request->id)
                 ->update([
                     'name' => $request->team,
@@ -362,7 +406,7 @@ class AdminController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => $password,
             ]);
             $user->syncRoles('manager');
 
@@ -372,7 +416,44 @@ class AdminController extends Controller
 
         if ($request->role == 'admin')
         {
-            $user = User::find($request->id);
+
+            $startTime = time();
+            $endTime = strtotime("1 Year");
+            $checkWebHook = Webhook::where('payer_email', $user->email)->first();
+            $checkNotification = NotificationTeams::where('manager', $user->email)->first();
+            if ($checkWebHook){
+                Webhook::where('payer_email', $user->email)
+                    ->update(['payer_email' => $request->email]);
+
+            }else{
+                Webhook::create([
+                    'product_name' => 'Added by Admin',
+                    'product_price' => '0',
+                    'currency' => 'EUR',
+                    'payment_method' => 'Admin',
+                    'cancellation_link' => '.',
+                    'status' => 'Paid',
+                    'start_time' => $startTime,
+                    'end_time' => $endTime,
+                    'payer_email' => $request->email,
+                ]);
+            }
+
+
+            if ($checkNotification){
+                NotificationTeams::where('manager', $user->email)->update([
+                    'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                    'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                    'manager' => $request->email
+                ]);
+            }else{
+                NotificationTeams::create([
+                    'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',
+                    'authorize' => 'YWE2OWU3Y2ItMDEwZS00N2JjLWJmNDYtYzllMjA3OWJmMGRi',
+                    'manager' => $request->email
+                ]);
+            }
+
             Team::where('user_id', $request->id)
                 ->update([
                     'name' => $request->team,
@@ -399,7 +480,7 @@ class AdminController extends Controller
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => $password,
             ]);
             $user->syncRoles('admin');
 

@@ -30,7 +30,7 @@
         window.OneSignal = window.OneSignal || [];
         OneSignal.push(function() {
             OneSignal.init({
-                appId: "{{$oneSignalTeam->app_id}}",
+                appId: "{{$oneSignalTeam->app_id??null}}",
             });
         });
     </script>

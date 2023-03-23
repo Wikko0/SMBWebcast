@@ -49,9 +49,9 @@
                         <div class="form-group">
                             <label class="control-label">User Role</label>
                             <select class="form-control" name="role" required>
-                                <option value="manager">Manager</option>
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
+                                <option value="manager" {{ $user->hasRole('manager') ? 'selected' : '' }}>Manager</option>
+                                <option value="user" {{ $user->hasRole('user') ? 'selected' : '' }}>User</option>
+                                <option value="admin" {{ $user->hasRole('admin') ? 'selected' : '' }}>Admin</option>
                             </select>
                         </div>
 

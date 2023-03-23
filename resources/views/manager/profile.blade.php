@@ -92,7 +92,7 @@
         </div>
         <div class="card-body">
 
-                @csrf
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
@@ -119,6 +119,7 @@
                                 <input type="text" class="form-control" value="{{ucfirst($billing->status)}}" readonly/>
                             </div>
                         </div>
+                        @if($billing->product_name != 'SMBwebcast Pro Lifetime Plan')
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Expires</label>
                             <div class="col-sm-6">
@@ -144,7 +145,7 @@
                                 </button>
                             </a>
                         </div>
-
+                        @endif
 
                     </div>
                 </div>

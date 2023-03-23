@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\ApiSettings;
 use App\Models\GoogleSettings;
 use App\Models\NotificationTeams;
+use App\Models\Settings;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
 use Sheets;
@@ -58,23 +60,36 @@ class PlugnPaidController extends Controller
 
         $sheets = GoogleSettings::first();
         $header = ['Name', 'Email', 'Country', 'Team Name'];
-        $sheet = Sheets::spreadsheet($sheets->spreadsheet)->sheet($sheets->sheet_name);
-        $firstRow = $sheet->get();
 
-        if (count($firstRow) > 0) {
-            $firstRow = $firstRow[0];
-            $diff = array_diff($header, $firstRow);
+        try {
+            $sheet = Sheets::spreadsheet($sheets->spreadsheet)->sheet($sheets->sheet_name);
+            $firstRow = $sheet->get();
 
-            if (!empty($diff)) {
-                $sheet->update([$header], 'RAW');
+            if (count($firstRow) > 0) {
+                $firstRow = $firstRow[0];
+                $diff = array_diff($header, $firstRow);
+
+                if (!empty($diff)) {
+                    $sheet->update([$header], 'RAW');
+                }
+            } else {
+                $sheet->update([$header]);
             }
-        } else {
-            $sheet->update([$header]);
-        }
 
-        Sheets::spreadsheet($sheets->spreadsheet)->sheet($sheets->sheet_name)->append([
-            [$last_customer['name'], $last_customer['email'], $last_customer['country'], $teamname],
-        ]);
+            Sheets::spreadsheet($sheets->spreadsheet)->sheet($sheets->sheet_name)->append([
+                [$last_customer['name'], $last_customer['email'], $last_customer['country'], $teamname],
+            ]);
+
+        } catch (\Throwable $e) {
+            // Handle the exception as needed
+            Log::error('An error occurred while updating Google Sheets: ' . $e->getMessage());
+
+            $message = 'An error occurred while updating Google Sheets.';
+            Mail::raw($message, function($message) {
+                $settings = Settings::first();
+                $message->to($settings->address??'vkbeall@gmail.com');
+            });
+        }
 
         NotificationTeams::create([
             'app_id' => 'f13077fb-f4c9-4af9-9766-584d939466b7',

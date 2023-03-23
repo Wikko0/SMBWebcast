@@ -287,13 +287,21 @@ class ManagerController extends Controller
         ]);
 
             $user = User::find($request->id);
+
+            if ($request->password == $user->password)
+            {
+                $password = $request->password;
+            } else{
+                $password = bcrypt($request->password);
+            }
+
             Team::where('user_id', $request->id)->update([
                 'user' => $request->name,
             ]);
             $user->update([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => bcrypt($request->password),
+                'password' => $password,
             ]);
             $user->assignRole('user');
 

@@ -15,6 +15,16 @@
           content="default-src *;
                   style-src * 'self' 'unsafe-inline' 'unsafe-eval';
                   script-src * 'self' 'unsafe-inline' 'unsafe-eval';">
+
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+                appId: "{{$meeting->app_id}}",
+            });
+        });
+    </script>
 </head>
 <body>
 <script src="https://meet.jit.si/external_api.js"></script>
@@ -318,14 +328,6 @@
         }
     </script>
 @endif
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script>
-        window.OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-            OneSignal.init({
-                appId: "{{$meeting->app_id}}",
-            });
-        });
-    </script>
+
 </body>
 </html>
